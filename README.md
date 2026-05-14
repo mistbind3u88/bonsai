@@ -67,6 +67,7 @@ Claude CodeではSKILLをカスタムコマンドのように読み込ませる�
 | [start-dev](./start-dev/SKILL.md)               | 作業開始時のブランチ準備と情報収集              |
 | [tanaoroshi](./tanaoroshi/SKILL.md)             | 複数リポジトリの Issue/PR 棚卸し                |
 | [watch-ci](./watch-ci/SKILL.md)                 | CI 状態の監視と失敗時の確認                     |
+| [wiki-sync](./wiki-sync/SKILL.md)               | 開発内容から LLM Wiki への知識同期              |
 
 補助スキルとして [daily-tagging](./.skill/daily-tagging/SKILL.md) も管理しています。
 

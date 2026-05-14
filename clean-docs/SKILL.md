@@ -1,6 +1,6 @@
 ---
 name: clean-docs
-description: .claude/docs配下のタスクドキュメントを整理する。マージ済みタスクのドキュメントを確認し、残す価値のある内容はAGENTS.mdやSKILL.mdに移行した上で削除する。
+description: .claude/docs配下のタスクドキュメントを整理する。マージ済みタスクのドキュメントを確認し、残す価値のある内容はAGENTS.md、SKILL.md、またはLLM Wikiに移行した上で削除する。
 allowed-tools: Bash(git worktree list:*) Bash(git log:*) Bash(git branch:*) Bash(rm:*) Bash(rmdir:*) Read Edit Write Glob Grep
 ---
 
@@ -12,7 +12,7 @@ allowed-tools: Bash(git worktree list:*) Bash(git log:*) Bash(git branch:*) Bash
 
 - `.claude/docs` にはタスク単位の作業ドキュメントが配置されている
 - タスクが完了しmainにマージされたら、ドキュメントは削除対象になる
-- 残す価値のある内容（仕様・設計判断・運用知識など）があれば、リポジトリ管理のAGENTS.mdやSKILL.mdに移行してから削除する
+- 残す価値のある内容（仕様・設計判断・運用知識など）があれば、リポジトリ管理のAGENTS.md、SKILL.md、または LLM Wiki に移行してから削除する
 
 ## 手順
 
@@ -34,7 +34,7 @@ git worktree list --porcelain
 
 - ドキュメントの目的・対象タスク
 - 関連するブランチ名やPR番号（記載があれば）
-- 内容のうち、既存のAGENTS.md / SKILL.mdに反映されていない仕様・設計知識があるか
+- 内容のうち、既存のAGENTS.md / SKILL.md / LLM Wikiに反映されていない仕様・設計知識があるか
 
 ### 3. マージ状況を確認する
 
@@ -52,7 +52,7 @@ git branch --merged main
 各ドキュメントについて以下のいずれかを提案する:
 
 - **削除**: タスク完了済みで、内容がすでにAGENTS.md / SKILL.mdに反映済み、または一時的な作業メモのみ
-- **移行して削除**: 残す価値のある仕様・設計知識があり、AGENTS.mdやSKILL.mdに反映してから削除
+- **移行して削除**: 残す価値のある仕様・設計知識があり、AGENTS.md、SKILL.md、または LLM Wiki に反映してから削除
 - **保留**: マージ状況が不明、または進行中のタスクに関連する可能性がある
 
 一覧をまとめてユーザーに確認を取る。**ユーザーの承認なしに削除や移行を実行しない。**
@@ -65,6 +65,8 @@ git branch --merged main
 2. ドキュメントから移行対象の内容を抽出し、移行先の構成に合わせて整形する
 3. 移行先に追記・更新する
 4. 元のドキュメントを削除する
+
+移行先が LLM Wiki に適している場合は、自分で wiki の配置や schema を推測せず、スキル `/wiki-sync` に委譲する。`/wiki-sync` が更新不要と判断した場合は、AGENTS.md / SKILL.md / 削除のみのいずれが適切か再判断する。
 
 #### 削除のみの場合
 
@@ -90,4 +92,5 @@ rmdir <対象ディレクトリ>
 
 - `$ARGUMENTS` が指定されていれば、それを対象ドキュメントのパスまたはキーワードとして絞り込みに使う
 - 移行先のAGENTS.md / SKILL.mdを編集する際は、既存の構成・スタイルに合わせる
+- LLM Wiki へ移行すべき恒久知識は `/wiki-sync` に委譲する
 - 実装上残していない仕様への言及は移行しない
