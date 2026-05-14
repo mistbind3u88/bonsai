@@ -1,7 +1,7 @@
 ---
 name: wiki-sync
 description: 開発内容から LLM Wiki に残すべき設計判断・契約・運用知識を判定し、対象リポジトリの wiki 配置と運用ルールを読み取って同期する。
-allowed-tools: Bash(git status:*) Bash(git rev-parse:*) Bash(git merge-base:*) Bash(git diff:*) Bash(git log:*) Read Edit Write Glob Grep
+allowed-tools: Bash(git status:*) Bash(git rev-parse:*) Bash(git merge-base:*) Bash(git diff:*) Bash(git log:*) Agent Read Edit Write Glob Grep
 ---
 
 # wiki-sync
@@ -128,6 +128,8 @@ LLM Wiki は実装者、将来の LLM、人間の読み手が判断基準を共�
 ### 6. 更新後の確認を並行実行する
 
 更新後、2種類のサブエージェント確認を並行して実行する。ユーザーから追加の品質確認が求められた場合は、6c のゼロベース確認も実行する。
+
+各サブエージェントを起動する前にスキル `/subagent-check` を実行し、既存サブエージェントの完了状態、再利用可否、起動上限の余剰を確認する。`subagent-check` が `OK` を返した場合は新規起動し、`REUSE` / `WAIT` / `ASK_USER` の場合はその判定に従う。
 
 確認結果を報告する際は、メイン側で行った確認とサブエージェントに委譲した確認を区別して記載する。
 

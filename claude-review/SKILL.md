@@ -1,7 +1,7 @@
 ---
 name: claude-review
 description: Claude CLI を使って変更差分のコードレビューを実行する。Codex 上で作業した差分を別エージェント視点で確認するために使う。
-allowed-tools: Bash(git status:*) Bash(git log:*) Bash(git diff:*) Bash(git rev-parse:*) Bash(printf:*) Bash(claude -p:*) Agent Task Read
+allowed-tools: Bash(git status:*) Bash(git log:*) Bash(git diff:*) Bash(git rev-parse:*) Bash(printf:*) Bash(claude -p:*) Agent Read
 ---
 
 # claude-review
@@ -82,6 +82,8 @@ Claude の出力をそのまま転記せず、各指摘を以下の形式で整�
 ### 代替経路: Claude CLI が実行できない場合
 
 `claude -p` が権限・実行環境の理由で開始または完了できない場合は、通常経路の手順 4〜5 には進まない。代わりに、同じレビューコンテキストと観点をサブエージェント（`general-purpose`）に渡してレビューさせる。
+
+サブエージェントを起動する前にスキル `/subagent-check` を実行し、既存サブエージェントの完了状態、再利用可否、起動上限の余剰を確認する。`subagent-check` が `OK` を返した場合は新規起動し、`REUSE` / `WAIT` / `ASK_USER` の場合はその判定に従う。
 
 フォールバック対象の例:
 

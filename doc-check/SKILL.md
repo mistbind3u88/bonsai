@@ -1,7 +1,7 @@
 ---
 name: doc-check
 description: コード変更に対して関連ドキュメントが整合しているかをチェックする。不整合があれば報告のみ行い、修正はスキル /doc-sync で行う。
-allowed-tools:
+allowed-tools: Agent
 ---
 
 # doc-check スキル
@@ -13,6 +13,8 @@ allowed-tools:
 ## 手順
 
 ### 1. サブエージェントを起動する
+
+起動前にスキル `/subagent-check` を実行し、既存サブエージェントの完了状態、再利用可否、起動上限の余剰を確認する。`subagent-check` が `OK` を返した場合は新規起動し、`REUSE` / `WAIT` / `ASK_USER` の場合はその判定に従う。
 
 `general-purpose` サブエージェントを `run_in_background: true` で起動する。同期実行にしない。コンソールを占有せず、完了通知を受け取ってから結果を読む。
 

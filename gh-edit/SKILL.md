@@ -1,7 +1,7 @@
 ---
 name: gh-edit
 description: PR や Issue の新規作成・概要欄の更新を行う。push 後の PR 作成、作業開始時の Issue 起票、概要欄の加筆修正に使う。
-allowed-tools: Bash(gh pr:*) Bash(gh issue:*) Bash(gh api:*) Bash(git log:*) Bash(git diff:*) Read Write Edit
+allowed-tools: Bash(gh pr:*) Bash(gh issue:*) Bash(gh api:*) Bash(git log:*) Bash(git diff:*) Agent Read Write Edit
 ---
 
 # gh-editスキル
@@ -127,6 +127,8 @@ git diff --name-only main..HEAD
 ### 4. 執筆方針のセルフレビュー
 
 概要欄のソースファイル（`.claude/github/<file>`）を書き出したら、投稿前にサブエージェント（`general-purpose`）を起動して執筆方針への適合を検査する。自分で書いた直後のセルフレビューでは見落としが起きやすいため、必ず独立したエージェントに判定させる。
+
+起動前にスキル `/subagent-check` を実行し、既存サブエージェントの完了状態、再利用可否、起動上限の余剰を確認する。`subagent-check` が `OK` を返した場合は新規起動し、`REUSE` / `WAIT` / `ASK_USER` の場合はその判定に従う。
 
 **実行はバックグラウンドで行う**（`run_in_background: true`）。エージェントが検査を進める間、コンソールを占有せず、完了通知を受け取ってから結果を読む。同期実行にしない。
 

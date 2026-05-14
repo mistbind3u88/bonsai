@@ -4,9 +4,9 @@
 
 - [git](https://git-scm.com/)
 
-## `allowed-tools` を空にしている理由
+## `allowed-tools` を最小限にしている理由
 
-検査は `general-purpose` サブエージェントに委譲する。Agent 呼び出しは Claude Code の `allowed-tools` で制御する対象ではなく、このスキル自身はサブエージェントの起動と結果受領しか行わない。Read/Grep/Bash 等はすべてサブエージェント側で使う。
+検査は `general-purpose` サブエージェントに委譲する。起動前に `/subagent-check` で既存サブエージェントの状態と起動上限の余剰を確認する。このスキル自身はサブエージェントの起動と結果受領だけを行い、Read/Grep/Bash 等はすべてサブエージェント側で使う。
 
 ## 記述スタイル判定基準
 
