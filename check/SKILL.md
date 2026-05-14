@@ -75,12 +75,18 @@ git diff --name-only main..HEAD
 | build     | 実行し、成功したらスキル `/mark build` を実行                           | スキップ                |
 | test      | 実行し、成功したらスキル `/mark test` を実行                            | スキップ                |
 | doc-check | スキル `/doc-check` を実行し、成功したらスキル `/mark doc-check` を実行 | スキップ                |
-| review    | スキル `/codex-review` を実行                                           | スキップ                |
+| review    | 現在の実行エージェントと別のエージェントへレビューを依頼する            | スキップ                |
 
 実行順序:
 
 1. **lint → build → test** と **doc-check** を並列実行する
 2. すべて成功したら **review** を実行する
+
+review は、現在作業しているエージェントとは別のエージェントに依頼する。
+
+- Codex 上で実行している場合: スキル `/claude-review` を実行する
+- Claude Code 上で実行している場合: スキル `/codex-review` を実行する
+- 実行環境を判断できない場合: ユーザーに確認する
 
 いずれかが失敗したら停止し、失敗内容をユーザーに報告する。並列実行中に片方が失敗した場合、もう片方の完了を待ってから両方の結果を報告する。
 
@@ -90,16 +96,16 @@ git diff --name-only main..HEAD
 
 ```
 チェック結果:
-  lint:         OK
-  build:        OK (スキップ: ターゲットなし)
-  test:         OK
-  doc-check:     OK
-  codex review: OK
+  lint:      OK
+  build:     OK (スキップ: ターゲットなし)
+  test:      OK
+  doc-check: OK
+  review:   OK (<実行した review skill>)
 ```
 
 ## 注意
 
 - 検出できなかった項目（lint/build/test）は「スキップ」として扱い、ブロッカーにしない
 - build/lint/test/doc-check が成功したら `/mark <type>` でタグを設置する
-- review はスキル `/codex-review` が完了時に自動でタグを設置する
+- review は `/claude-review` または `/codex-review` が完了時に自動でタグを設置する
 - `$ARGUMENTS` で `--skip-review` が指定された場合は review をスキップする

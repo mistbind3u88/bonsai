@@ -45,6 +45,7 @@ Claude CodeではSKILLをカスタムコマンドのように読み込ませる�
 | [backup-branch](./backup-branch/SKILL.md)       | autosquash や大きな履歴編集前の退避ブランチ作成 |
 | [catch-up](./catch-up/SKILL.md)                 | main 取り込みと rebase 後の確認                 |
 | [check](./check/SKILL.md)                       | 品質チェックの一連実行                          |
+| [claude-review](./claude-review/SKILL.md)       | Claude CLIによるコードレビュー                  |
 | [clean-docs](./clean-docs/SKILL.md)             | `.claude/docs` のタスクドキュメント整理         |
 | [collect-feedback](./collect-feedback/SKILL.md) | 変更内容に対するフィードバック収集と整理        |
 | [codex-review](./codex-review/SKILL.md)         | codex CLIによるコードレビュー                   |

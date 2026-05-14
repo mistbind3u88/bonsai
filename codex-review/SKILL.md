@@ -1,12 +1,12 @@
 ---
 name: codex-review
-description: codex CLI を使って変更差分のコードレビューを実行する。設計完了後や実装・テスト完了後のレビューに使う。
-allowed-tools: Bash(git status:*) Bash(git log:*) Bash(git diff:*) Bash(git rev-parse:*) Bash(codex review:*) Read
+description: codex CLI を使って変更差分のコードレビューを実行する。Claude Code 上で作業した差分を別エージェント視点で確認するために使う。
+allowed-tools: Bash(git status:*) Bash(git log:*) Bash(git diff:*) Bash(git rev-parse:*) Bash(codex review:*) Agent Task Read
 ---
 
 # codex review スキル
 
-変更差分を codex CLI でレビューに出す。
+変更差分を codex CLI でレビューに出す。Claude Code 上で作業した差分を、別エージェント視点で確認するために使う。
 
 ## 手順
 
@@ -160,3 +160,4 @@ codex review はバックグラウンドで実行される。完了通知を受�
 
 - codex の実行は時間がかかるため、バックグラウンドで実行する
 - バックグラウンド実行の完了通知を受けたら、結果の読み込みとフィードバック報告を自動的に行う
+- Codex 上で作業している場合は `/claude-review` を使う
