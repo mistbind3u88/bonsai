@@ -51,6 +51,7 @@ Claude CodeではSKILLをカスタムコマンドのように読み込ませる�
 | [commit](./commit/SKILL.md)                     | gitコミット（段階的コミット、fixup、amend）     |
 | [doc-check](./doc-check/SKILL.md)               | ドキュメント整合性の確認                        |
 | [doc-sync](./doc-sync/SKILL.md)                 | ドキュメント整合性の修正                        |
+| [edit-taskdoc](./edit-taskdoc/SKILL.md)         | 元リポジトリ側タスクドキュメントの作成・更新    |
 | [fixup](./fixup/SKILL.md)                       | 既存コミットへの fixup 追加                     |
 | [gh-edit](./gh-edit/SKILL.md)                   | GitHub PR/Issueの作成・更新                     |
 | [gh-read](./gh-read/SKILL.md)                   | GitHub Issue/PR の参照と要約                    |
@@ -59,6 +60,7 @@ Claude CodeではSKILLをカスタムコマンドのように読み込ませる�
 | [monthly-report](./monthly-report/SKILL.md)     | GitHub 活動データからの月次報告作成             |
 | [pr-progress](./pr-progress/SKILL.md)           | PR 進捗コメントの整形・更新                     |
 | [push](./push/SKILL.md)                         | push 前確認と push 実行                         |
+| [read-taskdoc](./read-taskdoc/SKILL.md)         | 元リポジトリ側タスクドキュメントの参照          |
 | [reply-review](./reply-review/SKILL.md)         | レビューコメントへの返信支援                    |
 | [respond](./respond/SKILL.md)                   | 指摘対応から返信までのワークフロー              |
 | [ship](./ship/SKILL.md)                         | check から PR 更新までの出荷フロー              |

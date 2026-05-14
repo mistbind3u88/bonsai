@@ -1,7 +1,7 @@
 ---
 name: clean-docs
 description: .claude/docs配下のタスクドキュメントを整理する。マージ済みタスクのドキュメントを確認し、残す価値のある内容はAGENTS.mdやSKILL.mdに移行した上で削除する。
-allowed-tools: Bash(git worktree:*) Bash(git log:*) Bash(git branch:*) Bash(rm:*) Bash(rmdir:*) Read Edit Write Glob Grep
+allowed-tools: Bash(git worktree list:*) Bash(git log:*) Bash(git branch:*) Bash(rm:*) Bash(rmdir:*) Read Edit Write Glob Grep
 ---
 
 # clean-docs
@@ -18,14 +18,13 @@ allowed-tools: Bash(git worktree:*) Bash(git log:*) Bash(git branch:*) Bash(rm:*
 
 ### 1. 対象ドキュメントの一覧を取得する
 
-worktree内で作業中の場合は元リポジトリの `.claude/docs` を対象とする。
+worktree内で作業中の場合も、整理対象は元リポジトリ側の `.claude/docs` に限定する。worktree 側の `.claude/docs` は対象にしない。関連ドキュメントの個別参照には `/read-taskdoc` を使ってよいが、整理対象の一覧はこのスキル内で全件取得する。
 
 ```bash
-git worktree list
-ls -la .claude/docs/
+git worktree list --porcelain
 ```
 
-worktreeの場合は元リポジトリのパスを特定し、そちらの `.claude/docs` を対象にする。
+`git worktree list --porcelain` の先頭に出る `worktree` を元リポジトリとして扱う。元リポジトリを一意に判断できない場合は、候補パスを提示して停止する。
 
 `.claude/docs` が存在しない、または空の場合は「整理対象のドキュメントはありません」と報告して終了する。
 
@@ -42,7 +41,7 @@ worktreeの場合は元リポジトリのパスを特定し、そちらの `.cla
 ドキュメントに関連するブランチやPRが特定できる場合は、マージ済みか確認する。
 
 ```bash
-git log --oneline main --grep="<関連キーワード>" | head -5
+git log --oneline main --grep="<関連キーワード>"
 git branch --merged main
 ```
 
