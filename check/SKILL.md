@@ -77,6 +77,10 @@ git diff --name-only main..HEAD
 | doc-check | スキル `/doc-check` を実行し、成功したらスキル `/mark doc-check` を実行 | スキップ                |
 | review    | 現在の実行エージェントと別のエージェントへレビューを依頼する            | スキップ                |
 
+`/check` を実行しているメインエージェントが `/doc-check` も起動し、`/doc-check` 内部の読み取り検査だけをサブエージェントへ依頼する。`/doc-check` の成否判断と `/mark doc-check` はメインエージェントが担う。
+
+review では、`/check` を実行しているメインエージェントが `/claude-review` または `/codex-review` を起動し、レビュー結果の扱いと、呼び出した review スキルが `/mark review` を設置したことの確認を担う。
+
 実行順序:
 
 1. **lint → build → test** と **doc-check** を並列実行する
