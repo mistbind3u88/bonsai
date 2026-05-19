@@ -75,6 +75,128 @@ Claude CodeではSKILLをカスタムコマンドのように読み込ませる�
 
 補助スキルとして [daily-tagging](./.skill/daily-tagging/SKILL.md) も管理しています。
 
+## スキル間の依存関係
+
+各スキルが他のどのスキルへ処理を委譲しているかを示します。役割で色分けし、実線は本文で「実行」「委譲」と明示している呼び出し、点線は「注意」欄での委譲案内です。
+
+```mermaid
+flowchart LR
+    classDef utility fill:#e6f3ff,stroke:#1a73e8;
+    classDef read fill:#e9f7ef,stroke:#27ae60;
+    classDef edit fill:#fef5e7,stroke:#d68910;
+    classDef checkc fill:#fdedec,stroke:#c0392b;
+    classDef history fill:#f5eef8,stroke:#8e44ad;
+    classDef bootstrap fill:#fdf2e9,stroke:#e67e22;
+    classDef workflow fill:#eaeded,stroke:#2c3e50,stroke-width:2px;
+    classDef atomic fill:#ffffff,stroke:#7f8c8d;
+
+    mark:::utility
+    subagent-check:::utility
+    backup-branch:::utility
+
+    tanaoroshi:::atomic
+    monthly-report:::atomic
+    link-skills:::atomic
+    watch-ci:::atomic
+    reply-review:::atomic
+
+    gh-read:::read
+    read-taskdoc:::read
+    issue-review:::read
+    collect-feedback:::read
+
+    commit:::edit
+    fixup:::edit
+    gh-edit:::edit
+    edit-taskdoc:::edit
+    doc-sync:::edit
+    wiki-sync:::edit
+    clean-docs:::edit
+
+    check:::checkc
+    doc-check:::checkc
+    codex-review:::checkc
+    claude-review:::checkc
+
+    catch-up:::history
+    push:::history
+    pr-progress:::history
+
+    start-dev:::bootstrap
+    takeover:::bootstrap
+
+    ship:::workflow
+    respond:::workflow
+
+    catch-up --> backup-branch
+    catch-up --> pr-progress
+    check --> mark
+    check --> doc-check
+    check --> claude-review
+    check --> codex-review
+    claude-review --> mark
+    claude-review --> subagent-check
+    codex-review --> mark
+    codex-review --> subagent-check
+    clean-docs --> read-taskdoc
+    clean-docs --> wiki-sync
+    commit --> check
+    commit --> fixup
+    commit --> catch-up
+    commit --> backup-branch
+    commit --> mark
+    doc-check --> subagent-check
+    doc-sync --> doc-check
+    edit-taskdoc --> read-taskdoc
+    fixup --> check
+    fixup --> mark
+    gh-edit --> subagent-check
+    push --> check
+    push --> pr-progress
+    start-dev --> takeover
+    start-dev --> gh-read
+    start-dev --> read-taskdoc
+    start-dev --> edit-taskdoc
+    takeover --> gh-read
+    takeover --> read-taskdoc
+    wiki-sync --> subagent-check
+
+    doc-check -.-> doc-sync
+    doc-check -.-> wiki-sync
+    edit-taskdoc -.-> clean-docs
+    read-taskdoc -.-> edit-taskdoc
+    read-taskdoc -.-> clean-docs
+    gh-read -.-> gh-edit
+    gh-read -.-> collect-feedback
+    start-dev -.-> gh-edit
+    wiki-sync -.-> gh-read
+    wiki-sync -.-> read-taskdoc
+    wiki-sync -.-> doc-sync
+
+    ship --> commit
+    ship --> check
+    ship --> push
+    ship --> gh-edit
+    ship --> watch-ci
+    respond --> collect-feedback
+    respond --> fixup
+    respond --> ship
+    respond --> reply-review
+```
+
+役割の凡例:
+
+| 役割      | 説明                                   |
+| --------- | -------------------------------------- |
+| utility   | 他スキルから共通基盤として使われる     |
+| read      | 情報を参照・取得する                   |
+| edit      | ファイルや GitHub などの状態を変更する |
+| check     | 検証・レビューを行い結果を返す         |
+| history   | git 履歴・PR の進行に対する操作        |
+| bootstrap | 作業開始・引き継ぎの準備               |
+| workflow  | 単機能スキルを順に呼び出す複合フロー   |
+| atomic    | 他スキルへ委譲しない独立した本体機能   |
+
 ## Setup
 
 エージェントによっては、AGENTS.mdやSKILL.mdをリポジトリに置いただけでは、デフォルトで読んでくれないことがあります。
