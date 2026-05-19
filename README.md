@@ -77,7 +77,7 @@ Claude CodeではSKILLをカスタムコマンドのように読み込ませる�
 
 ## スキル間の依存関係
 
-各スキルが他のどのスキルへ処理を委譲しているかを示します。役割で色分けし、実線は本文で「実行」「委譲」と明示している呼び出し、点線は「注意」欄での委譲案内です。
+各スキルが他のどのスキルへ処理を委譲しているかを示します。役割で色分けし、実線は通常フローで実行される委譲、点線は条件付きの委譲または「注意」欄での案内です。
 
 ```mermaid
 flowchart LR
@@ -152,11 +152,9 @@ flowchart LR
     fixup --> mark
     gh-edit --> subagent-check
     push --> check
-    push --> pr-progress
     start-dev --> takeover
     start-dev --> gh-read
     start-dev --> read-taskdoc
-    start-dev --> edit-taskdoc
     takeover --> gh-read
     takeover --> read-taskdoc
     wiki-sync --> subagent-check
@@ -169,6 +167,9 @@ flowchart LR
     gh-read -.-> gh-edit
     gh-read -.-> collect-feedback
     start-dev -.-> gh-edit
+    start-dev -.-> edit-taskdoc
+    push -.-> pr-progress
+    ship -.-> pr-progress
     wiki-sync -.-> gh-read
     wiki-sync -.-> read-taskdoc
     wiki-sync -.-> doc-sync
@@ -178,7 +179,6 @@ flowchart LR
     ship --> push
     ship --> gh-edit
     ship --> watch-ci
-    ship --> pr-progress
     respond --> collect-feedback
     respond --> fixup
     respond --> ship
