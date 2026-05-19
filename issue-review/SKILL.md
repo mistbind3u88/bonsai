@@ -1,7 +1,7 @@
 ---
 name: issue-review
 description: Issue を現在のコードベースと照合し、問題の現存・実害・対応価値を判定する。
-allowed-tools: Bash(gh issue view:*), Bash(git log:*), Bash(git show:*), Read, Glob, Grep
+allowed-tools: Bash(gh issue view:*) Bash(git log:*) Bash(git show:*) Read Glob Grep
 ---
 
 # Issue 有効性分析
