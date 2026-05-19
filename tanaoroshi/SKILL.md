@@ -201,9 +201,9 @@ tanaoroshi comments <owner/repo:N> [owner/repo:N ...]
 
 テーマごとの Open 数・Closed 数・進捗状況を表形式で出力する。単なる件数だけでなく、テーマ内で次に詰まっている関係を `詰まり` に明記する。
 
-| テーマ   | Open | Closed | 詰まり                                         | 進捗 |
-| -------- | :--: | :----: | ---------------------------------------------- | ---- |
-| テーマ名 |  N   |   M    | レビュー待ち / Draft待ち / 方針未決 / 長期放置 | 要約 |
+| テーマ   | Open | Closed | 詰まり                                                                      | 進捗 |
+| -------- | :--: | :----: | --------------------------------------------------------------------------- | ---- |
+| テーマ名 |  N   |   M    | レビュー依頼先未割当 / 他人 APPROVED 停滞 / Draft待ち / 方針未決 / 長期放置 | 要約 |
 
 #### 4-2. アクション提案
 
@@ -215,9 +215,13 @@ tanaoroshi comments <owner/repo:N> [owner/repo:N ...]
 - [author] [PR/Draft] タイトル [owner/repo#N](https://github.com/owner/repo/issues/N)（author: @author / next: 下書き完成）
 ```
 
+「すぐ対応できるもの」は **自分が次に動けばその PR/Issue が前進する** ものに限定する。自分以外が next 主体の項目はここに入れない（進捗サマリーや「停滞 PR の整理」へ回す）。
+
 **すぐ対応できるもの**:
 
-- `[merger]` APPROVED 済みでマージ可能な PR
+- `[merger]` 自分が author の APPROVED PR でマージ実行可能なもの
+- `[author]` 自分が author でレビュー待ち / 下書き完成 / 指摘対応 / 再プッシュが必要なもの
+- `[reviewer]` `reviewRequests[].login` に自分が含まれている PR のレビュー（再レビュー含む）
 - `[closer]` 前提作業の完了によりクローズ可能な Issue
 - `[closer]` 上位 Issue に統合してクローズ可能な Issue
 
@@ -225,6 +229,11 @@ tanaoroshi comments <owner/repo:N> [owner/repo:N ...]
 
 - `[assignee]`/`[unassigned]` 前提の Closed により実装基盤が整った Issue/PR
 - `[author]` Draft PR のうち、依存がすべて解決済みのもの
+
+**停滞 PR の整理**:
+
+- `[author]` 自分以外が author の APPROVED PR で、APPROVED から 7 日以内に未マージのもの（author にマージ判断を促す。レポートでは件数のみ示し、リストは進捗サマリーの「詰まり」列に集約してよい）
+- `[owner]` 自分以外が author の APPROVED PR で、APPROVED から 7 日超未マージのもの（マージ要否を再評価）
 
 **方針合意が必要なもの**:
 
@@ -270,27 +279,36 @@ tanaoroshi comments <owner/repo:N> [owner/repo:N ...]
 
 ## ネクストアクション主体の判定ルール
 
-Open の Issue/PR 各行の後置メタ情報に入れる `next` は以下の基準で決める。判定に必要な `isDraft` / `reviewDecision` / `author` / `assignees` / ラベルは `summary` の出力に含まれる。必要なら `comments` で直近コメントの向き先を、`gh pr view` で `reviewRequests` を補足する。
+Open の Issue/PR 各行の後置メタ情報に入れる `next` は以下の基準で決める。判定に必要な `isDraft` / `reviewDecision` / `author` / `assignees` / `reviewRequests` / `latestReviews` / ラベルは `summary` の出力に含まれる（`collect` で `reviewRequests,latestReviews` を取得済み）。必要なら `comments` で直近コメントの向き先を補足する。
 
 本人視点の分類が必要な場合は、`gh api user --jq .login` またはユーザーから明示された GitHub login を「自分」として扱う。
 
 ### PR
 
-**主判定**（原則 `summary` で決定し、`reviewRequests` が必要な場合のみ `gh pr view` で補足する。上の行から評価し、最初に一致した行を採用する）:
+**主判定**（上の行から評価し、最初に一致した行を採用する）:
 
-| 優先 | 条件                                                                                                 | 主体: アクション       |
-| ---- | ---------------------------------------------------------------------------------------------------- | ---------------------- |
-| 1    | `isDraft=true`                                                                                       | `author: 下書き完成`   |
-| 2    | `reviewDecision="APPROVED"`                                                                          | `merger: マージ可`     |
-| 3    | `reviewDecision="CHANGES_REQUESTED"`                                                                 | `author: 指摘対応`     |
-| 4    | (`reviewDecision="REVIEW_REQUIRED"` または空・未設定) かつ `reviewRequests[].login` に自分が含まれる | `reviewer: レビュー`   |
-| 5    | (`reviewDecision="REVIEW_REQUIRED"` または空・未設定) かつ `author.login` が自分                     | `author: レビュー待ち` |
-| 6    | `reviewDecision="REVIEW_REQUIRED"` または空・未設定                                                  | `reviewer: レビュー`   |
+| 優先 | 条件                                                                                                 | 主体: アクション                                                     |
+| ---- | ---------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------- |
+| 1    | `isDraft=true`                                                                                       | `author: 下書き完成`                                                 |
+| 2    | `reviewDecision="APPROVED"` かつ `author.login` が自分                                               | `merger: マージ実行可`                                               |
+| 3    | `reviewDecision="APPROVED"` かつ `author.login` が自分以外 かつ APPROVED からの経過日数が 7 日以内   | `author: マージ判断`                                                 |
+| 4    | `reviewDecision="APPROVED"` かつ `author.login` が自分以外 かつ APPROVED からの経過日数が 7 日超     | `owner: マージ要否再評価`                                            |
+| 5    | `reviewDecision="CHANGES_REQUESTED"` かつ `author.login` が自分                                      | `author: 指摘対応`                                                   |
+| 6    | `reviewDecision="CHANGES_REQUESTED"` かつ `author.login` が自分以外                                  | `author: 指摘対応待ち`（自分が動くことはない。「停滞 PR の整理」へ） |
+| 7    | (`reviewDecision="REVIEW_REQUIRED"` または空・未設定) かつ `reviewRequests[].login` に自分が含まれる | `reviewer: レビュー`                                                 |
+| 8    | (`reviewDecision="REVIEW_REQUIRED"` または空・未設定) かつ `author.login` が自分                     | `author: レビュー待ち`                                               |
+| 9    | `reviewDecision="REVIEW_REQUIRED"` または空・未設定（自分が author でもレビュー依頼先でもない）      | `nobody: レビュー依頼待ち`                                           |
+
+**重要**:
+
+- 優先 9 の `nobody: レビュー依頼待ち` は「自分には次の動きがない」状態を意味する。アクション提案には載せず、進捗サマリーの「詰まり」列に集約する。
+- 優先 4 / 6 / 9 のように **自分が動かない PR** は、レポート上では `[author]`（自分以外）/ `[owner]`（停滞）/ `[nobody]`（依頼待ち）に分類し、`「すぐ対応できるもの」には入れない`。
+- APPROVED からの経過日数は `latestReviews[]` の `state="APPROVED"` で `submittedAt` が最新のものを基準に計算する（複数いる場合は最も新しい APPROVED の日時）。
 
 **補足判定**（任意）: `comments` を取得済みの場合に限り、以下で主判定の結果を上書きしてよい。判別できない場合は主判定の結果をそのまま使う。
 
 - 直近コメントの投稿者が author 以外 → `author: 再プッシュ`
-- 直近コメントの投稿者が author → `reviewer: 再レビュー`
+- 直近コメントの投稿者が author → `reviewer: 再レビュー`（補足判定でも、自分が `reviewRequests` に含まれない場合は `nobody: レビュー依頼待ち` のまま上書きしない）
 
 ### Issue
 
@@ -306,14 +324,15 @@ Open の Issue/PR 各行の後置メタ情報に入れる `next` は以下の基
 
 アクション提案セクションでは行頭に `[主体]` タグを付ける（上記の「主体」を `[…]` で囲んだ形）。代表例:
 
-- `[merger]` — APPROVED 済み PR のマージを待っている
-- `[author]` — レビュー待ち、下書き完成、指摘対応、再プッシュを待っている
-- `[reviewer]` — レビュー・再レビューを待っている。自分がレビュー依頼先の場合もここに分類する
+- `[merger]` — 自分が author の APPROVED 済み PR でマージ実行を待っている
+- `[author]` — レビュー待ち、下書き完成、指摘対応、再プッシュ、マージ判断を待っている（自分・他者双方を含む）
+- `[reviewer]` — `reviewRequests` に自分が含まれている PR のレビュー・再レビューを待っている
 - `[assignee]` — 指名済みの担当者の実装/調査を待っている
 - `[team]` — 方針合意を待っている
 - `[closer]` — クローズ判断を待っている
-- `[owner]` — 長期放置で必要性の再評価が必要
+- `[owner]` — 長期放置・APPROVED 後の停滞などで必要性／マージ要否の再評価が必要
 - `[unassigned]` — 担当未定で優先度判断を待っている
+- `[nobody]` — レビュー依頼先が未割当で誰の手番でもない（進捗サマリーに集約し、アクション提案には載せない）
 
 ## 注意
 

@@ -64,7 +64,7 @@ func collect(repos []string) {
 		issues := ghList("issue", repo, limit,
 			"number,title,author,createdAt,updatedAt,labels,assignees,body,url")
 		prs := ghList("pr", repo, limit,
-			"number,title,author,createdAt,updatedAt,labels,isDraft,reviewDecision,headRefName,body,url")
+			"number,title,author,createdAt,updatedAt,labels,isDraft,reviewDecision,reviewRequests,latestReviews,headRefName,body,url")
 
 		if len(issues) >= defaultLimit {
 			fmt.Fprintf(os.Stderr, "[warn] %s: issues hit limit (%d).\n", repo, defaultLimit)
