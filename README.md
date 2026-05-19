@@ -67,6 +67,7 @@ Claude CodeではSKILLをカスタムコマンドのように読み込ませる�
 | [ship](./ship/SKILL.md)                         | check から PR 更新までの出荷フロー              |
 | [start-dev](./start-dev/SKILL.md)               | 作業開始時のブランチ準備と情報収集              |
 | [subagent-check](./subagent-check/SKILL.md)     | サブエージェント起動前の状態確認                |
+| [takeover](./takeover/SKILL.md)                 | 前セッションのコンテキスト収集と作業引き継ぎ    |
 | [tanaoroshi](./tanaoroshi/SKILL.md)             | 複数リポジトリの Issue/PR 棚卸し                |
 | [watch-ci](./watch-ci/SKILL.md)                 | CI 状態の監視と失敗時の確認                     |
 | [wiki-sync](./wiki-sync/SKILL.md)               | 開発内容から LLM Wiki への知識同期              |
