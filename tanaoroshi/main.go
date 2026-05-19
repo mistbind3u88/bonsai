@@ -499,7 +499,7 @@ func parseCommonOptions(args []string) (commonOptions, []string) {
 func defaultIgnoreFilePath() string {
 	_, file, _, ok := runtime.Caller(0)
 	if !ok {
-		return ignoreFile
+		return filepath.Join("skills", "tanaoroshi", ignoreFile)
 	}
 	return filepath.Join(filepath.Dir(file), ignoreFile)
 }
