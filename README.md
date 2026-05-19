@@ -56,6 +56,7 @@ Claude CodeではSKILLをカスタムコマンドのように読み込ませる�
 | [fixup](./fixup/SKILL.md)                       | 既存コミットへの fixup 追加                     |
 | [gh-edit](./gh-edit/SKILL.md)                   | GitHub PR/Issueの作成・更新                     |
 | [gh-read](./gh-read/SKILL.md)                   | GitHub Issue/PR の参照と要約                    |
+| [issue-review](./issue-review/SKILL.md)         | Issue とコードベースの照合・有効性判定          |
 | [link-skills](./link-skills/SKILL.md)           | Codex / Claude 向けスキルリンク作成             |
 | [mark](./mark/SKILL.md)                         | チェック済み状態のタグ設置                      |
 | [monthly-report](./monthly-report/SKILL.md)     | GitHub 活動データからの月次報告作成             |
