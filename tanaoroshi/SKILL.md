@@ -1,7 +1,7 @@
 ---
 name: tanaoroshi
 description: 複数GitHubリポジトリのOpen Issue/PRを横断的に棚卸しする。body精査・コメント確認・前提作業の完了状況確認・テーマ別の構造整理・アクション提案を行う。
-allowed-tools: Bash(tanaoroshi:*), Bash(gh repo view:*), Bash(gh pr view:*), Bash(gh api user:*), Agent, Read
+allowed-tools: Bash(tanaoroshi:*) Bash(gh repo view:*) Bash(gh pr view:*) Bash(gh api user:*) Read
 ---
 
 # Issue/PR 棚卸し
