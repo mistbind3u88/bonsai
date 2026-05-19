@@ -99,11 +99,11 @@ flowchart LR
     link-skills:::atomic
     watch-ci:::atomic
     reply-review:::atomic
+    issue-review:::atomic
+    collect-feedback:::atomic
 
     gh-read:::read
     read-taskdoc:::read
-    issue-review:::read
-    collect-feedback:::read
 
     commit:::edit
     fixup:::edit
@@ -178,6 +178,7 @@ flowchart LR
     ship --> push
     ship --> gh-edit
     ship --> watch-ci
+    ship --> pr-progress
     respond --> collect-feedback
     respond --> fixup
     respond --> ship
@@ -194,7 +195,7 @@ flowchart LR
 | check     | 検証・レビューを行い結果を返す         |
 | history   | git 履歴・PR の進行に対する操作        |
 | bootstrap | 作業開始・引き継ぎの準備               |
-| workflow  | 単機能スキルを順に呼び出す複合フロー   |
+| workflow  | L0/L1 スキルを順に呼び出す複合フロー   |
 | atomic    | 他スキルへ委譲しない独立した本体機能   |
 
 ## Setup
