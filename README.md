@@ -67,9 +67,11 @@ Claude CodeではSKILLをカスタムコマンドのように読み込ませる�
 | [respond](./respond/SKILL.md)                   | 指摘対応から返信までのワークフロー              |
 | [ship](./ship/SKILL.md)                         | check から PR 更新までの出荷フロー              |
 | [start-dev](./start-dev/SKILL.md)               | 作業開始時のブランチ準備と情報収集              |
+| [static-check](./static-check/SKILL.md)         | リポジトリの lint・build の検出と実行           |
 | [subagent-check](./subagent-check/SKILL.md)     | サブエージェント起動前の状態確認                |
 | [takeover](./takeover/SKILL.md)                 | 前セッションのコンテキスト収集と作業引き継ぎ    |
 | [tanaoroshi](./tanaoroshi/SKILL.md)             | 複数リポジトリの Issue/PR 棚卸し                |
+| [unit-test](./unit-test/SKILL.md)               | リポジトリのユニットテストの検出と実行          |
 | [watch-ci](./watch-ci/SKILL.md)                 | CI 状態の監視と失敗時の確認                     |
 | [wiki-sync](./wiki-sync/SKILL.md)               | 開発内容から LLM Wiki への知識同期              |
 
@@ -115,6 +117,8 @@ flowchart LR
         read-taskdoc:::l0
         pr-progress:::l0
         fixup:::l0
+        static-check:::l0
+        unit-test:::l0
         tanaoroshi:::l0
         monthly-report:::l0
         link-skills:::l0
@@ -127,6 +131,8 @@ flowchart LR
     catch-up --> backup-branch
     catch-up --> pr-progress
     check --> mark
+    check --> static-check
+    check --> unit-test
     check --> doc-check
     check --> claude-review
     check --> codex-review
