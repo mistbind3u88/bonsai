@@ -31,10 +31,11 @@
 5. **MECE** — スキル間で機能の重複や漏れがないよう設計する。既存スキルと責務が重なる場合は、既存スキルの拡張や呼び分けで対応し、新規スキルの追加は避ける
 6. **循環参照禁止** — スキル間の `/skill-name` 呼び出しが循環しないことを確認する。作成・更新時には呼び出し先を辿って循環がないかチェックする。層ごとの委譲制約（L0/L1 は L2 を呼ばない、L1→L1 は一方向、L2→L2 は非循環）は「スキルの分類」を参照する
 7. **ファイル命名規則** — スキル定義ファイルは `SKILL.md`、エージェント向け指示ファイルは `AGENTS.md` とし、常に大文字で命名する。`AGENTS.md` を配置する場合は `CLAUDE.md` → `AGENTS.md` のシンボリックリンクを必ずセットで作成する
-8. **タスクドキュメント配置** — 他エージェントや将来対応のためのタスクドキュメントは、worktree 側ではなく元リポジトリの `.claude/docs` に配置する。参照は `/read-taskdoc`、作成・更新は `/edit-taskdoc` を使う。worktree 側の `.claude/docs` に同種のドキュメントを作成・更新してはならない。削除や恒久ドキュメントへの移管は `/clean-docs` に委譲する
+8. **タスクドキュメント配置** — 他エージェントや将来対応のためのタスクドキュメントは、worktree 側ではなく元リポジトリの `.claude/docs` に配置する。配置先（元リポジトリ側の `.claude/docs`）の解決は `/taskdoc-locate` を使い、読み取り・作成・更新はそのパスに対して直接行う。ファイル名は `YYYY-MM-DD-<短いslug>.md` とする。記載内容は背景・現在の状態・決定事項・未解決事項・次に確認すべきこと・関連 Issue/PR・最終更新日。プランや Issue/PR 本文のコピー、ポインタだけのドキュメントは作らず、他エージェント・将来対応に必要な固有の文脈があるときだけ作成する。削除や恒久ドキュメントへの移管は `/clean-docs` に委譲する
 9. **肯定形の手順記述** — スキルや関連ドキュメントを更新する際は、禁止事項の列挙ではなく、各場面で実行者が取るべき行動を肯定形で明記する。例外や対象外を示す場合も「何をしないか」だけで終えず、「代わりにどのスキルへ委譲するか」「どのファイルへ反映するか」「どの確認を行うか」まで書く
 10. **サブエージェント起動前確認** — スキルでサブエージェントを起動する場合は、起動前に現在のサブエージェント一覧、完了状態、役割、起動上限に対する余剰を確認する。役割を終えたサブエージェントがあれば結果を回収し、不要なものを閉じて枠を空ける。余剰がある場合にだけ新しいサブエージェントを起動する。余剰がない場合は、既存サブエージェントの再利用、完了待ち、またはユーザー確認のいずれかを選び、どの判断をしたかを報告する
 11. **サブエージェント利用境界** — サブエージェントを使うスキルでは、スキルの起動、手順解釈、`/subagent-check` 実行、結果回収、最終判断、`mark`、ユーザー報告をメインエージェントが担う。サブエージェントには、検査・文面確認・想定質問への回答など、明示された限定タスクだけを依頼する。依頼文では、メインエージェントが実行中のスキル名、サブエージェントの役割、返すべき結果、メイン側に残す判断を具体的に書く
+12. **退役スキルの扱い** — 使われなくなったスキルは削除せず `archive/` 配下へディレクトリ構造ごと移す。`archive/` 配下はアクティブなスキルとして扱わず、`link-skills` のスキル探索・`doc-check` の整合性検査・品質チェック・README の Skills 表と依存グラフのいずれの対象にもしない。退役の経緯は `archive/README.md` に記録する
 
 ## スキルの分類
 
@@ -44,7 +45,7 @@
 
 他のスキルへ `/<skill>` を介した処理委譲を行わず、自身の操作だけで責務を完結させるスキル。固有の `allowed-tools` を持つ（`subagent-check` のように会話状態の確認だけで完結し `allowed-tools` が空のものも含む）。MECE の対象であり、スキル間で機能が重複しないように設計する。
 
-例: `mark`, `subagent-check`, `backup-branch`, `gh-read`, `read-taskdoc`, `pr-progress`, `fixup`, `static-check`, `unit-test`, `tanaoroshi`, `monthly-report`, `link-skills`, `watch-ci`, `reply-review`, `issue-review`, `collect-feedback`
+例: `mark`, `subagent-check`, `backup-branch`, `gh-read`, `taskdoc-locate`, `pr-progress`, `fixup`, `static-check`, `unit-test`, `tanaoroshi`, `monthly-report`, `link-skills`, `watch-ci`, `reply-review`, `issue-review`, `collect-feedback`
 
 ### L1 サービススキル
 
@@ -68,7 +69,7 @@ L1 同士の委譲は一方向に保つ:
 - `check` のような検証スキルへ複数の L1 が集約する形は許容する
 - 作成・更新時は実行委譲の呼び出し先を辿り、循環と相互参照がないことを確認する
 
-例: `check`, `commit`, `push`, `catch-up`, `doc-check`, `doc-sync`, `gh-edit`, `clean-docs`, `edit-taskdoc`, `wiki-sync`, `codex-review`, `claude-review`, `start-dev`, `takeover`
+例: `check`, `commit`, `push`, `catch-up`, `doc-check`, `doc-sync`, `gh-edit`, `clean-docs`, `wiki-sync`, `codex-review`, `claude-review`, `start-dev`, `takeover`
 
 ### L2 ワークフロースキル
 

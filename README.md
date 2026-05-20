@@ -52,7 +52,6 @@ Claude CodeではSKILLをカスタムコマンドのように読み込ませる�
 | [commit](./commit/SKILL.md)                     | gitコミット（段階的コミット、fixup、amend）     |
 | [doc-check](./doc-check/SKILL.md)               | ドキュメント整合性の確認                        |
 | [doc-sync](./doc-sync/SKILL.md)                 | ドキュメント整合性の修正                        |
-| [edit-taskdoc](./edit-taskdoc/SKILL.md)         | 元リポジトリ側タスクドキュメントの作成・更新    |
 | [fixup](./fixup/SKILL.md)                       | 既存コミットへの fixup 追加                     |
 | [gh-edit](./gh-edit/SKILL.md)                   | GitHub PR/Issueの作成・更新                     |
 | [gh-read](./gh-read/SKILL.md)                   | GitHub Issue/PR の参照と要約                    |
@@ -62,7 +61,6 @@ Claude CodeではSKILLをカスタムコマンドのように読み込ませる�
 | [monthly-report](./monthly-report/SKILL.md)     | GitHub 活動データからの月次報告作成             |
 | [pr-progress](./pr-progress/SKILL.md)           | PR 進捗コメントの整形・更新                     |
 | [push](./push/SKILL.md)                         | push 前確認と push 実行                         |
-| [read-taskdoc](./read-taskdoc/SKILL.md)         | 元リポジトリ側タスクドキュメントの参照          |
 | [reply-review](./reply-review/SKILL.md)         | レビューコメントへの返信支援                    |
 | [respond](./respond/SKILL.md)                   | 指摘対応から返信までのワークフロー              |
 | [ship](./ship/SKILL.md)                         | check から PR 更新までの出荷フロー              |
@@ -71,6 +69,7 @@ Claude CodeではSKILLをカスタムコマンドのように読み込ませる�
 | [subagent-check](./subagent-check/SKILL.md)     | サブエージェント起動前の状態確認                |
 | [takeover](./takeover/SKILL.md)                 | 前セッションのコンテキスト収集と作業引き継ぎ    |
 | [tanaoroshi](./tanaoroshi/SKILL.md)             | 複数リポジトリの Issue/PR 棚卸し                |
+| [taskdoc-locate](./taskdoc-locate/SKILL.md)     | タスクドキュメント配置先の場所解決              |
 | [unit-test](./unit-test/SKILL.md)               | リポジトリのユニットテストの検出と実行          |
 | [watch-ci](./watch-ci/SKILL.md)                 | CI 状態の監視と失敗時の確認                     |
 | [wiki-sync](./wiki-sync/SKILL.md)               | 開発内容から LLM Wiki への知識同期              |
@@ -101,7 +100,6 @@ flowchart LR
         doc-sync:::l1
         gh-edit:::l1
         clean-docs:::l1
-        edit-taskdoc:::l1
         wiki-sync:::l1
         codex-review:::l1
         claude-review:::l1
@@ -114,7 +112,7 @@ flowchart LR
         subagent-check:::l0
         backup-branch:::l0
         gh-read:::l0
-        read-taskdoc:::l0
+        taskdoc-locate:::l0
         pr-progress:::l0
         fixup:::l0
         static-check:::l0
@@ -140,7 +138,7 @@ flowchart LR
     claude-review --> subagent-check
     codex-review --> mark
     codex-review --> subagent-check
-    clean-docs --> read-taskdoc
+    clean-docs --> taskdoc-locate
     clean-docs --> wiki-sync
     commit --> check
     commit --> fixup
@@ -149,29 +147,25 @@ flowchart LR
     commit --> mark
     doc-check --> subagent-check
     doc-sync --> doc-check
-    edit-taskdoc --> read-taskdoc
     gh-edit --> subagent-check
     push --> check
     start-dev --> takeover
     start-dev --> gh-read
-    start-dev --> read-taskdoc
+    start-dev --> taskdoc-locate
     takeover --> gh-read
-    takeover --> read-taskdoc
+    takeover --> taskdoc-locate
     wiki-sync --> subagent-check
 
     doc-check -.-> doc-sync
     doc-check -.-> wiki-sync
-    edit-taskdoc -.-> clean-docs
-    read-taskdoc -.-> edit-taskdoc
-    read-taskdoc -.-> clean-docs
+    taskdoc-locate -.-> clean-docs
     gh-read -.-> gh-edit
     gh-read -.-> collect-feedback
     start-dev -.-> gh-edit
-    start-dev -.-> edit-taskdoc
     push -.-> pr-progress
     ship -.-> pr-progress
     wiki-sync -.-> gh-read
-    wiki-sync -.-> read-taskdoc
+    wiki-sync -.-> taskdoc-locate
     wiki-sync -.-> doc-sync
 
     ship --> commit

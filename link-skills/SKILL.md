@@ -18,10 +18,10 @@ Codex または Claude Code からこのリポジトリのスキルを使える�
 2. リポジトリ内のスキルディレクトリを確認する
 
 ```bash
-find . -name SKILL.md
+find . -path './archive/*' -prune -o -name SKILL.md -print
 ```
 
-Codex では各 `SKILL.md` の親ディレクトリをリンク対象にする。`.skill/daily-tagging` のようにルート直下でないスキルも見落とさない。
+Codex では各 `SKILL.md` の親ディレクトリをリンク対象にする。`.skill/daily-tagging` のようにルート直下でないスキルも見落とさない。`archive/` 配下は退役スキルの保管場所なのでリンク対象から除外する。
 
 3. Codex on Windows の場合は `~/.codex/skills` の現在の状態を確認する
 

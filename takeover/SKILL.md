@@ -48,7 +48,7 @@ grep -rl "<キーワード>" ~/.claude/plans/
 
 ### 4. タスクドキュメントの確認
 
-`/read-taskdoc` を実行し、元リポジトリ側の `.claude/docs` 配下に関連するタスクドキュメントがあるか確認する。
+`/taskdoc-locate` で元リポジトリ側の `.claude/docs` の場所を解決し、その配下に関連するタスクドキュメントがあるか `grep` と Read で確認する。
 
 ローカル環境に依存する固定パス（例: `~/Workspace/<repo>`）を前提にしない。
 

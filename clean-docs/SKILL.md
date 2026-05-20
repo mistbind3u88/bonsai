@@ -1,7 +1,7 @@
 ---
 name: clean-docs
 description: .claude/docs配下のタスクドキュメントを整理する。マージ済みタスクのドキュメントを確認し、残す価値のある内容はAGENTS.md、SKILL.md、またはLLM Wikiに移行した上で削除する。
-allowed-tools: Bash(git worktree list:*) Bash(git log:*) Bash(git branch:*) Bash(rm:*) Bash(rmdir:*) Read Edit Write Glob Grep
+allowed-tools: Bash(git log:*) Bash(git branch:*) Bash(rm:*) Bash(rmdir:*) Read Edit Write Glob Grep
 ---
 
 # clean-docs
@@ -18,15 +18,9 @@ allowed-tools: Bash(git worktree list:*) Bash(git log:*) Bash(git branch:*) Bash
 
 ### 1. 対象ドキュメントの一覧を取得する
 
-worktree内で作業中の場合も、整理対象は元リポジトリ側の `.claude/docs` に限定する。worktree 側の `.claude/docs` は対象にしない。関連ドキュメントの個別参照には `/read-taskdoc` を使ってよいが、整理対象の一覧はこのスキル内で全件取得する。
+`/taskdoc-locate` を実行し、整理対象となる元リポジトリ側の `.claude/docs` の場所を解決する。worktree 側の `.claude/docs` は対象にしない。
 
-```bash
-git worktree list --porcelain
-```
-
-`git worktree list --porcelain` の先頭に出る `worktree` を元リポジトリとして扱う。元リポジトリを一意に判断できない場合は、候補パスを提示して停止する。
-
-`.claude/docs` が存在しない、または空の場合は「整理対象のドキュメントはありません」と報告して終了する。
+`.claude/docs` が存在しない、または空の場合は「整理対象のドキュメントはありません」と報告して終了する。存在する場合はその配下のファイルを全件取得する。
 
 ### 2. 各ドキュメントの内容を確認する
 

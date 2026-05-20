@@ -37,6 +37,7 @@ allowed-tools: Agent
   - `**/SKILL.md` — スキル定義（手順・allowed-tools・description）
   - `README.md` — プロジェクト概要
   - LLM Wiki — リポジトリに LLM Wiki が定義されている場合のみ対象に含める
+- 検査対象外: `archive/` 配下（退役スキルの保管場所）は検査しない
 - 観点（下表）とチェック内容
 - 出力フォーマット（後述）
 

@@ -14,7 +14,7 @@ allowed-tools: Bash(git status:*) Bash(git rev-parse:*) Bash(git merge-base:*) B
 $ARGUMENTS: <同期したい内容、または確認したい変更範囲（任意）>
 ```
 
-引数は同期対象の補足として扱う。特定の Issue/PR 情報が必要な場合は `/gh-read`、タスクドキュメントの文脈が必要な場合は `/read-taskdoc` に委譲する。
+引数は同期対象の補足として扱う。特定の Issue/PR 情報が必要な場合は `/gh-read` に委譲する。タスクドキュメントの文脈が必要な場合は `/taskdoc-locate` で場所を解決して参照する。
 
 ## 目的
 
@@ -223,5 +223,5 @@ schema・体裁・関連ドキュメント整合確認用の別サブエージ�
 - このスキルは LLM Wiki が既に定義されているリポジトリで使う
 - wiki 配置先、ページ命名、ページ構成は対象リポジトリから読み取る
 - GitHub 情報が必要な場合は `/gh-read` に委譲する
-- タスクドキュメントを参照する場合は `/read-taskdoc` に委譲する
+- タスクドキュメントを参照する場合は `/taskdoc-locate` で場所を解決して参照する
 - 通常ドキュメントの追従修正は `/doc-sync` に委譲する

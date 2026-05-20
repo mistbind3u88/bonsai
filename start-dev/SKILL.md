@@ -1,7 +1,7 @@
 ---
 name: start-dev
 description: 作業ブランチと worktree を作成し、Issue/PR の情報取得とプランニングを含む開発開始の準備を行う。
-allowed-tools: Bash(git switch:*) Bash(git branch:*) Bash(git status:*) Bash(git rev-parse:*) Bash(git fetch:*) Bash(git pull:*) Bash(git worktree:*) Read
+allowed-tools: Bash(git switch:*) Bash(git branch:*) Bash(git status:*) Bash(git rev-parse:*) Bash(git fetch:*) Bash(git pull:*) Bash(git worktree:*) Read Glob Grep
 ---
 
 # start-dev スキル
@@ -67,7 +67,7 @@ worktree のパスはユーザーに確認する。
 
 ### 5. 既存タスクドキュメント確認
 
-`/read-taskdoc` を実行し、元リポジトリ側の `.claude/docs` 配下に関連するタスクドキュメントがあるか確認する。関連するドキュメントがあれば内容を提示する。
+`/taskdoc-locate` で元リポジトリ側の `.claude/docs` の場所を解決し、その配下に関連するタスクドキュメントがあるか Read/Glob/Grep で確認する。関連するドキュメントがあれば内容を提示する。
 
 このステップは**既存ドキュメントの参照のみ**。新規作成はしない（step 6 参照）。
 
@@ -88,7 +88,7 @@ worktree のパスはユーザーに確認する。
 
 Claude Code 内で作業する限り、ハンドオーバー先はプランで十分である。`.claude/docs` 配下のタスクドキュメントは**他のコーディングエージェント（Codex 等）と協業する場合のデフォルト配置先**という位置づけで、Claude Code 単独の開発では作成しない。
 
-他エージェントや将来対応のためにタスクドキュメントが必要な場合は、worktree 側ではなく元リポジトリ側の `.claude/docs` を対象に `/edit-taskdoc` で作成・更新する。
+他エージェントや将来対応のためにタスクドキュメントが必要な場合は、`/taskdoc-locate` で解決した元リポジトリ側の `.claude/docs` を対象に、AGENTS.md 判断基準8 のタスクドキュメント形式に従って作成・更新する。
 
 プランの複製、プランへのポインタのみのドキュメント、背景情報の二重記載は禁止する。
 
