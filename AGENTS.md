@@ -44,7 +44,7 @@
 
 他のスキルへ `/<skill>` を介した処理委譲を行わず、自身の操作だけで責務を完結させるスキル。固有の `allowed-tools` を持つ（`subagent-check` のように会話状態の確認だけで完結し `allowed-tools` が空のものも含む）。MECE の対象であり、スキル間で機能が重複しないように設計する。
 
-例: `mark`, `subagent-check`, `backup-branch`, `gh-read`, `read-taskdoc`, `pr-progress`, `tanaoroshi`, `monthly-report`, `link-skills`, `watch-ci`, `reply-review`, `issue-review`, `collect-feedback`
+例: `mark`, `subagent-check`, `backup-branch`, `gh-read`, `read-taskdoc`, `pr-progress`, `fixup`, `tanaoroshi`, `monthly-report`, `link-skills`, `watch-ci`, `reply-review`, `issue-review`, `collect-feedback`
 
 ### L1 サービススキル
 
@@ -68,7 +68,7 @@ L1 同士の委譲は一方向に保つ:
 - `check` のような検証スキルへ複数の L1 が集約する形は許容する
 - 作成・更新時は実行委譲の呼び出し先を辿り、循環と相互参照がないことを確認する
 
-例: `check`, `commit`, `push`, `catch-up`, `fixup`, `doc-check`, `doc-sync`, `gh-edit`, `clean-docs`, `edit-taskdoc`, `wiki-sync`, `codex-review`, `claude-review`, `start-dev`, `takeover`
+例: `check`, `commit`, `push`, `catch-up`, `doc-check`, `doc-sync`, `gh-edit`, `clean-docs`, `edit-taskdoc`, `wiki-sync`, `codex-review`, `claude-review`, `start-dev`, `takeover`
 
 ### L2 ワークフロースキル
 

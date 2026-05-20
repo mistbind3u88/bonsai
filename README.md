@@ -95,7 +95,6 @@ flowchart LR
         commit:::l1
         push:::l1
         catch-up:::l1
-        fixup:::l1
         doc-check:::l1
         doc-sync:::l1
         gh-edit:::l1
@@ -115,6 +114,7 @@ flowchart LR
         gh-read:::l0
         read-taskdoc:::l0
         pr-progress:::l0
+        fixup:::l0
         tanaoroshi:::l0
         monthly-report:::l0
         link-skills:::l0
@@ -144,8 +144,6 @@ flowchart LR
     doc-check --> subagent-check
     doc-sync --> doc-check
     edit-taskdoc --> read-taskdoc
-    fixup --> check
-    fixup --> mark
     gh-edit --> subagent-check
     push --> check
     start-dev --> takeover
