@@ -77,56 +77,52 @@ Claude CodeではSKILLをカスタムコマンドのように読み込ませる�
 
 ## スキル間の依存関係
 
-各スキルが他のどのスキルへ処理を委譲しているかを示します。役割で色分けし、実線は通常フローで実行される委譲、点線は条件付きの委譲または「注意」欄での案内です。
+各スキルが他のどのスキルへ処理を委譲しているかを示します。層で色分けし、実線は通常フローで実行される委譲、点線は条件付きの委譲または「注意」欄での案内です。
 
 ```mermaid
 flowchart LR
-    classDef utility fill:#e6f3ff,stroke:#1a73e8;
-    classDef read fill:#e9f7ef,stroke:#27ae60;
-    classDef edit fill:#fef5e7,stroke:#d68910;
-    classDef checkc fill:#fdedec,stroke:#c0392b;
-    classDef history fill:#f5eef8,stroke:#8e44ad;
-    classDef bootstrap fill:#fdf2e9,stroke:#e67e22;
-    classDef workflow fill:#eaeded,stroke:#2c3e50,stroke-width:2px;
-    classDef atomic fill:#ffffff,stroke:#7f8c8d;
+    classDef l0 fill:#e9f7ef,stroke:#27ae60;
+    classDef l1 fill:#fef5e7,stroke:#d68910;
+    classDef l2 fill:#eaeded,stroke:#2c3e50,stroke-width:2px;
 
-    mark:::utility
-    subagent-check:::utility
-    backup-branch:::utility
+    subgraph L2G["L2 ワークフロースキル"]
+        ship:::l2
+        respond:::l2
+    end
 
-    tanaoroshi:::atomic
-    monthly-report:::atomic
-    link-skills:::atomic
-    watch-ci:::atomic
-    reply-review:::atomic
-    issue-review:::atomic
-    collect-feedback:::atomic
+    subgraph L1G["L1 サービススキル"]
+        check:::l1
+        commit:::l1
+        push:::l1
+        catch-up:::l1
+        fixup:::l1
+        doc-check:::l1
+        doc-sync:::l1
+        gh-edit:::l1
+        clean-docs:::l1
+        edit-taskdoc:::l1
+        wiki-sync:::l1
+        codex-review:::l1
+        claude-review:::l1
+        start-dev:::l1
+        takeover:::l1
+    end
 
-    gh-read:::read
-    read-taskdoc:::read
-
-    commit:::edit
-    fixup:::edit
-    gh-edit:::edit
-    edit-taskdoc:::edit
-    doc-sync:::edit
-    wiki-sync:::edit
-    clean-docs:::edit
-
-    check:::checkc
-    doc-check:::checkc
-    codex-review:::checkc
-    claude-review:::checkc
-
-    catch-up:::history
-    push:::history
-    pr-progress:::history
-
-    start-dev:::bootstrap
-    takeover:::bootstrap
-
-    ship:::workflow
-    respond:::workflow
+    subgraph L0G["L0 単機能スキル"]
+        mark:::l0
+        subagent-check:::l0
+        backup-branch:::l0
+        gh-read:::l0
+        read-taskdoc:::l0
+        pr-progress:::l0
+        tanaoroshi:::l0
+        monthly-report:::l0
+        link-skills:::l0
+        watch-ci:::l0
+        reply-review:::l0
+        issue-review:::l0
+        collect-feedback:::l0
+    end
 
     catch-up --> backup-branch
     catch-up --> pr-progress
@@ -185,18 +181,13 @@ flowchart LR
     respond --> reply-review
 ```
 
-役割の凡例:
+層の凡例:
 
-| 役割      | 説明                                   |
-| --------- | -------------------------------------- |
-| utility   | 他スキルから共通基盤として使われる     |
-| read      | 情報を参照・取得する                   |
-| edit      | ファイルや GitHub などの状態を変更する |
-| check     | 検証・レビューを行い結果を返す         |
-| history   | git 履歴・PR の進行に対する操作        |
-| bootstrap | 作業開始・引き継ぎの準備               |
-| workflow  | L0/L1 スキルを順に呼び出す複合フロー   |
-| atomic    | 他スキルへ委譲しない独立した本体機能   |
+| 層                    | 説明                                               |
+| --------------------- | -------------------------------------------------- |
+| L0 単機能スキル       | 他スキルへ委譲せず、自身の操作だけで責務を完結する |
+| L1 サービススキル     | 固有の操作を持ち、責務の範囲内で他スキルを活用する |
+| L2 ワークフロースキル | 操作を持たず、複数のスキルを決まった順序で呼び出す |
 
 ## Setup
 
