@@ -82,110 +82,104 @@ Claude CodeではSKILLをカスタムコマンドのように読み込ませる�
 
 ```mermaid
 flowchart LR
-    classDef l0 fill:#e9f7ef,stroke:#27ae60;
-    classDef l1 fill:#fef5e7,stroke:#d68910;
-    classDef l2 fill:#eaeded,stroke:#2c3e50,stroke-width:2px;
+    classDef workflow fill:#fef5e7,stroke:#d68910;
+    classDef single fill:#e9f7ef,stroke:#27ae60;
 
-    subgraph L2G["L2 ワークフロースキル"]
-        ship:::l2
-        respond:::l2
+    subgraph WG["ワークフロースキル"]
+        respond:::workflow
+        doc-sync:::workflow
+        clean-docs:::workflow
+        start-dev:::workflow
+        ship:::workflow
+        wiki-sync:::workflow
+        takeover:::workflow
+        commit:::workflow
+        push:::workflow
+        gh-edit:::workflow
+        check:::workflow
+        catch-up:::workflow
+        doc-check:::workflow
+        claude-review:::workflow
+        codex-review:::workflow
     end
 
-    subgraph L1G["L1 サービススキル"]
-        check:::l1
-        commit:::l1
-        push:::l1
-        catch-up:::l1
-        doc-check:::l1
-        doc-sync:::l1
-        gh-edit:::l1
-        clean-docs:::l1
-        wiki-sync:::l1
-        codex-review:::l1
-        claude-review:::l1
-        start-dev:::l1
-        takeover:::l1
+    subgraph SG["単機能スキル"]
+        collect-feedback:::single
+        reply-review:::single
+        gh-read:::single
+        taskdoc-locate:::single
+        watch-ci:::single
+        fixup:::single
+        backup-branch:::single
+        pr-progress:::single
+        static-check:::single
+        unit-test:::single
+        mark:::single
+        subagent-check:::single
+        tanaoroshi:::single
+        monthly-report:::single
+        link-skills:::single
+        issue-review:::single
     end
 
-    subgraph L0G["L0 単機能スキル"]
-        mark:::l0
-        subagent-check:::l0
-        backup-branch:::l0
-        gh-read:::l0
-        taskdoc-locate:::l0
-        pr-progress:::l0
-        fixup:::l0
-        static-check:::l0
-        unit-test:::l0
-        tanaoroshi:::l0
-        monthly-report:::l0
-        link-skills:::l0
-        watch-ci:::l0
-        reply-review:::l0
-        issue-review:::l0
-        collect-feedback:::l0
-    end
-
-    catch-up --> backup-branch
-    catch-up --> pr-progress
+    respond --> ship
+    respond --> collect-feedback
+    respond --> fixup
+    respond --> reply-review
+    doc-sync --> doc-check
+    clean-docs --> taskdoc-locate
+    clean-docs --> wiki-sync
+    start-dev --> takeover
+    start-dev --> gh-read
+    start-dev --> taskdoc-locate
+    ship --> commit
+    ship --> check
+    ship --> push
+    ship --> gh-edit
+    ship --> watch-ci
+    wiki-sync --> subagent-check
+    takeover --> gh-read
+    takeover --> taskdoc-locate
+    commit --> check
+    commit --> fixup
+    commit --> catch-up
+    commit --> backup-branch
+    commit --> mark
+    push --> check
+    gh-edit --> subagent-check
     check --> mark
     check --> static-check
     check --> unit-test
     check --> doc-check
     check --> claude-review
     check --> codex-review
+    catch-up --> backup-branch
+    catch-up --> pr-progress
+    doc-check --> subagent-check
     claude-review --> mark
     claude-review --> subagent-check
     codex-review --> mark
     codex-review --> subagent-check
-    clean-docs --> taskdoc-locate
-    clean-docs --> wiki-sync
-    commit --> check
-    commit --> fixup
-    commit --> catch-up
-    commit --> backup-branch
-    commit --> mark
-    doc-check --> subagent-check
-    doc-sync --> doc-check
-    gh-edit --> subagent-check
-    push --> check
-    start-dev --> takeover
-    start-dev --> gh-read
-    start-dev --> taskdoc-locate
-    takeover --> gh-read
-    takeover --> taskdoc-locate
-    wiki-sync --> subagent-check
 
+    start-dev -.-> gh-edit
     doc-check -.-> doc-sync
     doc-check -.-> wiki-sync
     taskdoc-locate -.-> clean-docs
     gh-read -.-> gh-edit
     gh-read -.-> collect-feedback
-    start-dev -.-> gh-edit
     push -.-> pr-progress
     ship -.-> pr-progress
     wiki-sync -.-> gh-read
     wiki-sync -.-> taskdoc-locate
     wiki-sync -.-> doc-sync
-
-    ship --> commit
-    ship --> check
-    ship --> push
-    ship --> gh-edit
-    ship --> watch-ci
-    respond --> collect-feedback
-    respond --> fixup
-    respond --> ship
-    respond --> reply-review
 ```
 
 層の凡例:
 
-| 層                    | 説明                                               |
-| --------------------- | -------------------------------------------------- |
-| L0 単機能スキル       | 他スキルへ委譲せず、自身の操作だけで責務を完結する |
-| L1 サービススキル     | 固有の操作を持ち、責務の範囲内で他スキルを活用する |
-| L2 ワークフロースキル | 操作を持たず、複数のスキルを決まった順序で呼び出す |
+| 層                 | 説明                                                                 |
+| ------------------ | -------------------------------------------------------------------- |
+| 単機能スキル       | 他スキルへ委譲せず、自身の操作だけで責務を完結する                   |
+| ワークフロースキル | 他スキルへ委譲する。固有操作を持つものと委譲の連結が主体のものを含む |
 
 ## Setup
 
