@@ -22,9 +22,9 @@ PR のレビューコメントを収集し、要対応事項を整理する。
 
 複数の指摘がある場合は、関連する指摘をまとめて1つの fixup にするか、個別に fixup を作成するかをユーザーに確認する。
 
-### 3. `/ship --skip-gh-edit`
+### 3. `/ship --skip-review --skip-gh-edit`
 
-commit（autosquash）→ check → push を実行する。gh-edit はスキップする（指摘対応では PR 概要欄が変わらないため）。check の review は fixup で加えた変更も対象に実行する。
+commit（autosquash）→ check → push を実行する。review と gh-edit はスキップする。指摘対応は PR を見ている人間のレビュアーへの応答であり、PR 概要欄も変わらないため、自動レビューと概要欄更新を伴わない。
 
 ### 4. `/reply-review`
 
