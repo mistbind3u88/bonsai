@@ -4,7 +4,7 @@
 
 - [gh](https://cli.github.com/) — 認証済みであること
 - [go](https://go.dev/) — `tanaoroshi` コマンドが内部で使用する
-- `.tools` が PATH に含まれていること。棚卸しツールは `tanaoroshi` コマンドで実行する
+- `tools` が PATH に含まれていること。棚卸しツールは `tanaoroshi` コマンドで実行する
 
 ## 既知の制約
 
