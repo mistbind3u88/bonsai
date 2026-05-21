@@ -18,13 +18,13 @@ PR のレビューコメントを収集し、要対応事項を整理する。
 
 ### 2. コードを修正し `/fixup` で記録する
 
-要対応の指摘に対してコードを修正する。修正後、スキル `/fixup` を実行して対象コミットへの fixup コミットを作成する（`/fixup` は記録のみを行い、修正そのものは担わない）。
+要対応の指摘に対してコードを修正する。修正後、スキル `/fixup` を実行して対象コミットへの fixup コミットを作成する（`/fixup` は修正の記録のみを担う）。
 
 複数の指摘がある場合は、関連する指摘をまとめて1つの fixup にするか、個別に fixup を作成するかをユーザーに確認する。
 
-### 3. `/ship --skip-review --skip-gh-edit`
+### 3. `/ship --skip-gh-edit`
 
-commit（autosquash）→ check → push を実行する。review と gh-edit はスキップする（指摘対応で概要欄の更新やレビューは不要）。
+commit（autosquash）→ check → push を実行する。gh-edit はスキップする（指摘対応では PR 概要欄が変わらないため）。check の review は fixup で加えた変更も対象に実行する。
 
 ### 4. `/reply-review`
 
