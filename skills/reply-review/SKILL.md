@@ -128,6 +128,35 @@ gh api repos/{owner}/{repo}/pulls/comments/{comment_id}/reactions -f content="+1
 
 リプライとリアクションは必ずセットで行う。片方だけにならないよう注意する。
 
+#### 👎 を付けた場合はスレッドをたたむ
+
+対応不要と判断して 👎 を付けたコメントは、合わせてそのレビュースレッドを resolve してたたみ、対応不要と結論したスレッドを PR 上に開いたまま残さない。
+
+`comment_id` を含むレビュースレッドの node ID を取得し、`resolveReviewThread` で resolve する。`resolveReviewThread` の実行には、`gh` が使う PAT に contents の read and write 権限が必要。
+
+```bash
+# comment_id を含むレビュースレッドを取得する。
+# owner / repo / pr は GraphQL 変数で渡す（query 文字列内では gh の {owner} 置換は効かない）。
+# レビュースレッドが多い PR に備え、--paginate で全ページを辿る。
+gh api graphql --paginate \
+  -f owner='{owner}' -f repo='{repo}' -F pr={pr} \
+  -f query='
+query($owner: String!, $repo: String!, $pr: Int!, $endCursor: String) {
+  repository(owner: $owner, name: $repo) {
+    pullRequest(number: $pr) {
+      reviewThreads(first: 100, after: $endCursor) {
+        nodes { id isResolved comments(first: 100) { nodes { databaseId } } }
+        pageInfo { hasNextPage endCursor }
+      }
+    }
+  }
+}'
+
+# comment_id を含むスレッドの id を特定し resolve する（既に isResolved が true ならスキップ）
+gh api graphql -f threadId='<thread node ID>' \
+  -f query='mutation($threadId: ID!) { resolveReviewThread(input: {threadId: $threadId}) { thread { isResolved } } }'
+```
+
 ## 注意
 
 - **対応コミットはpush済みであること**: 「対応しました」とリプライする場合、該当コミットがリモートにpush済みであることを確認する。push前のローカルコミットを参照してリプライすると、レビュアーがコミットリンクから変更内容を確認できない
