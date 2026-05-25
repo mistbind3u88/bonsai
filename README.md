@@ -1,4 +1,4 @@
-# dev-skills
+# bonsai
 
 開発で使っている、比較的汎用的なSKILLをまとめて育てていくリポジトリです。
 
@@ -195,7 +195,7 @@ flowchart LR
 このリポジトリで管理する補助スクリプトは `tools/` に集約しています。スキルから `mark.sh` や `tanaoroshi` などを使うため、`tools/` を PATH に追加してください。
 
 ```bash
-export PATH="/path/to/dev-skills/tools:$PATH"
+export PATH="/path/to/bonsai/tools:$PATH"
 ```
 
 ### Windows で Codex を使う場合
@@ -205,7 +205,7 @@ export PATH="/path/to/dev-skills/tools:$PATH"
 例:
 
 ```bash
-mklink /J %USERPROFILE%\.codex\skills\commit C:\path\to\dev-skills\skills\commit
+mklink /J %USERPROFILE%\.codex\skills\commit C:\path\to\bonsai\skills\commit
 ```
 
 ### macOS / Linux で Claude Code を使う場合
@@ -215,5 +215,5 @@ mklink /J %USERPROFILE%\.codex\skills\commit C:\path\to\dev-skills\skills\commit
 例:
 
 ```bash
-ln -s /path/to/dev-skills/skills ~/.claude/skills
+ln -s /path/to/bonsai/skills ~/.claude/skills
 ```

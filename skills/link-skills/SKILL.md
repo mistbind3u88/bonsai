@@ -35,7 +35,7 @@ ls ~/.codex/skills
 4. Codex on Windows の場合は各スキルディレクトリへのジャンクションを作成する
 
 ```bash
-mklink /J %USERPROFILE%\.codex\skills\<skill-name> C:\path\to\dev-skills\skills\<skill-name>
+mklink /J %USERPROFILE%\.codex\skills\<skill-name> C:\path\to\bonsai\skills\<skill-name>
 ```
 
 - 既に正しいジャンクションがある場合はそのままにする
@@ -53,7 +53,7 @@ readlink ~/.claude/skills 2>/dev/null
 6. Claude Code on macOS / Linux の場合は `~/.claude/skills` へリンクを作成する
 
 ```bash
-ln -s /path/to/dev-skills/skills ~/.claude/skills
+ln -s /path/to/bonsai/skills ~/.claude/skills
 ```
 
 7. 結果を確認して報告する
