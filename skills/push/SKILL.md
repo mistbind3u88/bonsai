@@ -25,7 +25,7 @@ git rev-parse --abbrev-ref HEAD
 
 スキル `/check` を実行する。
 
-`$ARGUMENTS` に `--skip-review` がある場合はスキル `/check --skip-review` を実行する。
+`$ARGUMENTS` に `--review=skip` がある場合はスキル `/check --review=skip` を実行する。
 
 全チェックが OK でない場合は push せずに停止する。
 

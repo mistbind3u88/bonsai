@@ -67,6 +67,7 @@ Claude CodeではSKILLをカスタムコマンドのように読み込ませる�
 | [start-dev](./skills/start-dev/SKILL.md)               | 作業開始時のブランチ準備と情報収集              |
 | [static-check](./skills/static-check/SKILL.md)         | リポジトリの lint・build の検出と実行           |
 | [subagent-check](./skills/subagent-check/SKILL.md)     | サブエージェント起動前の状態確認                |
+| [subagent-review](./skills/subagent-review/SKILL.md)   | サブエージェントによる差分レビュー（commit 時） |
 | [takeover](./skills/takeover/SKILL.md)                 | 前セッションのコンテキスト収集と作業引き継ぎ    |
 | [tanaoroshi](./skills/tanaoroshi/SKILL.md)             | 複数リポジトリの Issue/PR 棚卸し                |
 | [taskdoc-locate](./skills/taskdoc-locate/SKILL.md)     | タスクドキュメント配置先の場所解決              |
@@ -101,6 +102,7 @@ flowchart LR
         doc-check:::workflow
         claude-review:::workflow
         codex-review:::workflow
+        subagent-review:::workflow
     end
 
     subgraph SG["単機能スキル"]
@@ -153,13 +155,14 @@ flowchart LR
     check --> doc-check
     check --> claude-review
     check --> codex-review
+    check --> subagent-review
     catch-up --> backup-branch
     catch-up --> pr-progress
     doc-check --> subagent-check
     claude-review --> mark
-    claude-review --> subagent-check
     codex-review --> mark
-    codex-review --> subagent-check
+    subagent-review --> subagent-check
+    subagent-review --> mark
 
     start-dev -.-> gh-edit
     doc-check -.-> doc-sync
