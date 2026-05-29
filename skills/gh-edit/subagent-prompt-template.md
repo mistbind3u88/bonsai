@@ -26,7 +26,7 @@
 2. 対象リポジトリの近い階層の `AGENTS.md` / `CLAUDE.md`
 3. 対象リポジトリのルート `AGENTS.md` / `CLAUDE.md`
 4. グローバルまたはユーザー個別の執筆ルール
-5. スキル同梱ルール（`skills/gh-edit/AGENTS.md`）
+5. スキル同梱ルール（`<gh-edit-skill-dir>/AGENTS.md`）
 6. PR/Issue テンプレート
 
 参照するファイル:
@@ -34,7 +34,7 @@
 - `<repo-rules>`
 - `<global-rules-if-any>`
 - `<repo-pr-or-issue-template-or-skill-template>`
-- `<skills/gh-edit/AGENTS.md>`
+- `<gh-edit-skill-dir>/AGENTS.md`
 
 ## PR 事実情報
 
