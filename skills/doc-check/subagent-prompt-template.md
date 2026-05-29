@@ -15,13 +15,13 @@
 - リポジトリ: `<absolute-repo-path>`
 - 比較元: `<base-ref-or-sha>`
 - 比較先: `<head-ref-or-sha>`
-- 変更概要: `<summary>`
-- 主な変更ファイル:
-  - `<path>`
+- ユーザーが明示した確認範囲・変更概要: `<user-provided-scope-or-none>`
 - 参照すべき判定基準:
   - `<absolute-repo-path>/AGENTS.md`
   - `<doc-check-skill-dir>/AGENTS.md`
   - `<additional-rules-if-any>`
+
+サブエージェントは比較元・比較先の差分、変更ファイル、関連ドキュメントを読み取り、検査に必要な変更概要を自身で把握する。
 
 ## 対象ドキュメント
 

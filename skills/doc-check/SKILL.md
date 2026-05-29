@@ -27,8 +27,7 @@ allowed-tools: Agent Read
 - `<absolute-repo-path>`: 現在の作業ディレクトリの絶対パス
 - `<base-ref-or-sha>`: 比較元。原則 `main`。既定ブランチが異なる場合はそのブランチ、特定コミットを検査する場合はその親または明示された base
 - `<head-ref-or-sha>`: 比較先。通常は `HEAD`
-- `<summary>`: 変更概要
-- `<path>`: 主な変更ファイル
+- `<user-provided-scope-or-none>`: ユーザーが明示した確認範囲や変更概要。なければ `なし`
 - `<doc-check-skill-dir>`: この `doc-check` スキル自身の配置ディレクトリの絶対パス
 - `<additional-rules-if-any>`: 対象リポジトリや変更対象ディレクトリに追加の `AGENTS.md` / `CLAUDE.md` がある場合のパス
 
