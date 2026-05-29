@@ -181,11 +181,6 @@ flowchart LR
     subagent-review --> mark
 
     start-dev -.-> gh-edit
-    doc-check -.-> doc-sync
-    doc-check -.-> wiki-sync
-    taskdoc-locate -.-> clean-docs
-    gh-read -.-> gh-edit
-    gh-read -.-> collect-feedback
     push -.-> pr-progress
     ship -.-> pr-progress
     wiki-sync -.-> gh-read
