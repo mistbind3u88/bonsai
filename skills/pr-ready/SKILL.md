@@ -102,6 +102,8 @@ PR の `statusCheckRollup` を確認する。
 | CI 状態を確認できない | `/watch-ci` で状態を確認する     |
 | CI が設定されていない | CI がないことを明示して次へ進む  |
 
+CI が pending / in_progress / failed / cancelled / timed_out、または取得不可の場合は Ready 化へ進まず停止する。
+
 ### 5. PR 概要欄の最終確認を行う
 
 PR の `title` と `body` を読み、レビュー準備として必要な情報が揃っているか確認する。
