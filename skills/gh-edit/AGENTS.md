@@ -5,6 +5,13 @@
 - [git](https://git-scm.com/)
 - [gh](https://cli.github.com/) — `brew install gh`
 
+## 責務の境界
+
+- `gh-edit` は、PR / Issue の新規作成、概要欄ソースファイルの作成・更新、GitHub への投稿を担う。
+- 概要欄ソースファイルの文面検査はサブエージェントへ限定タスクとして委譲し、起動前確認は `/subagent-check` で行う。
+- サブエージェントは文面検査結果を返し、メインエージェントが修正判断、GitHub 投稿、ユーザー報告を担う。
+- push 前の品質確認は `/check`、PR の差分行への意図補足は `/diff-comment`、レビュー準備の最終確認は `/pr-ready` に委譲する。
+
 ## サブエージェント依頼
 
 概要欄ソースファイルの文面レビュー依頼は [subagent-prompt-template.md](subagent-prompt-template.md) を埋めて作成する。テンプレートの境界確認、適用ルール、PR 事実情報、検査観点、出力形式を削らず、対象 PR/Issue に合わせて具体値で埋める。
