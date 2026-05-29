@@ -4,7 +4,6 @@
 
 - [git](https://git-scm.com/)
 - [GitHub CLI](https://cli.github.com/) — `brew install gh`
-- `mark.sh` — このリポジトリの `tools/` を PATH に含める
 
 ## 責務の境界
 

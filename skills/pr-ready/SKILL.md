@@ -1,7 +1,7 @@
 ---
 name: pr-ready
 description: PR のレビュー準備が完了していることを確認し、draft PR を Ready for Review に切り替える。
-allowed-tools: Bash(git status:*) Bash(git rev-parse:*) Bash(gh pr view:*) Bash(gh pr diff:*) Bash(gh pr ready:*) Bash(mark.sh --status:*)
+allowed-tools: Bash(git status:*) Bash(git rev-parse:*) Bash(gh pr view:*) Bash(gh pr diff:*) Bash(gh pr ready:*)
 ---
 
 # pr-ready スキル
@@ -64,10 +64,10 @@ git rev-parse HEAD
 
 ### 3. 品質チェックの前提を確認する
 
-`mark.sh --status` で現在 HEAD のチェック通過状態を確認する。
+`/mark --status` で現在 HEAD のチェック通過状態を確認する。
 
 ```bash
-mark.sh --status
+/mark --status
 ```
 
 前提:
@@ -155,7 +155,7 @@ ready PR の場合は `gh pr ready` を実行せず、レビュー準備が完�
 - PR URL
 - draft から ready に切り替えたか、既に ready だったか
 - 現在 HEAD と PR head の SHA
-- `mark.sh --status` の required 項目が現在 HEAD で揃っていること
+- `/mark --status` の required 項目が現在 HEAD で揃っていること
 - CI の状態
 - 概要欄と diff comment の最終確認結果
 
