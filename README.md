@@ -188,13 +188,6 @@ flowchart LR
     gh-read -.-> collect-feedback
     push -.-> pr-progress
     ship -.-> pr-progress
-    pr-ready -.-> commit
-    pr-ready -.-> push
-    pr-ready -.-> check
-    pr-ready -.-> gh-read
-    pr-ready -.-> gh-edit
-    pr-ready -.-> diff-comment
-    pr-ready -.-> watch-ci
     wiki-sync -.-> gh-read
     wiki-sync -.-> taskdoc-locate
     wiki-sync -.-> doc-sync
