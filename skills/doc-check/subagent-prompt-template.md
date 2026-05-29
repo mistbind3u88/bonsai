@@ -19,8 +19,8 @@
 - 主な変更ファイル:
   - `<path>`
 - 参照すべき判定基準:
-  - `<repo-root>/AGENTS.md`
-  - `<repo-root>/skills/doc-check/AGENTS.md`
+  - `<absolute-repo-path>/AGENTS.md`
+  - `<absolute-repo-path>/skills/doc-check/AGENTS.md`
   - `<additional-rules-if-any>`
 
 ## 対象ドキュメント
