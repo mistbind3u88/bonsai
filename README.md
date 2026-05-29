@@ -116,6 +116,7 @@ flowchart LR
         doc-check:::workflow
         claude-review:::workflow
         codex-review:::workflow
+        pr-ready:::workflow
         subagent-review:::workflow
     end
 
@@ -128,7 +129,6 @@ flowchart LR
         fixup:::single
         backup-branch:::single
         diff-comment:::single
-        pr-ready:::single
         pr-progress:::single
         static-check:::single
         unit-test:::single
@@ -177,6 +177,7 @@ flowchart LR
     doc-check --> subagent-check
     claude-review --> mark
     codex-review --> mark
+    pr-ready --> mark
     subagent-review --> subagent-check
     subagent-review --> mark
 

@@ -46,7 +46,7 @@
 
 他のスキルへ `/<skill>` を介した処理委譲を行わず、自身の操作だけで責務を完結させるスキル。固有の `allowed-tools` を持つ（`subagent-check` のように会話状態の確認だけで完結し `allowed-tools` が空のものも含む）。MECE の対象であり、スキル間で機能が重複しないように設計する。
 
-例: `mark`, `subagent-check`, `backup-branch`, `gh-read`, `taskdoc-locate`, `diff-comment`, `pr-ready`, `pr-progress`, `fixup`, `static-check`, `unit-test`, `tanaoroshi`, `monthly-report`, `link-skills`, `watch-ci`, `reply-review`, `issue-review`, `collect-feedback`
+例: `mark`, `subagent-check`, `backup-branch`, `gh-read`, `taskdoc-locate`, `diff-comment`, `pr-progress`, `fixup`, `static-check`, `unit-test`, `tanaoroshi`, `monthly-report`, `link-skills`, `watch-ci`, `reply-review`, `issue-review`, `collect-feedback`
 
 ### ワークフロースキル
 
@@ -61,7 +61,7 @@
 - `check` のような検証スキルへ複数のスキルが集約する形は許容する
 - 作成・更新時は実行委譲の呼び出し先を辿り、循環がないことを確認する
 
-例: `check`, `commit`, `push`, `catch-up`, `doc-check`, `doc-sync`, `gh-edit`, `clean-docs`, `wiki-sync`, `codex-review`, `claude-review`, `start-dev`, `takeover`, `ship`, `respond`
+例: `check`, `commit`, `push`, `catch-up`, `doc-check`, `doc-sync`, `gh-edit`, `clean-docs`, `wiki-sync`, `codex-review`, `claude-review`, `pr-ready`, `start-dev`, `takeover`, `ship`, `respond`
 
 ### 将来の方向性
 
