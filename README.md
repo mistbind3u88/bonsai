@@ -59,6 +59,7 @@ Claude CodeではSKILLをカスタムコマンドのように読み込ませる�
 | [link-skills](./skills/link-skills/SKILL.md)           | Codex / Claude 向けスキルリンク作成             |
 | [mark](./skills/mark/SKILL.md)                         | チェック済み状態のタグ設置                      |
 | [monthly-report](./skills/monthly-report/SKILL.md)     | GitHub 活動データからの月次報告作成             |
+| [diff-comment](./skills/diff-comment/SKILL.md)         | PR 差分行への意図説明コメント投稿               |
 | [pr-progress](./skills/pr-progress/SKILL.md)           | PR 進捗コメントの整形・更新                     |
 | [push](./skills/push/SKILL.md)                         | push 前確認と push 実行                         |
 | [reply-review](./skills/reply-review/SKILL.md)         | レビューコメントへの返信支援                    |
@@ -76,6 +77,18 @@ Claude CodeではSKILLをカスタムコマンドのように読み込ませる�
 | [wiki-sync](./skills/wiki-sync/SKILL.md)               | 開発内容から LLM Wiki への知識同期              |
 
 リポジトリ専用の保守スキルとして [daily-tagging](./internal/daily-tagging/SKILL.md) を `internal/` で管理しています。
+
+### GitHub コメント系スキルの使い分け
+
+GitHub 上にコメントを残す操作は、コメントの置き場所と目的で使い分けます。
+
+| 場面                                              | 使うスキル          |
+| ------------------------------------------------- | ------------------- |
+| PR diff の特定行にレビュー時だけ必要な意図を置く  | `/diff-comment`     |
+| PR トップレベルに進捗や force push 後の経過を書く | `/pr-progress`      |
+| 既存レビューコメントのスレッドへ返信する          | `/reply-review`     |
+| PR/Issue のタイトル・概要欄を作成または更新する   | `/gh-edit`          |
+| PR/Issue のコメントやレビュー内容を収集する       | `/collect-feedback` |
 
 ## スキル間の依存関係
 
@@ -113,6 +126,7 @@ flowchart LR
         watch-ci:::single
         fixup:::single
         backup-branch:::single
+        diff-comment:::single
         pr-progress:::single
         static-check:::single
         unit-test:::single
