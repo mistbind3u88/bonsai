@@ -93,7 +93,7 @@ GitHub 上にコメントを残す操作は、コメントの置き場所と目�
 
 ## スキル間の依存関係
 
-各スキルが他のどのスキルへ処理を委譲しているかを示します。層で色分けし、実線は通常フローで実行される委譲、点線は条件付きで実行される委譲、または停止後に次に使うスキルとして報告する案内です。単なる関連スキルの使い分け案内は図の対象外です。
+各スキルが他のどのスキルへ処理を委譲しているかを示します。層で色分けし、実線は通常フローで実行される委譲、点線は条件付きで実行される委譲です。停止後に次に使うスキルとして報告するだけの案内や、単なる関連スキルの使い分け案内は図の対象外です。
 
 ```mermaid
 flowchart LR
@@ -188,13 +188,6 @@ flowchart LR
     gh-read -.-> collect-feedback
     push -.-> pr-progress
     ship -.-> pr-progress
-    pr-ready -.-> commit
-    pr-ready -.-> push
-    pr-ready -.-> check
-    pr-ready -.-> gh-read
-    pr-ready -.-> gh-edit
-    pr-ready -.-> diff-comment
-    pr-ready -.-> watch-ci
     wiki-sync -.-> gh-read
     wiki-sync -.-> taskdoc-locate
     wiki-sync -.-> doc-sync
