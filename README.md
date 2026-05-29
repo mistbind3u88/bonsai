@@ -60,6 +60,7 @@ Claude CodeではSKILLをカスタムコマンドのように読み込ませる�
 | [mark](./skills/mark/SKILL.md)                         | チェック済み状態のタグ設置                      |
 | [monthly-report](./skills/monthly-report/SKILL.md)     | GitHub 活動データからの月次報告作成             |
 | [diff-comment](./skills/diff-comment/SKILL.md)         | PR 差分行への意図説明コメント投稿               |
+| [pr-ready](./skills/pr-ready/SKILL.md)                 | PR のレビュー準備確認と Ready 化                |
 | [pr-progress](./skills/pr-progress/SKILL.md)           | PR 進捗コメントの整形・更新                     |
 | [push](./skills/push/SKILL.md)                         | push 前確認と push 実行                         |
 | [reply-review](./skills/reply-review/SKILL.md)         | レビューコメントへの返信支援                    |
@@ -127,6 +128,7 @@ flowchart LR
         fixup:::single
         backup-branch:::single
         diff-comment:::single
+        pr-ready:::single
         pr-progress:::single
         static-check:::single
         unit-test:::single
@@ -186,6 +188,13 @@ flowchart LR
     gh-read -.-> collect-feedback
     push -.-> pr-progress
     ship -.-> pr-progress
+    pr-ready -.-> commit
+    pr-ready -.-> push
+    pr-ready -.-> check
+    pr-ready -.-> gh-read
+    pr-ready -.-> gh-edit
+    pr-ready -.-> diff-comment
+    pr-ready -.-> watch-ci
     wiki-sync -.-> gh-read
     wiki-sync -.-> taskdoc-locate
     wiki-sync -.-> doc-sync
