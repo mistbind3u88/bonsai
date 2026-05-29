@@ -20,7 +20,7 @@
   - `<path>`
 - 参照すべき判定基準:
   - `<absolute-repo-path>/AGENTS.md`
-  - `<absolute-repo-path>/skills/doc-check/AGENTS.md`
+  - `<doc-check-skill-dir>/AGENTS.md`
   - `<additional-rules-if-any>`
 
 ## 対象ドキュメント

@@ -29,6 +29,7 @@ allowed-tools: Agent Read
 - `<head-ref-or-sha>`: 比較先。通常は `HEAD`
 - `<summary>`: 変更概要
 - `<path>`: 主な変更ファイル
+- `<doc-check-skill-dir>`: この `doc-check` スキル自身の配置ディレクトリの絶対パス
 - `<additional-rules-if-any>`: 対象リポジトリや変更対象ディレクトリに追加の `AGENTS.md` / `CLAUDE.md` がある場合のパス
 
 テンプレートから検査観点を削らない。該当しない観点はサブエージェントに `OK` または `対象外として OK` と判定させる。
