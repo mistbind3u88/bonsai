@@ -258,7 +258,7 @@ PR のレビュー・完了対応:
 **停滞 PR の整理**:
 
 - 自分以外が author の Approved 未マージ PR は、この節に配置する。進捗サマリーの `Approved` 列には、author に関わらず全 Approved 未マージ PR を数える
-- `[author]` 自分以外が author の APPROVED PR で、APPROVED から 7 日以内に未マージのもの（author にマージ判断を促す。レポートでは件数のみ示し、リストは進捗サマリーの「詰まり」列に集約してよい）
+- `[author]` 自分以外が author の APPROVED PR で、APPROVED から 7 日以内に未マージのもの（author にマージ判断を促す。5 件を超える場合は、APPROVED からの経過が長い順に代表数件を示し残りは件数で要約してよい）
 - `[owner]` 自分以外が author の APPROVED PR で、APPROVED から 7 日超未マージのもの（マージ要否を再評価）
 
 **サイドカー候補**:
