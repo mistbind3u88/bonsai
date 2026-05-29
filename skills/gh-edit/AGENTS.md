@@ -5,6 +5,10 @@
 - [git](https://git-scm.com/)
 - [gh](https://cli.github.com/) — `brew install gh`
 
+## サブエージェント依頼
+
+概要欄ソースファイルの文面レビュー依頼は [subagent-prompt-template.md](subagent-prompt-template.md) を埋めて作成する。テンプレートの境界確認、適用ルール、PR 事実情報、検査観点、出力形式を削らず、対象 PR/Issue に合わせて具体値で埋める。
+
 ## PR概要欄のスタイル
 
 PR概要欄の作成・更新時は `pull_request_template.md` をベースに使う。以下のスタイル規則に従うこと。
