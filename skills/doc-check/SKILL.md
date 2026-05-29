@@ -1,7 +1,7 @@
 ---
 name: doc-check
 description: コード変更に対して関連ドキュメントが整合しているかをチェックする。不整合があれば報告のみ行い、修正はスキル /doc-sync で行う。
-allowed-tools: Agent
+allowed-tools: Agent Read
 ---
 
 # doc-check スキル

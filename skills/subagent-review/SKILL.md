@@ -1,7 +1,7 @@
 ---
 name: subagent-review
 description: 同セッションの general-purpose サブエージェントへ差分レビューを依頼する。コミット時の軽量レビュー用途で /check --review=sub から呼び出される。
-allowed-tools: Bash(git status:*) Bash(git log:*) Bash(git diff:*) Bash(git rev-parse:*) Agent
+allowed-tools: Bash(git status:*) Bash(git log:*) Bash(git diff:*) Bash(git rev-parse:*) Agent Read
 ---
 
 # subagent-review
