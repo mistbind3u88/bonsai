@@ -39,16 +39,15 @@ allowed-tools: Agent Read
 
 - 参照の有効性
 - 手順の正確性
-- allowed-tools の過不足
 - description の正確性
 - README / AGENTS 反映
-- 情報配置の妥当性
+- 追従先の妥当性
 - 削除済みコードへの言及
 - レビュー誤指摘の予防
 - LLM Wiki 反映
-- 記述スタイル
+- 散文の意図記述
 
-新規スキル・スキル変更時の重点確認もテンプレートに含め、README の Skills 表・依存図、ルート `AGENTS.md` の分類例、スキル固有 `AGENTS.md`、`CLAUDE.md -> AGENTS.md` の反映を検査させる。
+新規スキル・スキル変更時の重点確認もテンプレートに含め、README の Skills 表・依存図・必要な使い分け説明が変更に追従しているかを検査させる。最小権限、スキル分類、必須セクション、`CLAUDE.md -> AGENTS.md` の symlink など、適用ルールへの適合は `/rule-check` が検査する。
 
 #### サブエージェントの出力フォーマット
 
@@ -63,13 +62,14 @@ allowed-tools: Agent Read
 
 ```
 ドキュメント整合性チェック:
-  commit/SKILL.md:    allowed-tools に不要な Bash(git branch:*) が残っている
-  tanaoroshi/CLAUDE.md: 記述スタイル — コード挙動のパラフレーズに留まっている
+  README.md:          新規スキルが Skills 表に追加されていない
+  tanaoroshi/CLAUDE.md: 散文の意図記述 — コード挙動のパラフレーズに留まっている
 ```
 
 ## 注意
 
 - このスキルはチェックと報告のみを行う。ドキュメントの修正はスキル `/doc-sync` で行う
+- 変更内容が適用範囲の `AGENTS.md` / `CLAUDE.md` ルールへ適合しているかの検査は `/rule-check` で行う
 - LLM Wiki の未反映が見つかった場合、修正は `/wiki-sync` に委譲する
 - `/check` から呼び出された場合、不整合があれば check 全体を失敗にする
 - サブエージェントは必ずバックグラウンドで起動する。同期実行にしない

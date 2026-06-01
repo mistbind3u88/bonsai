@@ -48,7 +48,7 @@ mark.sh --clean
 - タグはローカル専用。`git push` のデフォルトでは送信されない
 - コミットが進むとタグは古いコミットに残るため、再チェック後に再設置が必要
 - 以下のスキルが関連処理の成功後に `/mark` を呼び出してタグを設置する:
-  - **check**: `/static-check`・`/unit-test`・`/doc-check` の成功後に lint/build/test/doc-check タグを設置
+  - **check**: `/static-check`・`/unit-test`・`/doc-check`・`/rule-check` の成功後に lint/build/test/doc-check/rule-check タグを設置
   - **subagent-review**: レビュー完了後に review-sub タグを設置
   - **claude-review** / **codex-review**: レビュー完了後に review-cross タグを設置
-  - **commit**: 各コミット末尾の `/check --review=sub` 経由で lint/build/test/doc-check/review-sub タグを設置
+  - **commit**: 各コミット末尾の `/check --review=sub` 経由で lint/build/test/doc-check/rule-check/review-sub タグを設置

@@ -1,12 +1,12 @@
 ---
 name: check
-description: mark で未通過の品質チェック（lint / build / test / doc-check / review-sub / review-cross）を検出し、対応するスキルを実行・集約する。
+description: mark で未通過の品質チェック（lint / build / test / doc-check / rule-check / review-sub / review-cross）を検出し、対応するスキルを実行・集約する。
 allowed-tools: Bash(git diff:*)
 ---
 
 # check スキル
 
-mark タグが未設置の品質チェックを検出し、対応するスキルへ実行を委譲して結果を集約する。lint・build は `/static-check` に、test は `/unit-test` に、ドキュメント整合は `/doc-check` に、review は引数で選ぶ 2 種類（sub・cross）に委譲する。
+mark タグが未設置の品質チェックを検出し、対応するスキルへ実行を委譲して結果を集約する。lint・build は `/static-check` に、test は `/unit-test` に、ドキュメント整合は `/doc-check` に、ルール適合は `/rule-check` に、review は引数で選ぶ 2 種類（sub・cross）に委譲する。
 
 ## 引数
 
@@ -28,10 +28,10 @@ mark タグが未設置の品質チェックを検出し、対応するスキル
 
 引数に応じて対象項目を判定し、すべて現在の HEAD にタグ設置済みなら、その旨を報告して終了する:
 
-- 共通: `lint` / `build` / `test` / `doc-check` が HEAD タグ済み
+- 共通: `lint` / `build` / `test` / `doc-check` / `rule-check` が HEAD タグ済み
 - `--review=sub`: `review-sub` または `review-cross` が HEAD タグ済み（cross は sub の上位として代替）
 - 引数なし（=cross）: `review-cross` が HEAD タグ済み
-- `--review=skip`: lint / build / test / doc-check のみ判定する
+- `--review=skip`: lint / build / test / doc-check / rule-check のみ判定する
 
 ### 1a. autosquash 後のタグ引き継ぎ
 
@@ -52,14 +52,17 @@ git diff <タグのコミット> HEAD
 | lint, build  | `/static-check`                         | 実行し、PASS の項目を `/mark lint`・`/mark build` で設置       |
 | test         | `/unit-test`                            | 実行し、PASS なら `/mark test` を設置                          |
 | doc-check    | `/doc-check`                            | 実行し、成功したら `/mark doc-check` を設置                    |
+| rule-check   | `/rule-check`                           | 実行し、成功したら `/mark rule-check` を設置                   |
 | review-sub   | `/subagent-review`                      | 引数 `--review=sub` 指定時のみ実行。完了で `review-sub` 設置   |
 | review-cross | `/codex-review` または `/claude-review` | 引数なし（デフォルト）の場合に実行。完了で `review-cross` 設置 |
 
 `/static-check` は lint と build を、`/unit-test` は test を、それぞれリポジトリに合わせて検出・スコープ判定・実行し、項目別に結果を報告する。`check` はその成否を受けて `/mark` で各タグを設置する。
 
-`/static-check` は lint・build を 1 単位で実行するため、lint・build の両方が現在の HEAD にタグ済みのときだけ起動をスキップする。どちらかが未タグなら `/static-check` を実行する。`/unit-test`・`/doc-check` は対応する項目が現在の HEAD にタグ済みならスキップする。
+`/static-check` は lint・build を 1 単位で実行するため、lint・build の両方が現在の HEAD にタグ済みのときだけ起動をスキップする。どちらかが未タグなら `/static-check` を実行する。`/unit-test`・`/doc-check`・`/rule-check` は対応する項目が現在の HEAD にタグ済みならスキップする。
 
 `/doc-check` の起動・成否判断・`/mark doc-check` はメインエージェントが担う（`/doc-check` 内部の読み取り検査はサブエージェントへ委譲される）。
+
+`/rule-check` の起動・成否判断・`/mark rule-check` はメインエージェントが担う（`/rule-check` 内部の読み取り検査はサブエージェントへ委譲される）。
 
 cross-review は現在のエージェントとは別のエージェントに依頼する。
 
@@ -69,8 +72,9 @@ cross-review は現在のエージェントとは別のエージェントに依�
 
 実行順序:
 
-1. `/static-check`・`/unit-test`・`/doc-check` の 3 項目を並列で実行する。互いの結果に依存しないため直列化しない
-2. 3 項目すべてが成功したら、引数で選ばれた review を実行する。引数なしなら cross-review、`--review=sub` なら sub-review。`--review=skip` のときは lint / build / test / doc-check のみで終える。review は他チェックを通過したコードに対して行うため、必ず最後に実行する。`--review=sub` で `review-cross` が既に HEAD タグ済みのときは、cross の通過をもって sub-review も通過扱いとする（cross が上位として代替）
+1. `/static-check`・`/unit-test` を並列で実行する。互いの結果に依存せず、サブエージェントも使わないため直列化しない
+2. `/doc-check` と `/rule-check` を順に実行する。どちらもサブエージェントを起動するため、各スキルの `/subagent-check` で完了状態・起動枠・再利用可否を確認してから次へ進む
+3. 4 項目すべてが成功したら、引数で選ばれた review を実行する。引数なしなら cross-review、`--review=sub` なら sub-review。`--review=skip` のときは lint / build / test / doc-check / rule-check のみで終える。review は他チェックを通過したコードに対して行うため、必ず最後に実行する。`--review=sub` で `review-cross` が既に HEAD タグ済みのときは、cross の通過をもって sub-review も通過扱いとする（cross が上位として代替）
 
 いずれかの項目が失敗した場合は、実行中の項目の完了を待ってから全項目の結果をまとめて報告し、停止する。
 
@@ -92,6 +96,7 @@ cross-review は現在のエージェントとは別のエージェントに依�
   build:         OK
   test:          OK
   doc-check:     OK
+  rule-check:    OK
   review-cross:  OK (codex-review)
 ```
 
@@ -100,5 +105,5 @@ fallback した場合は `review-cross` を失敗扱いで示し、代わりに 
 ## 注意
 
 - `/static-check`・`/unit-test` が項目をスキップと報告した場合（対応言語の変更なし等）も、その項目は通過扱いとし `/mark` でタグを設置する
-- lint / build / test / doc-check が成功したら `/mark <type>` でタグを設置する
+- lint / build / test / doc-check / rule-check が成功したら `/mark <type>` でタグを設置する
 - review-sub / review-cross は `/subagent-review` / `/codex-review` / `/claude-review` が完了時に自動でタグを設置する

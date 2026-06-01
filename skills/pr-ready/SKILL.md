@@ -76,6 +76,7 @@ git rev-parse HEAD
 - `build` が現在の HEAD
 - `test` が現在の HEAD
 - `doc-check` が現在の HEAD
+- `rule-check` が現在の HEAD
 - `review-cross` が現在の HEAD
 
 上記は `/check` が要求する現在 HEAD の品質項目に、Ready for Review 前提として `review-cross` を加えたものとする。`review-sub` は `review-cross` の代替にしない。Ready for Review に出す直前は別エージェント視点の cross-review まで通った状態を要求する。将来 `/check` の required 項目が増えた場合は、`pr-ready` でも同じ項目を現在 HEAD で要求する。

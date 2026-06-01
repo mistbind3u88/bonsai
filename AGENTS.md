@@ -61,7 +61,7 @@
 - `check` のような検証スキルへ複数のスキルが集約する形は許容する
 - 作成・更新時は実行委譲の呼び出し先を辿り、循環がないことを確認する
 
-例: `check`, `commit`, `push`, `catch-up`, `doc-check`, `doc-sync`, `gh-edit`, `clean-docs`, `wiki-sync`, `codex-review`, `claude-review`, `pr-ready`, `start-dev`, `takeover`, `ship`, `respond`
+例: `check`, `commit`, `push`, `catch-up`, `doc-check`, `rule-check`, `doc-sync`, `gh-edit`, `clean-docs`, `wiki-sync`, `codex-review`, `claude-review`, `pr-ready`, `start-dev`, `takeover`, `ship`, `respond`
 
 ### 将来の方向性
 

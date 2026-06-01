@@ -19,4 +19,4 @@
 
 ## 責務の境界
 
-- このスキルはテストの実行と結果報告に限定する。mark タグの設置・doc-check・review の呼び出しは行わず、`/check` が担う
+- このスキルはテストの実行と結果報告に限定する。mark タグの設置・doc-check・rule-check・review の呼び出しは行わず、`/check` が担う

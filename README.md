@@ -67,6 +67,7 @@ Claude CodeではSKILLをカスタムコマンドのように読み込ませる�
 | [reply-review](./skills/reply-review/SKILL.md)         | レビューコメントへの返信支援                    |
 | [review-reminders](./skills/review-reminders/SKILL.md) | 自分の Open PR のレビューリマインド候補整理     |
 | [respond](./skills/respond/SKILL.md)                   | 指摘対応から返信までのワークフロー              |
+| [rule-check](./skills/rule-check/SKILL.md)             | AGENTS / CLAUDE ルールへの適合確認              |
 | [ship](./skills/ship/SKILL.md)                         | check から PR 更新までの出荷フロー              |
 | [start-dev](./skills/start-dev/SKILL.md)               | 作業開始時のブランチ準備と情報収集              |
 | [static-check](./skills/static-check/SKILL.md)         | リポジトリの lint・build の検出と実行           |
@@ -116,6 +117,7 @@ flowchart LR
         check:::workflow
         catch-up:::workflow
         doc-check:::workflow
+        rule-check:::workflow
         claude-review:::workflow
         codex-review:::workflow
         pr-ready:::workflow
@@ -173,12 +175,14 @@ flowchart LR
     check --> static-check
     check --> unit-test
     check --> doc-check
+    check --> rule-check
     check --> claude-review
     check --> codex-review
     check --> subagent-review
     catch-up --> backup-branch
     catch-up --> pr-progress
     doc-check --> subagent-check
+    rule-check --> subagent-check
     claude-review --> mark
     codex-review --> mark
     pr-ready --> mark

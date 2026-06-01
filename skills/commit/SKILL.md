@@ -27,7 +27,7 @@ git log --oneline -5
 
 #### A. 通常のコミット（新規の変更）
 
-変更が小さい、または単一の関心事に収まる場合はそのままコミットし、コミット後にスキル `/check --review=sub` を実行する（lint/build/test/doc-check + sub-review が HEAD タグに乗る）。
+変更が小さい、または単一の関心事に収まる場合はそのままコミットし、コミット後にスキル `/check --review=sub` を実行する（lint/build/test/doc-check/rule-check + sub-review が HEAD タグに乗る）。
 
 変更が大きい場合は、レイヤ構成（domain → infra → usecase → entrypoint、または設定 → ロジック → テスト）に応じて段階的にコミットする。各コミットはスキル `/check` の各チェックを通過できる状態にする（具体的な検査項目は `/check` 側で管理する）。
 
@@ -117,7 +117,7 @@ GIT_SEQUENCE_EDITOR=: git rebase --autosquash --rebase-merges <上のコマン�
 
 - main/master ブランチ上で直接コミットしない。コミット前に現在のブランチを確認し、main/master であれば作業ブランチを切ってから作業する
 - `git add -A` や `git add .` は使わない。ファイルを明示的に指定する
-- 段階的コミットの品質検証は手順2-Aに従う。チェック項目と実行は `/check --review=sub` に委譲し（各 stage で sub-review が乗る）、成功時に `/mark` がタグを設置する
+- 段階的コミットの品質検証は手順2-Aに従う。チェック項目と実行は `/check --review=sub` に委譲し（各 stage で rule-check と sub-review が乗る）、成功時に `/mark` がタグを設置する
 - amend 後に force push が必要な場合はユーザーに確認する
 - push はユーザーが明示的に指示しない限り行わない
 - コミット後の PR 作成・更新はスキル `/gh-edit`、push はスキル `/push` で行う
