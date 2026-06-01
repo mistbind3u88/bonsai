@@ -63,6 +63,7 @@ Claude CodeではSKILLをカスタムコマンドのように読み込ませる�
 | [pr-ready](./skills/pr-ready/SKILL.md)                 | PR のレビュー準備確認と Ready 化                |
 | [pr-progress](./skills/pr-progress/SKILL.md)           | PR 進捗コメントの整形・更新                     |
 | [push](./skills/push/SKILL.md)                         | push 前確認と push 実行                         |
+| [q](./skills/q/SKILL.md)                               | 変更せず前提・経緯・現状への質問に回答          |
 | [reply-review](./skills/reply-review/SKILL.md)         | レビューコメントへの返信支援                    |
 | [respond](./skills/respond/SKILL.md)                   | 指摘対応から返信までのワークフロー              |
 | [ship](./skills/ship/SKILL.md)                         | check から PR 更新までの出荷フロー              |
@@ -130,6 +131,7 @@ flowchart LR
         backup-branch:::single
         diff-comment:::single
         pr-progress:::single
+        q:::single
         static-check:::single
         unit-test:::single
         mark:::single
