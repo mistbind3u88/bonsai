@@ -132,7 +132,7 @@ func stripBodies(items []any) []any {
 
 var (
 	reGHURL    = regexp.MustCompile(`https://github\.com/([^/\s]+/[^/\s]+)/(issues|pull)/(\d+)`)
-	reCrossRef = regexp.MustCompile(`([a-zA-Z0-9_.-]+/[a-zA-Z0-9_.-]+)#(\d+)`)
+	reCrossRef = regexp.MustCompile(`(?:^|[\s([])([a-zA-Z0-9_.-]+/[a-zA-Z0-9_.-]+)#(\d+)`)
 	reLocalRef = regexp.MustCompile(`(?:^|[\s(])#(\d+)`)
 	reCloseFix = regexp.MustCompile(`(?i)(?:closes|fixes|close|fix)\s+#(\d+)`)
 )
@@ -176,8 +176,9 @@ func refs(args []string) {
 					if isIgnoredRef(ignore, ref) {
 						continue
 					}
-					if !seen[ref] {
-						seen[ref] = true
+					key := source + "\x00" + ref
+					if !seen[key] {
+						seen[key] = true
 						entries = append(entries, refEntry{Source: source, Ref: ref})
 					}
 				}
@@ -206,9 +207,7 @@ func extractRefs(body, defaultRepo string) []string {
 		add(fmt.Sprintf("%s#%s", m[1], m[3]))
 	}
 	for _, m := range reCrossRef.FindAllStringSubmatch(body, -1) {
-		if !strings.HasPrefix(m[0], "https://") {
-			add(fmt.Sprintf("%s#%s", m[1], m[2]))
-		}
+		add(fmt.Sprintf("%s#%s", m[1], m[2]))
 	}
 	for _, m := range reCloseFix.FindAllStringSubmatch(body, -1) {
 		add(fmt.Sprintf("%s#%s", defaultRepo, m[1]))
@@ -372,16 +371,18 @@ func ghView(kind, repo, number, fields string) map[string]any {
 	return data
 }
 
+// comment is an issue or pull request review comment normalized for output.
+type comment struct {
+	Author    string `json:"author"`
+	Body      string `json:"body"`
+	CreatedAt string `json:"createdAt"`
+	Type      string `json:"type"` // "comment" or "review"
+}
+
 // comments fetches comments for specified issues/PRs.
 // For PRs, both issue comments and review comments are fetched and merged by time.
 // Args: owner/repo:N [owner/repo:N ...]
 func comments(args []string) {
-	type comment struct {
-		Author    string `json:"author"`
-		Body      string `json:"body"`
-		CreatedAt string `json:"createdAt"`
-		Type      string `json:"type"` // "comment" or "review"
-	}
 	type entry struct {
 		Repo     string    `json:"repo"`
 		Number   string    `json:"number"`
@@ -398,26 +399,15 @@ func comments(args []string) {
 
 		var all []comment
 
-		// Fetch issue comments (paginated, up to 100)
 		issueEndpoint := fmt.Sprintf("repos/%s/issues/%s/comments?per_page=100", repo, number)
-		if out, err := exec.Command("gh", "api", issueEndpoint).Output(); err == nil {
-			var raw []map[string]any
-			if json.Unmarshal(out, &raw) == nil {
-				for _, c := range raw {
-					all = append(all, extractComment(c, "comment"))
-				}
-			}
+		for _, c := range ghAPIList(issueEndpoint, fmt.Sprintf("issue comments for %s:%s", repo, number), false) {
+			all = append(all, extractComment(c, "comment"))
 		}
 
-		// Fetch PR review comments (fails silently for issues)
+		// Pull request review comments are absent for issues; suppress only that expected 404.
 		reviewEndpoint := fmt.Sprintf("repos/%s/pulls/%s/comments?per_page=100", repo, number)
-		if out, err := exec.Command("gh", "api", reviewEndpoint).Output(); err == nil {
-			var raw []map[string]any
-			if json.Unmarshal(out, &raw) == nil {
-				for _, c := range raw {
-					all = append(all, extractComment(c, "review"))
-				}
-			}
+		for _, c := range ghAPIList(reviewEndpoint, fmt.Sprintf("pull review comments for %s:%s", repo, number), true) {
+			all = append(all, extractComment(c, "review"))
 		}
 
 		// Sort chronologically
@@ -434,12 +424,44 @@ func comments(args []string) {
 	writeJSON(entries)
 }
 
-func extractComment(c map[string]any, typ string) struct {
-	Author    string `json:"author"`
-	Body      string `json:"body"`
-	CreatedAt string `json:"createdAt"`
-	Type      string `json:"type"`
-} {
+func ghAPIList(endpoint, context string, allowNotFound bool) []map[string]any {
+	out, err := exec.Command("gh", "api", "--paginate", "--slurp", endpoint).CombinedOutput()
+	if err != nil {
+		if allowNotFound && isGhNotFound(out) {
+			return []map[string]any{}
+		}
+		fmt.Fprintf(os.Stderr, "[warn] failed to fetch %s: %v\n%s\n", context, err, strings.TrimSpace(string(out)))
+		return []map[string]any{}
+	}
+	items, err := parsePaginatedList(out)
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "[warn] failed to parse %s: %v\n", context, err)
+		return []map[string]any{}
+	}
+	return items
+}
+
+func isGhNotFound(out []byte) bool {
+	return strings.Contains(string(out), "(HTTP 404)")
+}
+
+func parsePaginatedList(out []byte) ([]map[string]any, error) {
+	var pages []json.RawMessage
+	if err := json.Unmarshal(out, &pages); err != nil {
+		return nil, err
+	}
+	items := []map[string]any{}
+	for _, page := range pages {
+		var raw []map[string]any
+		if err := json.Unmarshal(page, &raw); err != nil {
+			return nil, err
+		}
+		items = append(items, raw...)
+	}
+	return items, nil
+}
+
+func extractComment(c map[string]any, typ string) comment {
 	author := ""
 	if u, ok := c["user"].(map[string]any); ok {
 		if login, ok := u["login"].(string); ok {
@@ -448,12 +470,7 @@ func extractComment(c map[string]any, typ string) struct {
 	}
 	body, _ := c["body"].(string)
 	createdAt, _ := c["created_at"].(string)
-	return struct {
-		Author    string `json:"author"`
-		Body      string `json:"body"`
-		CreatedAt string `json:"createdAt"`
-		Type      string `json:"type"`
-	}{
+	return comment{
 		Author:    author,
 		Body:      body,
 		CreatedAt: createdAt,

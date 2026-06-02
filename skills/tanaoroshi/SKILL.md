@@ -65,7 +65,7 @@ tanaoroshi summary .results/tanaoroshi.json
 
 ### Phase 2: 参照先の解決
 
-`refs` で collect 結果から body 内の参照を自動抽出する（重複排除済み）。
+`refs` で collect 結果から body 内の参照を自動抽出する。同一の `{source, ref}` ペアは重複排除し、同じ参照先でも source が異なる場合は別エントリとして出力する。
 
 ```bash
 tanaoroshi refs .results/tanaoroshi.json
