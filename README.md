@@ -50,6 +50,7 @@ Claude CodeではSKILLをカスタムコマンドのように読み込ませる�
 | [collect-feedback](./skills/collect-feedback/SKILL.md) | 変更内容に対するフィードバック収集と整理        |
 | [codex-review](./skills/codex-review/SKILL.md)         | codex CLIによるコードレビュー                   |
 | [commit](./skills/commit/SKILL.md)                     | gitコミット（段階的コミット、fixup、amend）     |
+| [d](./skills/d/SKILL.md)                               | 企画・開発相談の論点整理                        |
 | [doc-check](./skills/doc-check/SKILL.md)               | ドキュメント整合性の確認                        |
 | [doc-sync](./skills/doc-sync/SKILL.md)                 | ドキュメント整合性の修正                        |
 | [fixup](./skills/fixup/SKILL.md)                       | 既存コミットへの fixup 追加                     |
@@ -134,6 +135,7 @@ flowchart LR
         backup-branch:::single
         diff-comment:::single
         pr-progress:::single
+        d:::single
         q:::single
         review-reminders:::single
         static-check:::single

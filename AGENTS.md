@@ -46,7 +46,7 @@
 
 他のスキルへ `/<skill>` を介した処理委譲を行わず、自身の操作だけで責務を完結させるスキル。固有の `allowed-tools` を持つ（`subagent-check` のように会話状態の確認だけで完結し `allowed-tools` が空のものも含む）。MECE の対象であり、スキル間で機能が重複しないように設計する。
 
-例: `mark`, `subagent-check`, `backup-branch`, `gh-read`, `taskdoc-locate`, `diff-comment`, `pr-progress`, `q`, `fixup`, `static-check`, `unit-test`, `tanaoroshi`, `review-reminders`, `monthly-report`, `link-skills`, `watch-ci`, `reply-review`, `issue-review`, `collect-feedback`
+例: `mark`, `subagent-check`, `backup-branch`, `gh-read`, `taskdoc-locate`, `diff-comment`, `pr-progress`, `d`, `q`, `fixup`, `static-check`, `unit-test`, `tanaoroshi`, `review-reminders`, `monthly-report`, `link-skills`, `watch-ci`, `reply-review`, `issue-review`, `collect-feedback`
 
 ### ワークフロースキル
 
