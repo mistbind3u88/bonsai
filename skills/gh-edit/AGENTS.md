@@ -14,7 +14,7 @@
 
 ## サブエージェント依頼
 
-概要欄ソースファイルの文面レビュー依頼は [subagent-prompt-template.md](subagent-prompt-template.md) を埋めて作成する。テンプレートの境界確認、適用ルール、PR 事実情報、検査観点、出力形式を削らず、対象 PR/Issue に合わせて具体値で埋める。
+概要欄ソースファイルの文面レビュー依頼は [subagent-prompt-template.md](subagent-prompt-template.md) を埋めて作成する。テンプレートの境界確認、適用ルール・テンプレート、事実情報、検査観点、出力形式を削らず、対象 PR/Issue の本文ソース検査に合わせて具体値で埋める。
 
 ## PR概要欄のスタイル
 

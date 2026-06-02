@@ -39,7 +39,7 @@ git diff
 - `<base-ref-or-sha>`: `$ARGUMENTS` で指定された base、または `main`
 - `<head-ref-or-sha>`: 現在の `HEAD`
 - `<none|staged|unstaged|untracked|mixed>`: 未コミット変更の状態
-- `<summary>` / `<change>` / `<decision-or-none>` / `<url-or-none>` / `<known-item-or-none>`: レビューの前提情報
+- `<summary>` / `<change>` / `<decision-or-none>` / `<context-or-none>` / `<known-item-or-none>`: レビューの前提情報
 
 テンプレートの差分欄には、取得した `git diff --stat`、hunk-level の差分、staged / unstaged / untracked の内容を貼る。観点と出力形式はテンプレートから削らない。
 
@@ -49,7 +49,7 @@ git diff
 
 このスキルはメインエージェントが実行し、サブエージェントには差分レビュー結果の作成だけを依頼する。メインエージェントは指摘の整理、ユーザー判断の確認、`/mark` 連携を担う。
 
-サブエージェントへの依頼文案は、テンプレートの「境界確認メタ情報」を `/subagent-check` 用の確認に使い、「レビュー対象」以降をサブエージェントへ渡す本文として使う。
+サブエージェントへの依頼文案は、テンプレートの「境界確認」を `/subagent-check` 用の確認に使い、「レビュー対象」以降をサブエージェントへ渡す本文として使う。
 
 実行はバックグラウンドで行う（`run_in_background: true`）。完了通知を受けてから結果を読む。
 

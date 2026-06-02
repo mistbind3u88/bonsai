@@ -178,6 +178,7 @@ flowchart LR
     check --> unit-test
     check --> doc-check
     check --> rule-check
+    check --> subagent-check
     check --> claude-review
     check --> codex-review
     check --> subagent-review

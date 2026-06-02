@@ -33,7 +33,7 @@ PR/Issueの概要欄を作成・更新する前に、テンプレートを探し
 
 PR・Issueを問わず、概要欄の最初の見出しは `# Subject` とし、そのPR/Issueの趣旨を要約する文章を記載する。タイトルの繰り返しではなく、背景・目的・動機が伝わる内容にすること。
 
-PR の `## やったこと` は `git diff` をなぞって書かない。各変更の目的・プロダクト上の変化を先に言語化し、そこから書き起こす。判定基準は `gh-edit/AGENTS.md` の `### ## やったこと` に従う。
+PR の `## やったこと` は `git diff` をなぞって書かない。各変更の目的・プロダクト上の変化を先に言語化し、そこから書き起こす。判定基準は本スキルの `AGENTS.md` の `### ## やったこと` に従う。
 
 ### Issue の紐付け
 
@@ -49,15 +49,25 @@ PRが1対1で対応するIssueを解決する場合、概要欄に `Closes #123`
 
 同一の対応を別リポジトリに展開する場合は、元のPRとブランチ名・PRタイトルを原則同名にする。関連PRがある場合は `gh pr view` で元のブランチ名・タイトルを確認し、合わせること。
 
-1. `.claude/github/` 配下にPRの概要欄となるドキュメントを作成する
+1. PR の base ref を特定し、base から HEAD までの履歴と差分を確認する。
 
-```bash
-git log --oneline main..HEAD
-git diff --stat main..HEAD
-git diff --name-only main..HEAD
-```
+   新規 PR の base ref は、ユーザー指定があればその値を使う。指定がない場合は、リポジトリの既定ブランチを取得して使う。
 
-2. ドキュメント作成後、手順 4 の執筆方針セルフレビューを経てから手順 5 で PR を作成する。この段階では `gh pr create` を実行しない。
+   ```bash
+   gh api repos/{owner}/{repo} --jq .default_branch
+   ```
+
+   ```bash
+   git log --oneline <base-ref>..HEAD
+   git diff --stat <base-ref>..HEAD
+   git diff --name-only <base-ref>..HEAD
+   ```
+
+2. `.claude/github/` 配下にPRの概要欄となるドキュメントを作成する。
+
+   手順1で確認したコミット履歴、差分 stat、変更ファイル、base ref を、概要欄の事実情報と手順 4 のサブエージェント依頼文に反映する。
+
+3. ドキュメント作成後、手順 4 の執筆方針セルフレビューを経てから手順 5 で PR を作成する。この段階では `gh pr create` を実行しない。
 
 ### 3-B. Issueの新規作成
 
@@ -103,6 +113,7 @@ gh api -X POST repos/<OWNER>/<REPO>/issues/<親Issue番号>/sub_issues \
 ```bash
 # PRの場合
 gh pr view <番号> --json title,body,closingIssuesReferences --jq '.title,.body,.closingIssuesReferences'
+gh pr view <番号> --json baseRefName --jq .baseRefName
 
 # Issueの場合
 gh issue view <番号> --json title,body --jq '.title,.body'
@@ -112,10 +123,12 @@ gh issue view <番号> --json title,body --jq '.title,.body'
 
 #### コミット履歴を確認する（PRの場合）
 
+`gh pr view` で取得した `baseRefName` を `<base-ref>` として使う。取得した base ref は、手順 4 のサブエージェント依頼文でも `比較元` に渡す。
+
 ```bash
-git log --oneline main..HEAD
-git diff --stat main..HEAD
-git diff --name-only main..HEAD
+git log --oneline <base-ref>..HEAD
+git diff --stat <base-ref>..HEAD
+git diff --name-only <base-ref>..HEAD
 ```
 
 #### タイトルと概要欄を更新する
@@ -134,19 +147,21 @@ git diff --name-only main..HEAD
 
 このスキルはメインエージェントが実行し、サブエージェントには概要欄ソースファイルの文面検査だけを依頼する。メインエージェントはソースファイル更新、指摘への対応判断、GitHub への投稿、ユーザー報告を担う。
 
-サブエージェントへの依頼文案を会話中に提示した上で、起動前にスキル `/subagent-check` を実行し、既存サブエージェントの完了状態、再利用可否、起動上限の余剰、依頼文の委譲境界を確認する。`subagent-check` が `OK` を返した場合は新規起動し、`REUSE` / `WAIT` / `ASK_USER` / `FIX_PROMPT` の場合はその判定に従う。
+サブエージェントへの依頼文案を会話中に提示した上で、起動前にスキル `/subagent-check` を実行し、既存サブエージェントの完了状態、再利用可否、起動上限の余剰、依頼文の委譲境界を確認する。`subagent-check` が `OK` を返した場合は、サブエージェントを起動する理由、依頼範囲、文面検査だけを任せる境界をユーザーに提示する。呼び出し元で同じ起動範囲について事前承認済みの場合は、その承認に基づいて新規起動する。事前承認がない場合は、ユーザーの承認を得てから新規起動する。`REUSE` / `WAIT` / `ASK_USER` / `FIX_PROMPT` の場合はその判定に従う。
 
 **実行はバックグラウンドで行う**（`run_in_background: true`）。エージェントが検査を進める間、コンソールを占有せず、完了通知を受け取ってから結果を読む。同期実行にしない。
 
 #### サブエージェントへの依頼文案
 
-依頼文案は、同ディレクトリの [subagent-prompt-template.md](subagent-prompt-template.md) を埋めて作成する。テンプレートの「境界確認メタ情報」は `/subagent-check` 用の確認にも使い、「対象」以降はサブエージェントへ渡す本文として使う。
+依頼文案は、同ディレクトリの [subagent-prompt-template.md](subagent-prompt-template.md) を埋めて作成する。テンプレートの「境界確認」は `/subagent-check` 用の確認にも使い、「対象」以降はサブエージェントへ渡す本文として使う。
 
-テンプレートを埋める際は、対象種別、新規作成 / 更新、概要欄ソースファイル、`gh-edit` スキル自身の配置ディレクトリ、適用ルール、PR 事実情報、ユーザーの明示指示を具体値に置き換える。テンプレートから検査観点と出力形式を削らない。
+テンプレートを埋める際は、対象種別、新規作成 / 更新、本文ソースファイル、適用ルール・テンプレート、事実情報、ユーザーの明示指示を具体値に置き換える。テンプレートから検査観点と出力形式を削らない。
 
 #### エージェントに判定させる観点
 
-検査観点は [subagent-prompt-template.md](subagent-prompt-template.md) を一次情報源とする。テンプレートには PR/Issue スコープとの整合性、Subject の妥当性、`## やったこと` の意味性、`## やってないこと` の隣接性、参照リンクの主題整合性、見出しと内容の整合、読み手を意識した表現、スタイル規則を含める。
+検査観点は [subagent-prompt-template.md](subagent-prompt-template.md) を一次情報源とする。テンプレートには主題との整合、背景・目的、変更内容の意味、PR やったこと、スコープ境界、PR やってないこと、参照リンク、見出し・テンプレート、読み手への配慮、適用ルールを含める。
+
+PR の `## やったこと` は「PR やったこと」観点で検査させる。PR の `## やってないこと` は「PR やってないこと」観点で検査させる。Issue では両観点を `対象外` として扱う。
 
 `## やったこと` の `要修正` 指摘では、表現の言い換えではなく「各変更の目的・プロダクト上の変化を先に言語化し、そこから書き直す」ことを修正方針として示す。
 
@@ -154,11 +169,11 @@ git diff --name-only main..HEAD
 
 #### エージェントの出力形式
 
-テンプレートの出力形式に従わせる。観点ごとに `OK` / `要修正` を示し、`要修正` の項目には対象セクション、問題の種類、該当箇所、修正方針を添える。OK 判定時も、`## やったこと` と `## やってないこと` については「PR事実情報と整合」と明示させる。観点を横断する自由記述の所感は不要。
+テンプレートの出力形式に従わせる。観点ごとに `OK` / `対象外` / `要修正` を示し、`要修正` の項目には対象セクション、問題の種類、該当箇所、修正方針を添える。OK 判定時も、PR の `## やったこと` と `## やってないこと` については「事実情報と整合」と明示させる。観点を横断する自由記述の所感は不要。
 
 #### 結果の取り扱い
 
-- `要修正` の指摘があればソースファイルを修正し、再度サブエージェントで検査する（再実行もバックグラウンド）。最終的に全観点 `OK` になるまで手順 5 に進まない
+- `要修正` の指摘があればソースファイルを修正し、再度サブエージェントで検査する（再実行もバックグラウンド）。最終的に全観点が `OK` または `対象外` になるまで手順 5 に進まない
 - 指摘内容に対応しない判断をする場合はユーザーに確認する
 
 ### 5. 執筆方針レビュー通過後に投稿する
@@ -166,8 +181,11 @@ git diff --name-only main..HEAD
 セルフレビューを通過したソースファイルで、対象に応じたコマンドを実行する。
 
 ```bash
-# PR 新規作成
+# PR 新規作成（既定ブランチを base にする場合）
 gh pr create --draft --title "<タイトル>" --body-file .claude/github/<ドキュメントファイル>
+
+# PR 新規作成（ユーザー指定の base ref を使う場合）
+gh pr create --draft --base <base-ref> --title "<タイトル>" --body-file .claude/github/<ドキュメントファイル>
 
 # Issue 新規作成（事前にユーザーの承認を得る）
 gh issue create --title "<タイトル>" --body-file .claude/github/<ドキュメントファイル>
