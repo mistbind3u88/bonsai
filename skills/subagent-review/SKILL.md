@@ -42,6 +42,7 @@ git diff
 - `<head-ref-or-sha>`: 現在の `HEAD`
 - `<none|staged|unstaged|untracked|mixed>`: 未コミット変更の状態
 - `<summary>` / `<change>` / `<decision-or-none>` / `<context-or-none>` / `<known-item-or-none>`: レビューの前提情報
+- `<reference-path-url-or-none>` / `<why-this-reference-matters>`: reviewer が明示的に読むべきファイルパス、URL、review-log の関連 ID と、その参照理由。該当がなければ `なし`
 - `<review-log-summary-or-none>`: `/review-log` から取得した既知のレビュー判断。なければ `なし`
 
 テンプレートの差分欄には、取得した `git diff --stat`、hunk-level の差分、staged / unstaged / untracked の内容を貼る。観点と出力形式はテンプレートから削らない。

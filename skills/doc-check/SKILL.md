@@ -31,6 +31,7 @@ allowed-tools: Bash(git diff:*) Agent Read
 - `<changed-files>`: 変更ファイル一覧
 - `<user-provided-scope-or-none>`: ユーザーが明示した確認範囲や変更概要。なければ `なし`
 - `<rule-or-context-file>`: 関連ドキュメント特定や内容整合の判定材料として参照するルール・補足情報。リポジトリの `AGENTS.md` / `CLAUDE.md` と、このスキルの `AGENTS.md` は既定で含め、複数ある場合は複数行で列挙する
+- `<reference-path-url-or-none>` / `<why-this-reference-matters>`: ユーザーまたはメインエージェントが関連性を特定済みのドキュメント、URL、review-log の関連 ID と、その参照理由。該当がなければ `なし`
 - `<repository-specific-doc-check-focus-or-none>`: 対象リポジトリのルールが定義する一覧、索引、依存図、workflow 図、使い分け説明などの管理ドキュメント。該当がなければ `なし`
 
 比較情報と変更ファイル一覧は、比較元・比較先を確定してから `git diff` で取得する。
@@ -62,7 +63,7 @@ git diff --name-only <base-ref-or-sha>..<head-ref-or-sha>
 
 #### サブエージェントの出力フォーマット
 
-テンプレートの出力フォーマットに従わせる。観点ごとに `OK` / `要修正` を示し、`要修正` の項目は該当ファイルと抜粋・修正方針を添えて報告させる。自由記述の所感は不要。
+テンプレートの出力フォーマットに従わせる。観点ごとに `OK` / `要修正` を示し、`要修正` の項目は該当ファイル、抜粋、確認したファイルパス・URL・review-log 関連 ID、修正方針を添えて報告させる。自由記述の所感は不要。
 
 ### 2. 結果を報告する
 

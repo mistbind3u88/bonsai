@@ -38,6 +38,7 @@ allowed-tools: Bash(git diff:*) Agent Read
 - `<head-ref-or-sha>`: 比較先。通常は `HEAD`
 - `<changed-files>`: 変更ファイル一覧
 - `<applicable-rule-files>`: 手順1で特定した `AGENTS.md` / `CLAUDE.md`
+- `<reference-path-url-or-none>` / `<why-this-reference-matters>`: ルール適用や判断根拠として明示的に読むべき文書、URL、review-log の関連 ID と、その参照理由。該当がなければ `なし`
 - `<user-provided-scope-or-none>`: ユーザーが明示した確認範囲や変更概要。なければ `なし`
 
 サブエージェントには、テンプレートの観点カテゴリを使って適用ルールから実際の検査観点を抽出させる。呼び出し元リポジトリの `AGENTS.md` / `CLAUDE.md` に存在しないルールを、固定の必須条件として扱わない。ドキュメントの内容が変更に追従しているかは `/doc-check` が検査し、`rule-check` はルールに定義されたドキュメント品質・コード品質・手順・配置基準への適合を検査する。
