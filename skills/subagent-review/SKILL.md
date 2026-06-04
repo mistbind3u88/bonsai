@@ -30,6 +30,8 @@ git diff
 
 ### 2. レビューコンテキストを作る
 
+スキル `/review-log read` を実行し、現在の branch に対応する review log から既知のレビュー判断を取得する。取得した要約は、テンプレートの `既知の論点・対応済み判断` に含めてサブエージェントに渡す。
+
 同ディレクトリの [subagent-prompt-template.md](subagent-prompt-template.md) を埋めて、サブエージェントに渡すプロンプトを作る。
 
 テンプレートを埋める際は、以下を具体値に置き換える。
@@ -40,6 +42,7 @@ git diff
 - `<head-ref-or-sha>`: 現在の `HEAD`
 - `<none|staged|unstaged|untracked|mixed>`: 未コミット変更の状態
 - `<summary>` / `<change>` / `<decision-or-none>` / `<context-or-none>` / `<known-item-or-none>`: レビューの前提情報
+- `<review-log-summary-or-none>`: `/review-log` から取得した既知のレビュー判断。なければ `なし`
 
 テンプレートの差分欄には、取得した `git diff --stat`、hunk-level の差分、staged / unstaged / untracked の内容を貼る。観点と出力形式はテンプレートから削らない。
 
@@ -70,7 +73,11 @@ git diff
 
 報告後、全ての指摘についてユーザーの判断（修正する / 対応不要）を確認する。ユーザーから全指摘への回答を得るまで次のステップに進まない。
 
-### 5. レビュー完了タグを設置する
+### 5. review log を更新する
+
+指摘がない場合、または全指摘へのユーザー判断が揃った場合は、スキル `/review-log write` を実行し、review source、対象範囲、指摘、判断、理由、対応状態を現在の実行主体側ログへ追記する。
+
+### 6. レビュー完了タグを設置する
 
 指摘がない場合、または全指摘へのユーザー判断が揃った場合は、スキル `/mark review-sub` を実行する。
 

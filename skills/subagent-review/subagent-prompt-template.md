@@ -25,6 +25,9 @@
   - `<context-or-none>`
 - 既知の論点・対応済み判断:
   - `<known-item-or-none>`
+  - `<review-log-summary-or-none>`
+
+review log の既知判断は、重複指摘を防ぐための文脈として扱う。同じ根拠の指摘は繰り返さず、現在の差分で判断が破綻している場合は新しい根拠を示して指摘する。
 
 ## 差分
 

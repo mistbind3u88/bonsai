@@ -66,6 +66,7 @@ Claude CodeではSKILLをカスタムコマンドのように読み込ませる�
 | [push](./skills/push/SKILL.md)                         | push 前確認と push 実行                         |
 | [q](./skills/q/SKILL.md)                               | 変更せず前提・経緯・現状への質問に回答          |
 | [reply-review](./skills/reply-review/SKILL.md)         | レビューコメントへの返信支援                    |
+| [review-log](./skills/review-log/SKILL.md)             | review 指摘と判断の一時ログ管理                 |
 | [review-reminders](./skills/review-reminders/SKILL.md) | 自分の Open PR のレビューリマインド候補整理     |
 | [respond](./skills/respond/SKILL.md)                   | 指摘対応から返信までのワークフロー              |
 | [rule-check](./skills/rule-check/SKILL.md)             | AGENTS / CLAUDE ルールへの適合確認              |
@@ -137,6 +138,7 @@ flowchart LR
         pr-progress:::single
         d:::single
         q:::single
+        review-log:::single
         review-reminders:::single
         static-check:::single
         unit-test:::single
@@ -186,10 +188,13 @@ flowchart LR
     catch-up --> pr-progress
     doc-check --> subagent-check
     rule-check --> subagent-check
+    claude-review --> review-log
     claude-review --> mark
+    codex-review --> review-log
     codex-review --> mark
     pr-ready --> mark
     subagent-review --> subagent-check
+    subagent-review --> review-log
     subagent-review --> mark
 
     start-dev -.-> gh-edit
