@@ -57,6 +57,7 @@ Claude CodeではSKILLをカスタムコマンドのように読み込ませる�
 | [gh-edit](./skills/gh-edit/SKILL.md)                   | GitHub PR/Issueの作成・更新                     |
 | [gh-read](./skills/gh-read/SKILL.md)                   | GitHub Issue/PR の参照と要約                    |
 | [issue-review](./skills/issue-review/SKILL.md)         | Issue とコードベースの照合・有効性判定          |
+| [link-agentdoc](./skills/link-agentdoc/SKILL.md)       | AGENTS / CLAUDE への参照ドキュメント導線追加    |
 | [link-skills](./skills/link-skills/SKILL.md)           | Codex / Claude 向けスキルリンク作成             |
 | [mark](./skills/mark/SKILL.md)                         | チェック済み状態のタグ設置                      |
 | [monthly-report](./skills/monthly-report/SKILL.md)     | GitHub 活動データからの月次報告作成             |
@@ -146,6 +147,7 @@ flowchart LR
         subagent-check:::single
         tanaoroshi:::single
         monthly-report:::single
+        link-agentdoc:::single
         link-skills:::single
         issue-review:::single
     end
