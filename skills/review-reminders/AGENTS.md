@@ -9,7 +9,7 @@
 - 自分が author の Open PR を取得し、レビューリマインド候補を分類する。
 - 候補 PR の前提 PR、ブロッカー Issue、解決対象 Issue、関連 PR / Issue を整理する。
 - `tanaoroshi` の結果がある場合は、依存関係の補助情報として参照する。
-- 複数リポジトリの Issue / PR 全体棚卸しは `/tanaoroshi` を案内する。
-- PR / Issue の詳細取得だけが必要な場合は `/gh-read` を案内する。
-- GitHub へのコメント投稿や PR 本文更新が必要な場合は、目的に応じて `/gh-edit`、`/pr-progress`、`/reply-review`、`/diff-comment` を案内する。
-- レビュー指摘への対応が必要な場合は `/respond` または `/collect-feedback` を案内する。
+- 複数リポジトリの Issue / PR 全体棚卸しは対象外として扱う。
+- PR / Issue の詳細取得だけを目的とする調査は対象外として扱う。
+- GitHub へのコメント投稿や PR 本文更新は対象外として扱う。
+- レビュー指摘への対応作業は対象外として扱う。

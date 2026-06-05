@@ -1,12 +1,12 @@
 ---
 name: q
-description: 会話履歴・明示された前提・現在のリポジトリ状態を read-only で整理して質問へ回答する。変更や外部操作が必要な場合は、次に使う skill と確認事項を案内する。
+description: 会話履歴・明示された前提・現在のリポジトリ状態を read-only で整理して質問へ回答する。
 allowed-tools: Bash(git status -s:*) Bash(git log --oneline:*) Bash(git diff --stat:*) Read Grep Glob
 ---
 
 # q
 
-質問へ回答するための確認専用スキル。現在分かっていることを整理し、必要な次の行動を案内する。
+質問へ回答するための確認専用スキル。現在分かっていることを整理する。
 
 ## 手順
 
@@ -50,21 +50,8 @@ git diff --stat <range>
 1. 結論
 2. 根拠
 3. 未確認または注意点
-4. 追加で対応する場合に使う skill
 
-変更や外部操作が必要な内容は、次に使う skill や確認事項を案内する。
-
-## 責務外の扱い
-
-- ファイルの作成・編集・削除が必要な場合は、目的に応じて `/doc-sync`、`/wiki-sync`、または対象作業の skill を次に使う候補として案内する。
-- commit / amend / fixup が必要な場合は、次に使う skill として `/commit` または `/fixup` を案内する。
-- push / force push が必要な場合は、次に使う skill として `/push` を案内する。
-- GitHub Issue / PR の状態確認が必要な場合は、次に使う skill として `/gh-read` を案内する。
-- 前セッションや既存タスクの経緯確認が必要な場合は、次に使う skill として `/takeover` を案内する。
-- GitHub Issue / PR / comment の作成・更新が必要な場合は、目的に応じて `/gh-edit`、`/diff-comment`、`/pr-progress`、`/reply-review` を案内する。
-- サブエージェント確認が必要な場合は、起動前確認を含む該当 workflow skill、または `/subagent-check` から始めるよう案内する。
-- 他 skill の実行が必要な場合は、次に使う skill と確認事項を案内する。
-- 事実として確認できていない内容は、推測または未確認として明示する。
+事実として確認できていない内容は、推測または未確認として明示する。
 
 ## 出力
 
@@ -79,9 +66,6 @@ git diff --stat <range>
 
 未確認:
 - ...
-
-次に使う skill:
-- 必要な場合だけ記載
 ```
 
 単純な質問では、上記の見出しを省いてよい。
