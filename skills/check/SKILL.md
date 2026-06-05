@@ -79,6 +79,7 @@ cross-review は現在のエージェントとは別のエージェントに依�
    - 2 枠分を確保できたら、`/doc-check` と `/rule-check` の読み取り検査をサブエージェントへ並列依頼すること、依頼範囲、メインエージェントに残す判断をまとめてユーザーに提示し、承認を得る。この承認を、各スキル内で同じ起動範囲に対する事前承認として扱う。
    - `/check` 側の確認は開始前の容量確認と承認取得であり、各スキル内の `/subagent-check` による依頼文の委譲境界確認と起動直前の状態確認を置き換えない。
    - 各スキル内の確認時に余剰枠や委譲境界の判定が変化していれば、個別スキル内の `/subagent-check` の判定を優先し、再利用・完了待ち・ユーザー確認を行う。
+   - 同じ `/check` 実行内で修正後の再検査を行う場合は、`doc-check` と `rule-check` それぞれの既存サブエージェントを再利用する。役割が違うため、`doc-check` agent と `rule-check` agent を相互に流用しない。
    - 両方の検査結果をそろえてから次へ進む。
 3. 4 項目すべてが成功したら、引数で選ばれた review を実行する。引数なしなら cross-review、`--review=sub` なら sub-review。`--review=skip` のときは lint / build / test / doc-check / rule-check のみで終える。review は他チェックを通過したコードに対して行うため、必ず最後に実行する。`--review=sub` で `review-cross` が既に HEAD タグ済みのときは、cross の通過をもって sub-review も通過扱いとする（cross が上位として代替）
 

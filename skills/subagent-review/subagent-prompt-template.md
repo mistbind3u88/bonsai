@@ -5,6 +5,9 @@
 ## 境界確認
 
 - 実行中のスキル: `/subagent-review`
+- work_unit: `subagent-review:<base-ref-or-sha>..<head-ref-or-sha>`
+- role: `diff-review`
+- reuse_policy: `prefer-reuse`
 - 依頼する役割: 対象差分のコードレビュー
 - サブエージェントが返すもの: 修正価値のある指摘、根拠、修正方針
 - メインエージェントが担うもの: 指摘の採否確認、修正実行、`mark`、commit、push、ユーザー報告

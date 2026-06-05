@@ -5,6 +5,9 @@
 ## 境界確認
 
 - 実行中のスキル: `/rule-check`
+- work_unit: `rule-check:<base-ref-or-sha>..<head-ref-or-sha>`
+- role: `rule-check`
+- reuse_policy: `prefer-reuse`
 - 依頼する役割: 適用ルールと対象差分の照合
 - サブエージェントが返すもの: ルール単位の `OK` / `対象外` / `要修正` と、要修正時の根拠・修正方針
 - メインエージェントが担うもの: スキル進行、最終判断、修正方針の採否、`mark`、ユーザー報告

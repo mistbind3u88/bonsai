@@ -10,11 +10,12 @@
 - `gh-edit` は、PR / Issue の新規作成、概要欄ソースファイルの作成・更新、GitHub への投稿を担う。
 - 概要欄ソースファイルの文面検査はサブエージェントへ限定タスクとして委譲し、起動前確認は `/subagent-check` で行う。
 - サブエージェントは文面検査結果を返し、メインエージェントが修正判断、GitHub 投稿、ユーザー報告を担う。
+- 同じ PR / Issue の本文修正後再検査では、`work_unit: gh-edit:<owner>/<repo>#<number-or-new>` / `role: pr-body-review` の既存サブエージェントを再利用する。
 - push 前の品質確認、PR の差分行への意図補足、レビュー準備の最終確認が必要な場合は、次に使うスキルとして `/check`、`/diff-comment`、`/pr-ready` を案内する。
 
 ## サブエージェント依頼
 
-概要欄ソースファイルの文面レビュー依頼は [subagent-prompt-template.md](subagent-prompt-template.md) を埋めて作成する。テンプレートの境界確認、適用ルール・テンプレート、事実情報、検査観点、出力形式を削らず、対象 PR/Issue の本文ソース検査に合わせて具体値で埋める。
+概要欄ソースファイルの文面レビュー依頼は [subagent-prompt-template.md](subagent-prompt-template.md) を埋めて作成する。テンプレートの境界確認、適用ルール・テンプレート、事実情報、検査観点、出力形式、`work_unit`、`role`、`reuse_policy` を削らず、対象 PR/Issue の本文ソース検査に合わせて具体値で埋める。
 
 ## PR概要欄のスタイル
 

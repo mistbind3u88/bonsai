@@ -7,6 +7,9 @@
 ## 境界確認
 
 - 実行中のスキル: `/wiki-sync`
+- work_unit: `wiki-sync:<wiki-entry-or-topic>`
+- role: `wiki-additional-check`
+- reuse_policy: `prefer-reuse`
 - 依頼境界: メインエージェントが `/wiki-sync` の追加観点確認を実行中であり、サブエージェントの役割は指定された問いに対する不足・曖昧さ・追加調査対象を列挙すること
 - 返すべき結果: 根拠付きの不足・曖昧さ・追加調査対象の一覧と、参照したファイルパス・URL・セクション
 - メイン側に残す判断: 調査結果の採否、wiki への反映、ユーザーへの確認事項

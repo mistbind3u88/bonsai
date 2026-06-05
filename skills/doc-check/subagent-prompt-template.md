@@ -5,6 +5,9 @@
 ## 境界確認
 
 - 実行中のスキル: `/doc-check`
+- work_unit: `doc-check:<base-ref-or-sha>..<head-ref-or-sha>`
+- role: `doc-check`
+- reuse_policy: `prefer-reuse`
 - 依頼する役割: 対象差分に対する関連ドキュメントの整合性と説明品質の検査
 - サブエージェントが返すもの: 観点別の `OK` / `要修正` と、要修正時の根拠・修正方針
 - メインエージェントが担うもの: スキル進行、最終判断、修正方針の採否、ユーザー報告、他スキルへの委譲

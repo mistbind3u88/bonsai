@@ -5,6 +5,9 @@
 ## 境界確認
 
 - 実行中のスキル: `/gh-edit`
+- work_unit: `gh-edit:<owner>/<repo>#<number-or-new>`
+- role: `pr-body-review`
+- reuse_policy: `prefer-reuse`
 - 依頼する役割: PR / Issue 概要欄本文ソースの文面検査
 - サブエージェントが返すもの: 観点別の `OK` / `対象外` / `要修正` と、要修正時の根拠・修正方針
 - メインエージェントが担うもの: ソースファイル編集、GitHub 投稿、最終判断、ユーザー報告

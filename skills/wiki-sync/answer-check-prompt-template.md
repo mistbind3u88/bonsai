@@ -7,6 +7,9 @@
 ## 境界確認
 
 - 実行中のスキル: `/wiki-sync`
+- work_unit: `wiki-sync:<wiki-entry-or-topic>`
+- role: `wiki-answer-check`
+- reuse_policy: `prefer-reuse`
 - 依頼境界: メインエージェントが `/wiki-sync` の試行回答確認を実行中であり、サブエージェントの役割はシンプルな想定質問へ回答し、根拠を提示すること
 - 返すべき結果: 質問への回答と、根拠として使った wiki・コード・明示参照の情報
 - メイン側に残す判断: wiki 更新、再確認要否、ユーザー報告

@@ -5,6 +5,9 @@
 ## 境界確認
 
 - 実行中のスキル: `/wiki-sync`
+- work_unit: `wiki-sync:<wiki-entry-or-topic>`
+- role: `wiki-presentation-check`
+- reuse_policy: `prefer-reuse`
 - 依頼境界: メインエージェントが `/wiki-sync` の体裁・関連ドキュメント整合確認を実行中であり、サブエージェントの役割は指定基準への適合状況を返すこと
 - 返すべき結果: 基準への適合・不整合の一覧と、参照したファイルパス・URL・セクション
 - メイン側に残す判断: wiki または近いドキュメントの更新判断、再確認要否、ユーザー報告

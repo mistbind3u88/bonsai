@@ -19,3 +19,5 @@
 - 想定質問への試行回答: [answer-check-prompt-template.md](answer-check-prompt-template.md)
 - schema・体裁・関連ドキュメント整合確認: [presentation-check-prompt-template.md](presentation-check-prompt-template.md)
 - 追加観点確認: [additional-check-prompt-template.md](additional-check-prompt-template.md)
+
+役割が違う確認は別サブエージェントに分ける。同じ wiki 更新に対する同じ役割の再確認では、同じ `work_unit: wiki-sync:<wiki-entry-or-topic>` と同じ `role` の既存サブエージェントを再利用する。
