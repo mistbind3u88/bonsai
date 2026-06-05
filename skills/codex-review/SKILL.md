@@ -78,10 +78,21 @@ codex review [OPTIONS] [PROMPT]
 
 review 用のモデル設定は `$SKILL_DIR/config.toml` で管理する。通常の codex 利用（`~/.codex/config.toml`）とは独立した設定。
 
+primary model が busy / capacity / rate-limit 系で開始できない場合の代替設定は `$SKILL_DIR/fallback.config.toml` で管理する。fallback は実行不能時に別モデルへ逃がすための設定であり、レビュー品質不足を補強するための追加レビューとしては扱わない。
+
 実行時に config.toml の各キーを `-c` オプションとして渡す:
 
 ```bash
 # config.toml の内容を -c オプションに変換して渡す
+codex review \
+  -c model='"..."' \
+  -c model_reasoning_effort='"..."' \
+  --title "..." "..."
+```
+
+primary model が busy / capacity / rate-limit 系で開始できない場合は、`fallback.config.toml` の各キーを `-c` オプションとして渡して 1 回だけ再実行する:
+
+```bash
 codex review \
   -c model='"..."' \
   -c model_reasoning_effort='"..."' \
@@ -124,11 +135,13 @@ codex review はバックグラウンドで実行される。完了通知を受�
 
 ### codex review が実行できない場合
 
-`codex review` が権限・実行環境の理由で開始または完了できない場合は、失敗を呼び出し元（`/check`）へ報告する。fallback の有無・種別の判断は `/check` 側に委ねる。
+`codex review` が busy / capacity / rate-limit 系で開始できない場合は、`fallback.config.toml` の設定で 1 回だけ再実行する。fallback でも開始できない場合は、primary と fallback の失敗要点を呼び出し元（`/check`）へ報告する。
+
+権限・認証・sandbox・CLI 不在・プロンプト引数不整合など、モデル混雑以外の理由で開始または完了できない場合は、失敗を呼び出し元（`/check`）へ報告する。cross-review を sub-review へ切り替える判断は `/check` 側に委ねる。
 
 ## 注意
 
 - codex の実行は時間がかかるため、バックグラウンドで実行する
 - バックグラウンド実行の完了通知を受けたら、結果の読み込みとフィードバック報告を自動的に行う
 - Codex 上で作業している場合は `/claude-review` を使う
-- CLI 実行不可時は失敗を呼び出し元へ報告し、fallback の判断は `/check` 側に委ねる
+- モデル混雑以外の CLI 実行不可時は失敗を呼び出し元へ報告し、sub-review への切り替え判断は `/check` 側に委ねる

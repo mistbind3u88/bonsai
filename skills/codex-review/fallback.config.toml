@@ -1,0 +1,4 @@
+# codex review の primary model が busy / capacity / rate-limit 系で開始できない場合の代替設定。
+# 品質不足の補強ではなく、実行不能時に別モデルへ逃がすために使う。
+model = "gpt-5.5"
+model_reasoning_effort = "low"
