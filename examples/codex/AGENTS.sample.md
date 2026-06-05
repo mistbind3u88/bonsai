@@ -1,8 +1,8 @@
 # Codex Global Settings Sample
 
-このファイルは Codex グローバル設定向けのサンプルです。特定リポジトリへそのまま適用する設定ではありません。
+このファイルは Codex グローバル設定向けのサンプルです。コピー先では `AGENTS.md` として配置します。このリポジトリ内では magic filename を避けるため `AGENTS.sample.md` として管理します。
 
-利用時は、`<path-to-bonsai>`、`<owner/repo>`、`<branch>` などのプレースホルダを自分の環境に合わせて置き換えてください。token、API key、private repository URL、社内ホスト名、個人のホームディレクトリは書き込まないでください。
+利用時は、`<path-to-bonsai>`、`<owner/repo>`、`<branch>` などのプレースホルダを自分の環境に合わせて置き換えてください。token、API key、private repository URL、社内ホスト名、個人のホームディレクトリは自分のローカル設定側だけで扱います。
 
 ## Skill 利用
 
@@ -38,14 +38,14 @@
 
 - Codex 上で作業した差分の cross-review では、必要に応じて `claude -p` を read-only の外部レビューとして使う。
 - `claude -p` に渡す内容は、レビュー対象の差分、変更概要、設計判断、既知の論点、読み取り専用の許可に限定する。
-- `claude -p` の実行では、編集、commit、push、削除を許可しない。
+- `claude -p` の実行では、読み取り専用の権限だけを許可する。
 - CLI 実行不可や認証未完了で cross-review が完了できない場合は、呼び出し元 workflow の fallback 方針に従う。
 - review 系 skill のフィードバックループでは、過去の指摘、判断、対応状態を worktree-local な review log に記録し、次回 reviewer へ明示的に渡す。
 
 ## GitHub と token
 
-- token 値は表示しない。
-- token の存在確認が必要な場合は、値を出力せず存在だけを確認する。
+- token 値は secret として扱う。
+- token の存在確認が必要な場合は、存在有無だけを確認する。
 - GitHub CLI に token を渡す場合は、プロセス内の環境変数として渡し、ログに値が出ないコマンドだけを使う。
 - SAML SSO enforcement などで GitHub app / connector が読めない場合は、`gh` CLI で読み取りを試し、必要な organization authorization をユーザーへ報告する。
 

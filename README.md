@@ -260,4 +260,4 @@ Claude Code を使う場合は、`~/.claude`（CLAUDE.md や `rules/` 配下）�
 
 他のエージェントを使う場合も、それぞれの恒久設定ファイル（Codex なら `AGENTS.md` など）に同趣旨の指示を入れておくと同じ挙動が得られます。
 
-Codex グローバル設定へ入れている運用ルールのサンプルは [examples/codex](./examples/codex/README.md) に置いています。実際にこのリポジトリへ適用される設定ではなく、自分の環境へ移す前提の公開用サンプルです。
+グローバル設定へ入れている運用ルールのサンプルは [examples/codex](./examples/codex/README.md) と [examples/claude](./examples/claude/README.md) に置いています。実際にこのリポジトリへ適用される設定ではなく、自分の環境へ移す前提の公開用サンプルです。

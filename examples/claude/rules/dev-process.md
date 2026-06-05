@@ -3,6 +3,6 @@
 - バグに遭遇したら、すぐ修正に着手せず、まず関連する CLAUDE.md / AGENTS.md / SKILL.md などのドキュメントを読み直し、現在の実装がそれらのルール・規約に沿っているかを確認する。ルール逸脱が原因のことがあるため、原因調査の起点をドキュメント整合の確認に置く
 - 開発作業は main/master ブランチで直接行わず、作業ブランチを切ってから開始する
 - 開発は原則 worktree で行う
-- 開発目的で worktree を作成したら、`EnterWorktree` でセッションをその worktree に切り替えてから作業する。`git worktree add` で作成済みの worktree には `EnterWorktree` の `path` 引数で入る。元のディレクトリのまま worktree 内のファイルを編集しない
+- 開発目的で worktree を作成したら、`EnterWorktree` でセッションをその worktree に切り替えてから作業する。`git worktree add` で作成済みの worktree には `EnterWorktree` の `path` 引数で入る。worktree 内のファイル編集は、対象 worktree に入った状態で行う
 - コミットは開発のフェーズ・対応レイヤに沿って段階的に作成する。実装が完了してから一括コミットするのではなく、フェーズごとに区切ってコミットする。1つのファイルに複数フェーズの変更が混在する場合は、stash や一時的な退避を使って分離する
 - ツールが作成した worktree のランダムなブランチ名（例: `sweet-bardeen-ae707b`）は、作業内容が固まった時点で意味のある名前（`f/…`, `fix/…`, `chore/…`, `refactor/…` 等の既存命名規則に揃える）へ `git branch -m` でリネームする。push 後にリモートに残らないようにする
