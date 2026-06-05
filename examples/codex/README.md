@@ -1,0 +1,30 @@
+# Codex Global Settings Sample
+
+このディレクトリは、Codex のグローバル設定に入れる運用ルールのサンプルです。
+
+ここにある `AGENTS.md` は、このリポジトリへ適用する設定ではありません。利用する場合は、自分の Codex グローバル設定に必要な項目だけを写し、環境に合わせてパスや承認方針を調整してください。
+
+## 使い方
+
+1. `AGENTS.md` の内容を読み、必要な項目だけを自分の Codex グローバル設定へ移す。
+2. `<path-to-bonsai>` や `<owner/repo>` のようなプレースホルダを自分の環境に置き換える。
+3. token、API key、private repository URL、社内ホスト名、個人名を含む値は書き込む前に除外する。
+4. `PATH` への追加は shell 設定側で行い、リポジトリには個人環境の絶対パスをコミットしない。
+
+## 含めているもの
+
+- skill の前提条件を既存 skill で解決する運用
+- 後続で承認が必要な操作を実行前にまとめて確認する運用
+- サブエージェントの起動前確認と再利用方針
+- cross-review で `claude -p` を read-only で使う方針
+- GitHub CLI と token の安全な扱い
+- `tools/` を PATH に追加する考え方
+- review log を worktree-local に置いて reviewer へ渡す考え方
+
+## 含めないもの
+
+- 実 token、API key、secret
+- private repository の具体名
+- 社内 URL、社内ホスト名、内部ネットワーク情報
+- 個人のホームディレクトリの絶対パス
+- このリポジトリへ直接適用される `AGENTS.md` ルール
