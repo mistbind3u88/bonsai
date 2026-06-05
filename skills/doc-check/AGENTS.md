@@ -6,13 +6,10 @@
 
 ## 責務の境界
 
-- `doc-check` は、コード変更に対する関連ドキュメントの整合性と説明品質を検査して結果を報告する。
-- 読み取り検査はサブエージェントへ限定タスクとして委譲し、起動前確認は `/subagent-check` で行う。
-- 同じ base/head の再検査では、`work_unit: doc-check:<base>..<head>` / `role: doc-check` の既存サブエージェントを再利用する。
-- 変更内容が適用範囲の `AGENTS.md` / `CLAUDE.md` ルールへ適合しているかの検査は `/rule-check` が担う。
-- 検出したドキュメント上の要修正は `/doc-sync` に委譲する。
-- LLM Wiki への反映が必要な知識は `/wiki-sync` に委譲する。
-- メインエージェントは `/doc-check` の手順解釈、結果回収、最終判断、ユーザー報告を担う。
+- 入力対象は、base/head の差分、変更ファイル、関連する README・AGENTS.md・CLAUDE.md・SKILL.md・Wiki・開発者向けドキュメント。
+- 出力対象は、コード変更に対する関連ドキュメントの整合性、説明品質、必要な追従更新、残る判断の確認結果。読み取り検査はサブエージェントへ限定タスクとして委譲し、起動前確認は `/subagent-check` で行う。同じ base/head の再検査では、`work_unit: doc-check:<base>..<head>` / `role: doc-check` の既存サブエージェントを再利用する。
+- 停止条件は、base/head の特定に確認が必要な場合、読み取り検査の結果を回収した場合、またはドキュメント上の要修正・未確認事項・残る判断を報告した場合。
+- メインエージェントに残す判断は、`/doc-check` の手順解釈、サブエージェント結果の採否、最終判定、ユーザー報告。本文単体の文面品質は `writing-check` の対象、適用範囲の `AGENTS.md` / `CLAUDE.md` ルール適合は `/rule-check` の対象、検出したドキュメント上の要修正は `/doc-sync` の対象、LLM Wiki への反映が必要な知識は `/wiki-sync` の対象として扱う。
 
 ## `allowed-tools` を最小限にしている理由
 

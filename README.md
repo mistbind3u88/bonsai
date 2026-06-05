@@ -83,6 +83,7 @@ Claude CodeではSKILLをカスタムコマンドのように読み込ませる�
 | [unit-test](./skills/unit-test/SKILL.md)               | リポジトリのユニットテストの検出と実行          |
 | [watch-ci](./skills/watch-ci/SKILL.md)                 | CI 状態の監視と失敗時の確認                     |
 | [wiki-sync](./skills/wiki-sync/SKILL.md)               | 開発内容から LLM Wiki への知識同期              |
+| [writing-check](./skills/writing-check/SKILL.md)       | エージェントが書いた文面の品質確認              |
 
 リポジトリ専用の保守スキルとして [daily-tagging](./internal/daily-tagging/SKILL.md) を `internal/` で管理しています。
 
@@ -152,6 +153,7 @@ flowchart LR
         link-agentdoc:::single
         link-skills:::single
         issue-review:::single
+        writing-check:::single
     end
 
     respond --> ship
