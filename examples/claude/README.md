@@ -5,7 +5,7 @@
 ## このリポジトリの設定との違い
 
 - ここに置いてあるのは **各自のマシンの `~/.claude/` に置く個人設定の例** です。**このリポジトリ自体に適用される設定**（ルートの `AGENTS.md` / `CLAUDE.md`、`skills/` 配下）とは別物です。
-- サンプルとして読めるよう、`rules/*.md` は参照用のファイル名にしています。`examples/` は公開用サンプルとして扱い、実際に効かせる内容は `~/.claude/` 側へコピーします。
+- `examples/` は公開用サンプルとして扱い、実際に効かせる内容は `~/.claude/` 側へコピーします。Claude 側の `rules/*.md` は、`~/.claude/rules/` 配下へコピーした時に読み込ませるファイルです。
 
 ## 配置
 
@@ -19,17 +19,17 @@
 
 各ルールは `~/.claude/rules/` 配下に分割して置きます。
 
-| ファイル                 | 内容                                                        |
-| ------------------------ | ----------------------------------------------------------- |
-| `rules/general.md`       | 一般原則（不明点の扱い、Bash の使い方、出力形式など）       |
-| `rules/dev-process.md`   | 開発プロセス（バグ対応の起点、ブランチ・worktree 運用など） |
-| `rules/code-quality.md`  | コード品質・テストの方針                                    |
-| `rules/review-commit.md` | レビュー・コミットの方針                                    |
-| `rules/skills.md`        | スキルの把握・活用・前提解決・作成方針                      |
-| `rules/issue-pr.md`      | Issue / PR の記述方針                                       |
-| `rules/task-docs.md`     | タスクドキュメントの扱い                                    |
-| `rules/workspace.md`     | clone 先・worktree のディレクトリ配置                       |
-| `rules/external-info.md` | 外部情報（最新バージョン等）の確認方針                      |
+| ファイル                 | 内容                                                                    |
+| ------------------------ | ----------------------------------------------------------------------- |
+| `rules/general.md`       | 一般原則（不明点の扱い、Bash の使い方、出力形式など）                   |
+| `rules/dev-process.md`   | 開発プロセス（バグ対応の起点、ブランチ・worktree のライフサイクルなど） |
+| `rules/code-quality.md`  | コード品質・テストの方針、特定プロジェクト限定ルールの例                |
+| `rules/review-commit.md` | レビュー・コミットの方針                                                |
+| `rules/skills.md`        | スキルの把握・活用・前提解決・作成方針                                  |
+| `rules/issue-pr.md`      | Issue / PR の記述方針                                                   |
+| `rules/task-docs.md`     | タスクドキュメントの扱い                                                |
+| `rules/workspace.md`     | clone 先・worktree のディレクトリ配置、他ブランチ参照の方針             |
+| `rules/external-info.md` | 外部情報（最新バージョン等）の確認方針                                  |
 
 ## 使い方
 

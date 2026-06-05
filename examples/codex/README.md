@@ -7,9 +7,11 @@
 ## 使い方
 
 1. `AGENTS.sample.md` の内容を読み、必要な項目だけを自分の Codex グローバル設定へ移す。
-2. `<path-to-bonsai>` や `<owner/repo>` のようなプレースホルダを自分の環境に置き換える。
+2. `<path-to-skills-repo>` や `<owner/repo>` のようなプレースホルダを自分の環境に置き換える。
 3. token、API key、private repository URL、社内ホスト名、個人名は自分のローカル設定側だけで扱う。
-4. `PATH` への追加は shell 設定側で行い、リポジトリには `<path-to-bonsai>` のようなプレースホルダを書く。
+4. `PATH` への追加は shell 設定側で行い、リポジトリには `<path-to-skills-repo>` のようなプレースホルダを書く。
+
+コピー先では `AGENTS.sample.md` の内容を Codex が読むグローバル設定（例: `~/.codex/AGENTS.md`）として配置します。このリポジトリでは自動適用を避けるため、サンプル名を `AGENTS.sample.md` にしています。
 
 ## 含めているもの
 
@@ -18,7 +20,7 @@
 - サブエージェントの起動前確認と再利用方針
 - cross-review で `claude -p` を read-only で使う方針
 - GitHub CLI と token の安全な扱い
-- `tools/` を PATH に追加する考え方
+- `<path-to-skills-repo>/tools` を PATH に追加する考え方
 - review log を worktree-local に置いて reviewer へ渡す考え方
 
 ## ローカル設定側で扱うもの

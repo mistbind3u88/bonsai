@@ -2,13 +2,12 @@
 
 このファイルは Codex グローバル設定向けのサンプルです。コピー先では `AGENTS.md` として配置します。このリポジトリ内では magic filename を避けるため `AGENTS.sample.md` として管理します。
 
-利用時は、`<path-to-bonsai>`、`<owner/repo>`、`<branch>` などのプレースホルダを自分の環境に合わせて置き換えてください。token、API key、private repository URL、社内ホスト名、個人のホームディレクトリは自分のローカル設定側だけで扱います。
+利用時は、`<path-to-skills-repo>`、`<owner/repo>`、`<branch>` などのプレースホルダを自分の環境に合わせて置き換えてください。token、API key、private repository URL、社内ホスト名、個人のホームディレクトリは自分のローカル設定側だけで扱います。
 
 ## Skill 利用
 
 - セッション開始時に available skill list を確認し、ユーザー要求、リポジトリ workflow、実行中の手順に合う skill を判断する。
-- 一致する skill がある場合は、ユーザーが明示的に名前を出していなくても使う。
-- skill を使う場合は、その `SKILL.md` を読んでから適用し、どの skill をなぜ使うかを短く述べる。
+- 一致する skill がある場合は、その `SKILL.md` を読んでから適用し、どの skill をなぜ使うかを短く述べる。
 - 複数の skill が一致する場合は、タスクを満たす最小セットを選び、作業順序に沿って実行する。
 
 ## Skill の前提条件
@@ -51,15 +50,21 @@
 
 ## PATH と補助コマンド
 
-- このリポジトリの skill が使う補助コマンドは `<path-to-bonsai>/tools` に集約される前提で扱う。
-- shell 設定では `<path-to-bonsai>/tools` を PATH に追加する。
+- このリポジトリの skill が使う補助コマンドは `<path-to-skills-repo>/tools` に集約される前提で扱う。
+- shell 設定では `<path-to-skills-repo>/tools` を PATH に追加する。
 - skill の `allowed-tools` には skill 内部パスを直接書かず、PATH に載る bare command 名を使う。
 
 例:
 
 ```zsh
-path=(<path-to-bonsai>/tools $path)
+path=(<path-to-skills-repo>/tools $path)
 export PATH
+```
+
+POSIX shell では次の形を使う。
+
+```sh
+export PATH="<path-to-skills-repo>/tools:$PATH"
 ```
 
 ## Git 操作
