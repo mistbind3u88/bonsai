@@ -1,12 +1,12 @@
 ---
 name: subagent-review
-description: 同セッションの general-purpose サブエージェントへ差分レビューを依頼する。コミット時の軽量レビュー用途で /check --review=sub から呼び出される。
+description: 同セッションの general-purpose サブエージェントへ差分レビューを依頼する。
 allowed-tools: Bash(git status:*) Bash(git log:*) Bash(git diff:*) Bash(git rev-parse:*) Agent Read
 ---
 
 # subagent-review
 
-変更差分を同セッションの general-purpose サブエージェントへ渡してレビューさせる。`/codex-review` / `/claude-review` の別エージェント呼び出しと違い、in-session で軽量に走る。`/commit` から `/check --review=sub` 経由で呼ばれ、コミット単位のレビューを担う。
+変更差分を同セッションの general-purpose サブエージェントへ渡してレビューさせる。`/codex-review` / `/claude-review` の別エージェント呼び出しと違い、in-session で軽量に走る。
 
 ## 手順
 

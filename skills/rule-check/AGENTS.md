@@ -12,7 +12,7 @@
 - ドキュメント追従や README / SKILL.md の整合性確認は `/doc-check` が担う。
 - 検出した不適合の修正は、変更内容に応じて対象作業の skill、`/doc-sync`、または `/wiki-sync` に委ねる。
 - メインエージェントは `/rule-check` の手順解釈、結果回収、最終判断、ユーザー報告を担う。
-- `/check` から呼び出された場合、成功後の `/mark rule-check` は `/check` 側のメインエージェントが担う。
+- 成功後の `/mark rule-check` は、このスキルではなく呼び出し元のメインエージェントが担う。
 
 ## `doc-check` との違い
 
