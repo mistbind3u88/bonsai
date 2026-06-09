@@ -87,7 +87,13 @@ Claude CodeではSKILLをカスタムコマンドのように読み込ませる�
 | [wiki-sync](./skills/wiki-sync/SKILL.md)               | 開発内容から LLM Wiki への知識同期              |
 | [writing-check](./skills/writing-check/SKILL.md)       | エージェントが書いた文面の品質確認              |
 
-リポジトリ専用の保守スキルとして [daily-tagging](./internal/daily-tagging/SKILL.md) を `internal/` で管理しています。
+リポジトリ専用の保守スキルは `internal/` で管理しています。
+
+| スキル                                             | 概要                                                    |
+| -------------------------------------------------- | ------------------------------------------------------- |
+| [config-export](./internal/config-export/SKILL.md) | ローカルのグローバル設定から公開用サンプルへ反映する    |
+| [config-import](./internal/config-import/SKILL.md) | 公開用サンプルからローカルのグローバル設定へ merge する |
+| [daily-tagging](./internal/daily-tagging/SKILL.md) | 日別の最終コミットへ `daily-YYYY-MM-DD` タグを付与する  |
 
 ### GitHub コメント系スキルの使い分け
 

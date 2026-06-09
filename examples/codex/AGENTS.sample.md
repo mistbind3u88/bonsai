@@ -71,6 +71,7 @@ export PATH="<path-to-skills-repo>/tools:$PATH"
 
 - main / master で開発作業を始める前に、作業ブランチを作成または使用する。
 - リポジトリまたはユーザーが default branch での直接作業を明示的に許可している場合は、その指示を優先する。
+- コミットメッセージのタイトル（subject）は、リポジトリまたはユーザーが別形式を指定している場合を除き日本語で書く。
 - force push は、rebase や autosquash などで履歴が実際に diverge した場合に `--force-with-lease` を使う。
 - fast-forward 可能な場合は通常の push を使う。
 
