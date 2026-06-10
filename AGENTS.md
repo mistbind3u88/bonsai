@@ -50,7 +50,7 @@
 
 単機能スキルは、自身の入力、処理、出力を定義する。後続に実行すべきスキルの選定は、ワークフロースキルまたは実行中のエージェントの判断に残す。単機能スキル内では、誤実行を防ぐために必要な責務境界だけを記載する。
 
-例: `mark`, `subagent-check`, `backup-branch`, `gh-read`, `taskdoc-locate`, `diff-comment`, `pr-progress`, `d`, `q`, `r`, `fixup`, `static-check`, `unit-test`, `tanaoroshi`, `review-log`, `review-reminders`, `monthly-report`, `link-agentdoc`, `link-skills`, `watch-ci`, `reply-review`, `issue-review`, `collect-feedback`, `writing-check`
+例: `approve`, `revise`, `mark`, `subagent-check`, `backup-branch`, `gh-read`, `taskdoc-locate`, `diff-comment`, `pr-progress`, `d`, `q`, `r`, `fixup`, `static-check`, `unit-test`, `tanaoroshi`, `review-log`, `review-reminders`, `monthly-report`, `link-agentdoc`, `link-skills`, `watch-ci`, `reply-review`, `issue-review`, `collect-feedback`, `writing-check`
 
 ### ワークフロースキル
 

@@ -44,6 +44,7 @@ Claude CodeではSKILLをカスタムコマンドのように読み込ませる�
 
 | スキル                                                 | 概要                                            |
 | ------------------------------------------------------ | ----------------------------------------------- |
+| [approve](./skills/approve/SKILL.md)                   | エージェント提案への承認内容の整理              |
 | [backup-branch](./skills/backup-branch/SKILL.md)       | autosquash や大きな履歴編集前の退避ブランチ作成 |
 | [catch-up](./skills/catch-up/SKILL.md)                 | main 取り込みと rebase 後の確認                 |
 | [check](./skills/check/SKILL.md)                       | 品質チェックの一連実行                          |
@@ -70,6 +71,7 @@ Claude CodeではSKILLをカスタムコマンドのように読み込ませる�
 | [q](./skills/q/SKILL.md)                               | 変更せず前提・経緯・現状への質問に回答          |
 | [r](./skills/r/SKILL.md)                               | 指定資料の読み直しと理解更新                    |
 | [reply-review](./skills/reply-review/SKILL.md)         | レビューコメントへの返信支援                    |
+| [revise](./skills/revise/SKILL.md)                     | エージェント提案の再検討点の整理                |
 | [review-log](./skills/review-log/SKILL.md)             | review 指摘と判断の一時ログ管理                 |
 | [review-reminders](./skills/review-reminders/SKILL.md) | 自分の Open PR のレビューリマインド候補整理     |
 | [respond](./skills/respond/SKILL.md)                   | 指摘対応から返信までのワークフロー              |
@@ -138,6 +140,7 @@ flowchart LR
     end
 
     subgraph SG["単機能スキル"]
+        approve:::single
         collect-feedback:::single
         reply-review:::single
         gh-read:::single
@@ -150,6 +153,7 @@ flowchart LR
         d:::single
         q:::single
         r:::single
+        revise:::single
         review-log:::single
         review-reminders:::single
         static-check:::single
