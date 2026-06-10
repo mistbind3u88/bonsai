@@ -50,8 +50,6 @@
 
 単機能スキルは、自身の入力、処理、出力を定義する。後続に実行すべきスキルの選定は、ワークフロースキルまたは実行中のエージェントの判断に残す。単機能スキル内では、誤実行を防ぐために必要な責務境界だけを記載する。
 
-例: `approve`, `revise`, `mark`, `subagent-check`, `backup-branch`, `gh-read`, `taskdoc-locate`, `diff-comment`, `pr-progress`, `d`, `q`, `r`, `fixup`, `static-check`, `unit-test`, `tanaoroshi`, `review-log`, `review-reminders`, `monthly-report`, `link-agentdoc`, `link-skills`, `watch-ci`, `reply-review`, `issue-review`, `collect-feedback`, `writing-check`
-
 ### ワークフロースキル
 
 責務の一部または全部を他スキルへ `/<skill>` 呼び出しで委譲するスキル。固有の操作を持つものと、委譲の連結が主体で固有の操作を持たない（または薄い制御のみの）ものを含む。
@@ -64,8 +62,6 @@
 - ここでの「委譲」は、手順や実行順序の中で `/<skill>` を呼び出すものを指す。単機能スキルの責務境界に書く対象外の説明は、実行委譲として扱わない
 - `check` のような検証スキルへ複数のスキルが集約する形は許容する
 - 作成・更新時は実行委譲の呼び出し先を辿り、循環がないことを確認する
-
-例: `check`, `commit`, `push`, `catch-up`, `doc-check`, `rule-check`, `doc-sync`, `gh-edit`, `clean-docs`, `wiki-sync`, `codex-review`, `claude-review`, `subagent-review`, `pr-ready`, `start-dev`, `takeover`, `ship`, `respond`
 
 ### 将来の方向性
 
