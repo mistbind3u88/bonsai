@@ -89,6 +89,8 @@ Claude CodeではSKILLをカスタムコマンドのように読み込ませる�
 | [wiki-sync](./skills/wiki-sync/SKILL.md)               | 開発内容から LLM Wiki への知識同期              |
 | [writing-check](./skills/writing-check/SKILL.md)       | エージェントが書いた文面の品質確認              |
 
+`approve` は提案どおり進めてよい範囲を整理し、`revise` は条件追加や差し戻しとして再検討が必要な部分を整理します。条件付き承認は `revise` で扱います。1 つの応答に、承認済みの部分と再検討が必要な部分が明確に混在する場合は、1 つのスキルで完結させず、呼び出し側が承認部分と再検討部分を分けて個別に扱います。
+
 リポジトリ専用の保守スキルは `internal/` で管理しています。
 
 | スキル                                             | 概要                                                    |
@@ -112,6 +114,8 @@ GitHub 上にコメントを残す操作は、コメントの置き場所と目�
 ## スキル間の依存関係
 
 各スキルが他のどのスキルへ処理を委譲しているかを示します。層で色分けし、実線は通常フローで実行される委譲、点線は条件付きで実行される委譲です。停止後に次に使うスキルとして報告するだけの案内や、単なる関連スキルの使い分け案内は図の対象外です。
+
+委譲関係を持つワークフロースキルと、それらから呼び出される単機能スキルを以下に示します。
 
 ```mermaid
 flowchart LR
@@ -139,8 +143,7 @@ flowchart LR
         subagent-review:::workflow
     end
 
-    subgraph SG["単機能スキル"]
-        approve:::single
+    subgraph SG1["単機能スキル"]
         collect-feedback:::single
         reply-review:::single
         gh-read:::single
@@ -148,24 +151,12 @@ flowchart LR
         watch-ci:::single
         fixup:::single
         backup-branch:::single
-        diff-comment:::single
         pr-progress:::single
-        d:::single
-        q:::single
-        r:::single
-        revise:::single
         review-log:::single
-        review-reminders:::single
         static-check:::single
         unit-test:::single
         mark:::single
         subagent-check:::single
-        tanaoroshi:::single
-        monthly-report:::single
-        link-agentdoc:::single
-        link-skills:::single
-        issue-review:::single
-        writing-check:::single
     end
 
     respond --> ship
@@ -274,4 +265,4 @@ Claude Code を使う場合は、`~/.claude`（CLAUDE.md や `rules/` 配下）�
 
 他のエージェントを使う場合も、それぞれの恒久設定ファイル（Codex なら `AGENTS.md` など）に同趣旨の指示を入れておくと同じ挙動が得られます。
 
-グローバル設定へ入れている運用ルールのサンプルは [examples/codex](./examples/codex/README.md) と [examples/claude](./examples/claude/README.md) に置いています。実際にこのリポジトリへ適用される設定ではなく、自分の環境へ移す前提の公開用サンプルです。
+グローバル設定へ入れている運用ルールのサンプルは [examples/codex](./examples/codex/README.md) と [examples/claude](./examples/claude/README.md) に置いています。実際にこのリポジトリへ適用される設定ではなく、自分の環境へ移す前提の公開用サンプルです。両者とも、単一リポジトリ内のドキュメントで責務を分け、重複を避け、どの文書を基準にするかを決める方針を含みます。

@@ -22,6 +22,7 @@
 - GitHub CLI と token の安全な扱い
 - `<path-to-skills-repo>/tools` を PATH に追加する考え方
 - review log を worktree-local に置いて reviewer へ渡す考え方
+- 単一リポジトリ内のドキュメントで責務を分け、どの文書を基準にするかを決める方針
 
 ## ローカル設定側で扱うもの
 
