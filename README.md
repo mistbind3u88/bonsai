@@ -157,6 +157,7 @@ flowchart LR
         unit-test:::single
         mark:::single
         subagent-check:::single
+        writing-check:::single
     end
 
     respond --> ship
@@ -196,6 +197,7 @@ flowchart LR
     catch-up --> backup-branch
     catch-up --> pr-progress
     doc-check --> subagent-check
+    doc-check --> writing-check
     rule-check --> subagent-check
     claude-review --> review-log
     claude-review --> mark
