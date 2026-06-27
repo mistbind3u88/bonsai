@@ -141,6 +141,7 @@ flowchart LR
         codex-review:::workflow
         pr-ready:::workflow
         subagent-review:::workflow
+        writing-check:::workflow
     end
 
     subgraph SG1["単機能スキル"]
@@ -157,7 +158,6 @@ flowchart LR
         unit-test:::single
         mark:::single
         subagent-check:::single
-        writing-check:::single
     end
 
     respond --> ship
@@ -199,6 +199,7 @@ flowchart LR
     doc-check --> subagent-check
     doc-check --> writing-check
     rule-check --> subagent-check
+    writing-check --> subagent-check
     claude-review --> review-log
     claude-review --> mark
     codex-review --> review-log
