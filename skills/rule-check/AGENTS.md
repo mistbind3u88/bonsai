@@ -7,7 +7,7 @@
 ## 責務の境界
 
 - `rule-check` は、変更内容が適用範囲の `AGENTS.md` / `CLAUDE.md` に記載されたルールへ適合しているかを検査して結果を報告する。
-- 読み取り検査はサブエージェントへ限定タスクとして委譲し、起動前確認はこのスキル自身が `/subagent-check` で行う。
+- 読み取り検査はサブエージェントへ限定タスクとして委譲し、起動前確認は `/check` など起動主体の呼び出し元メインエージェントが、個別 skill 起動前に包括的に `/subagent-check` で行う。
 - 同じ base/head の再検査では、`work_unit: rule-check:<base>..<head>` / `role: rule-check` の既存サブエージェントを再利用する。
 - ドキュメント追従や README / SKILL.md の整合性確認は `/doc-check` が担う。
 - 検出した不適合の修正は、変更内容に応じて対象作業の skill、`/doc-sync`、または `/wiki-sync` に委ねる。

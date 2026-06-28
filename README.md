@@ -196,9 +196,7 @@ flowchart LR
     check --> subagent-review
     catch-up --> backup-branch
     catch-up --> pr-progress
-    doc-check --> subagent-check
     doc-check --> writing-check
-    rule-check --> subagent-check
     writing-check --> subagent-check
     claude-review --> review-log
     claude-review --> mark
