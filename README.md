@@ -42,52 +42,52 @@ Claude CodeではSKILLをカスタムコマンドのように読み込ませる�
 
 ## Skills
 
-| スキル                                                 | 概要                                            |
-| ------------------------------------------------------ | ----------------------------------------------- |
-| [approve](./skills/approve/SKILL.md)                   | エージェント提案への承認内容の整理              |
-| [backup-branch](./skills/backup-branch/SKILL.md)       | autosquash や大きな履歴編集前の退避ブランチ作成 |
-| [catch-up](./skills/catch-up/SKILL.md)                 | main 取り込みと rebase 後の確認                 |
-| [check](./skills/check/SKILL.md)                       | 品質チェックの一連実行                          |
-| [claude-review](./skills/claude-review/SKILL.md)       | Claude CLIによるコードレビュー                  |
-| [clean-docs](./skills/clean-docs/SKILL.md)             | `.claude/docs` のタスクドキュメント整理         |
-| [collect-feedback](./skills/collect-feedback/SKILL.md) | 変更内容に対するフィードバック収集と整理        |
-| [codex-review](./skills/codex-review/SKILL.md)         | codex CLIによるコードレビュー                   |
-| [commit](./skills/commit/SKILL.md)                     | gitコミット（段階的コミット、fixup、amend）     |
-| [d](./skills/d/SKILL.md)                               | 企画・開発相談の論点整理                        |
-| [doc-check](./skills/doc-check/SKILL.md)               | ドキュメント整合性・説明品質の確認              |
-| [doc-sync](./skills/doc-sync/SKILL.md)                 | ドキュメント整合性の修正                        |
-| [fixup](./skills/fixup/SKILL.md)                       | 既存コミットへの fixup 追加                     |
-| [gh-edit](./skills/gh-edit/SKILL.md)                   | GitHub PR/Issueの作成・更新                     |
-| [gh-read](./skills/gh-read/SKILL.md)                   | GitHub Issue/PR の参照と要約                    |
-| [issue-review](./skills/issue-review/SKILL.md)         | Issue とコードベースの照合・有効性判定          |
-| [link-agentdoc](./skills/link-agentdoc/SKILL.md)       | AGENTS / CLAUDE への参照ドキュメント導線追加    |
-| [link-skills](./skills/link-skills/SKILL.md)           | Codex / Claude 向けスキルリンク作成             |
-| [mark](./skills/mark/SKILL.md)                         | チェック済み状態のタグ設置                      |
-| [monthly-report](./skills/monthly-report/SKILL.md)     | GitHub 活動データからの月次報告作成             |
-| [diff-comment](./skills/diff-comment/SKILL.md)         | PR 差分行への意図説明コメント投稿               |
-| [pr-ready](./skills/pr-ready/SKILL.md)                 | PR のレビュー準備確認と Ready 化                |
-| [pr-progress](./skills/pr-progress/SKILL.md)           | PR 進捗コメントの整形・更新                     |
-| [push](./skills/push/SKILL.md)                         | push 前確認と push 実行                         |
-| [q](./skills/q/SKILL.md)                               | 変更せず前提・経緯・現状への質問に回答          |
-| [r](./skills/r/SKILL.md)                               | 指定資料の読み直しと理解更新                    |
-| [reply-review](./skills/reply-review/SKILL.md)         | レビューコメントへの返信支援                    |
-| [revise](./skills/revise/SKILL.md)                     | エージェント提案の再検討点の整理                |
-| [review-log](./skills/review-log/SKILL.md)             | review 指摘と判断の一時ログ管理                 |
-| [review-reminders](./skills/review-reminders/SKILL.md) | 自分の Open PR のレビューリマインド候補整理     |
-| [respond](./skills/respond/SKILL.md)                   | 指摘対応から返信までのワークフロー              |
-| [rule-check](./skills/rule-check/SKILL.md)             | AGENTS / CLAUDE ルールへの適合確認              |
-| [ship](./skills/ship/SKILL.md)                         | check から PR 更新までの出荷フロー              |
-| [start-dev](./skills/start-dev/SKILL.md)               | 作業開始時のブランチ準備と情報収集              |
-| [static-check](./skills/static-check/SKILL.md)         | リポジトリの lint・build の検出と実行           |
-| [subagent-check](./skills/subagent-check/SKILL.md)     | サブエージェント起動前の状態確認                |
-| [subagent-review](./skills/subagent-review/SKILL.md)   | サブエージェントによる差分レビュー（commit 時） |
-| [takeover](./skills/takeover/SKILL.md)                 | 前セッションのコンテキスト収集と作業引き継ぎ    |
-| [tanaoroshi](./skills/tanaoroshi/SKILL.md)             | 複数リポジトリの Issue/PR 棚卸し                |
-| [taskdoc-locate](./skills/taskdoc-locate/SKILL.md)     | タスクドキュメント配置先の場所解決              |
-| [unit-test](./skills/unit-test/SKILL.md)               | リポジトリのユニットテストの検出と実行          |
-| [watch-ci](./skills/watch-ci/SKILL.md)                 | CI 状態の監視と失敗時の確認                     |
-| [wiki-sync](./skills/wiki-sync/SKILL.md)               | 開発内容から LLM Wiki への知識同期              |
-| [writing-check](./skills/writing-check/SKILL.md)       | エージェントが書いた文面の品質確認              |
+| スキル                                                 | 概要                                                  |
+| ------------------------------------------------------ | ----------------------------------------------------- |
+| [approve](./skills/approve/SKILL.md)                   | エージェント提案への承認内容の整理                    |
+| [backup-branch](./skills/backup-branch/SKILL.md)       | rebase や大きな履歴編集前の退避ブランチ作成           |
+| [catch-up](./skills/catch-up/SKILL.md)                 | main 取り込みと rebase 後の確認                       |
+| [check](./skills/check/SKILL.md)                       | 品質チェックの一連実行                                |
+| [claude-review](./skills/claude-review/SKILL.md)       | Claude CLIによるコードレビュー                        |
+| [clean-docs](./skills/clean-docs/SKILL.md)             | `.claude/docs` のタスクドキュメント整理               |
+| [collect-feedback](./skills/collect-feedback/SKILL.md) | 変更内容に対するフィードバック収集と整理              |
+| [codex-review](./skills/codex-review/SKILL.md)         | codex CLIによるコードレビュー                         |
+| [commit](./skills/commit/SKILL.md)                     | gitコミット（段階的コミット、fixup、amend、履歴整理） |
+| [d](./skills/d/SKILL.md)                               | 企画・開発相談の論点整理                              |
+| [doc-check](./skills/doc-check/SKILL.md)               | ドキュメント整合性・説明品質の確認                    |
+| [doc-sync](./skills/doc-sync/SKILL.md)                 | ドキュメント整合性の修正                              |
+| [fixup](./skills/fixup/SKILL.md)                       | 既存コミットへのfixup反映と明示時の履歴書き換え       |
+| [gh-edit](./skills/gh-edit/SKILL.md)                   | GitHub PR/Issueの作成・更新                           |
+| [gh-read](./skills/gh-read/SKILL.md)                   | GitHub Issue/PRの参照と要約                           |
+| [issue-review](./skills/issue-review/SKILL.md)         | Issue とコードベースの照合・有効性判定                |
+| [link-agentdoc](./skills/link-agentdoc/SKILL.md)       | AGENTS/CLAUDEへの参照ドキュメント導線追加             |
+| [link-skills](./skills/link-skills/SKILL.md)           | Codex/Claude向けスキルリンク作成                      |
+| [mark](./skills/mark/SKILL.md)                         | チェック済み状態のタグ設置                            |
+| [monthly-report](./skills/monthly-report/SKILL.md)     | GitHub 活動データからの月次報告作成                   |
+| [diff-comment](./skills/diff-comment/SKILL.md)         | PR 差分行への意図説明コメント投稿                     |
+| [pr-ready](./skills/pr-ready/SKILL.md)                 | PR のレビュー準備確認と Ready 化                      |
+| [pr-progress](./skills/pr-progress/SKILL.md)           | PR 進捗コメントの整形・更新                           |
+| [push](./skills/push/SKILL.md)                         | push 前確認と push 実行                               |
+| [q](./skills/q/SKILL.md)                               | 変更せず前提・経緯・現状への質問に回答                |
+| [r](./skills/r/SKILL.md)                               | 指定資料の読み直しと理解更新                          |
+| [reply-review](./skills/reply-review/SKILL.md)         | レビューコメントへの返信支援                          |
+| [revise](./skills/revise/SKILL.md)                     | エージェント提案の再検討点の整理                      |
+| [review-log](./skills/review-log/SKILL.md)             | review 指摘と判断の一時ログ管理                       |
+| [review-reminders](./skills/review-reminders/SKILL.md) | 自分のOpen PRのレビューリマインド候補整理             |
+| [respond](./skills/respond/SKILL.md)                   | 指摘対応から返信までのワークフロー                    |
+| [rule-check](./skills/rule-check/SKILL.md)             | AGENTS / CLAUDE ルールへの適合確認                    |
+| [ship](./skills/ship/SKILL.md)                         | check から PR 更新までの出荷フロー                    |
+| [start-dev](./skills/start-dev/SKILL.md)               | 作業開始時のブランチ準備と情報収集                    |
+| [static-check](./skills/static-check/SKILL.md)         | リポジトリの lint・build の検出と実行                 |
+| [subagent-check](./skills/subagent-check/SKILL.md)     | サブエージェント起動前の状態確認                      |
+| [subagent-review](./skills/subagent-review/SKILL.md)   | サブエージェントによる差分レビュー（commit 時）       |
+| [takeover](./skills/takeover/SKILL.md)                 | 前セッションのコンテキスト収集と作業引き継ぎ          |
+| [tanaoroshi](./skills/tanaoroshi/SKILL.md)             | 複数リポジトリの Issue/PR 棚卸し                      |
+| [taskdoc-locate](./skills/taskdoc-locate/SKILL.md)     | タスクドキュメント配置先の場所解決                    |
+| [unit-test](./skills/unit-test/SKILL.md)               | リポジトリのユニットテストの検出と実行                |
+| [watch-ci](./skills/watch-ci/SKILL.md)                 | CI 状態の監視と失敗時の確認                           |
+| [wiki-sync](./skills/wiki-sync/SKILL.md)               | 開発内容から LLM Wikiへの知識同期                     |
+| [writing-check](./skills/writing-check/SKILL.md)       | エージェントが書いた文面の品質確認                    |
 
 `approve` は提案どおり進めてよい範囲を整理し、`revise` は条件追加や差し戻しとして再検討が必要な部分を整理します。条件付き承認は `revise` で扱います。1 つの応答に、承認済みの部分と再検討が必要な部分が明確に混在する場合は、1 つのスキルで完結させず、呼び出し側が承認部分と再検討部分を分けて個別に扱います。
 

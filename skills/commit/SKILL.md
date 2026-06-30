@@ -1,7 +1,7 @@
 ---
 name: commit
 description: 変更をコミットする。変更が大きい場合はレイヤ構成に応じて段階的にコミットし、fixupやamendも適切に使い分ける。
-allowed-tools: Bash(git status:*) Bash(git diff:*) Bash(git log:*) Bash(git add:*) Bash(git commit:*) Bash(git show:*) Bash(git rev-parse:*) Bash(git stash:*) Bash(git restore:*) Bash(git branch:*) Bash(GIT_SEQUENCE_EDITOR=:*)
+allowed-tools: Bash(git status:*) Bash(git diff:*) Bash(git log:*) Bash(git add:*) Bash(git commit:*) Bash(git show:*) Bash(git rev-parse:*) Bash(git stash:*) Bash(git restore:*) Bash(git branch:*) Bash(git merge-base:*) Bash(git history fixup:*) Bash(git history reword:*) Bash(git history split:*) Bash(GIT_SEQUENCE_EDITOR=:*)
 ---
 
 # commit スキル
@@ -40,7 +40,13 @@ git log --oneline -5
 
 #### B. fixup（PR 内の既存コミットへの修正・漏れ追加）
 
-スキル `/fixup` を実行する。
+途中の既存コミットへの軽微修正は、次の基準で選ぶ。
+
+- 一時的な fixup commit を残して後でまとめたい場合: `/fixup`
+- その場で履歴を書き換えてよい小さな修正で、merge commit を含まない場合: `/fixup --history`
+- 既に同じ対象コミットへのfixup commitがある場合: 追加のfixup commitを積み、整理はautosquashを優先する
+
+`/fixup --history` は experimental な履歴編集であることを前提とし、dry-run を通せる場合だけ使う。
 
 #### C. amend（直前のコミットへの修正）
 
@@ -97,7 +103,21 @@ git log --oneline -3
 git status -s
 ```
 
-## autosquash
+## 履歴整理
+
+履歴整理は、変更内容に応じて次を使い分ける。
+
+| 操作                      | 使う場面                                                                         |
+| ------------------------- | -------------------------------------------------------------------------------- |
+| `git commit --amend`      | 直前コミットへの修正                                                             |
+| `git history fixup`       | 途中コミットへの小さな修正をその場で反映したい                                   |
+| `git history reword`      | 内容を変えずに途中コミットのメッセージだけ直したい                               |
+| `git history split`       | 1つの途中コミットを分割したい                                                    |
+| `git rebase --autosquash` | merge commit を含む、複数 fixup をまとめて整理する、または従来フローを維持したい |
+
+`git history` は experimental として扱う。対象ブランチに merge commit がある場合、複数コミットを一括で並べ替えたい場合、競合の可能性が高い場合は、`git history` を使わず autosquash を選ぶ。
+
+### autosquash
 
 - main の取り込み（rebase）はスキル `/catch-up` で行う。autosquash 時に main を取り込まない
 - autosquash の起点には main からブランチを切ったコミットハッシュを指定する
@@ -113,11 +133,20 @@ GIT_SEQUENCE_EDITOR=: git rebase --autosquash --rebase-merges <上のコマン�
 - コンフリクト解消時は、あるコミットに対する全ての fixup が squash された段階（= そのコミットが完成した状態）でスキル `/check --review=skip` を実行して通過を確認する。途中の fixup 適用中はビルドが通らない場合があるため、同一コミットへの fixup が連続する間はスキップしてよい
 - autosquash 全体の完了後（最終 HEAD）にスキル `/check --review=sub` を実行する。autosquash の中間状態では sub-review を走らせず、最終結果に対してのみ乗せる
 
+### `git history` の使い方
+
+- `git history` を使う前に `/backup-branch` を実行する
+- `git history fixup` は `/fixup --history` から使う
+- `git history reword` / `git history split` を使った場合も、完了後はスキル `/check --review=sub` を実行する
+- 書き換え前後で差分がない場合は、`/check` のタグ引き継ぎ手順に従う
+- 書き換え前後で差分がある場合は、必要なチェックを再実行する
+
 ## 注意
 
 - main/master ブランチ上で直接コミットしない。コミット前に現在のブランチを確認し、main/master であれば作業ブランチを切ってから作業する
 - `git add -A` や `git add .` は使わない。ファイルを明示的に指定する
 - 段階的コミットの品質検証は手順2-Aに従う。チェック項目と実行は `/check --review=sub` に委譲し（各 stage で rule-check と sub-review が乗る）、成功時に `/mark` がタグを設置する
 - amend 後に force push が必要な場合はユーザーに確認する
+- `git history` や autosquash による履歴書き換え後に push が必要な場合も、ユーザーに確認する
 - push はユーザーが明示的に指示しない限り行わない
 - コミット後の PR 作成・更新はスキル `/gh-edit`、push はスキル `/push` で行う

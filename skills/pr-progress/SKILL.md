@@ -14,6 +14,7 @@ PR のトップレベルに進捗コメントを投稿する。
 | ---------------------------- | ----------------------------- |
 | コンフリクト解消後の差分報告 | force push 後                 |
 | autosquash 後の差分報告      | autosquash 後                 |
+| 履歴書き換え後の差分報告     | `git history` 実行後          |
 | main 取り込み後の差分報告    | rebase で main を取り込んだ後 |
 
 ## 手順
@@ -33,7 +34,7 @@ gh pr view --json number,isDraft --jq '{number, isDraft}'
 
 - **旧 HEAD のハッシュ**（バックアップブランチまたは push 前に記録した値）
 - **新 HEAD のハッシュ**（現在の HEAD）
-- **操作の種類**（コンフリクト解消 / autosquash / catch-up）
+- **操作の種類**（コンフリクト解消 / autosquash / 履歴書き換え / catch-up）
 - **補足情報**（解消したファイル一覧、解消方針など。操作の種類による）
 
 compare リンクは2ドット（`..`）を使う:
@@ -62,6 +63,14 @@ fixup コミットを autosquash で整理しました。
 - 差分: https://github.com/<owner/repo>/compare/<旧HEAD>..<新HEAD>
 ```
 
+#### 履歴書き換えの場合
+
+```markdown
+git history でコミット履歴を整理しました。
+
+- 差分: https://github.com/<owner/repo>/compare/<旧HEAD>..<新HEAD>
+```
+
 #### catch-up の場合
 
 ```markdown
@@ -86,5 +95,5 @@ gh pr comment <PR番号> --body "<本文>"
 
 - draft PR にはコメントしない
 - コミットハッシュは GitHub UI 上でコミットへのリンクとして自動認識させる。そのためコードブロック（`` ` ``）で囲まず、両側を空白または改行にする（括弧内に入れない）
-- fixup の修正理由をコメントする場合は、対象の fixup コミットハッシュを必ず含める
+- fixup commitが残る運用で修正理由をコメントする場合は、対象のfixupコミットハッシュを必ず含める
 - 読み手はレビュアー（人間）。操作の経緯が伝わる簡潔な記述にする

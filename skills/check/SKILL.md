@@ -15,7 +15,7 @@ mark タグが未設置の品質チェックを検出し、対応するスキル
 | 引数                 | 走らせる review                                         | 主な用途                                                       |
 | -------------------- | ------------------------------------------------------- | -------------------------------------------------------------- |
 | （なし・デフォルト） | cross-review（`/codex-review` または `/claude-review`） | `/push` 経由・手動 `/check`                                    |
-| `--review=sub`       | sub-review（`/subagent-review`）                        | `/commit` 各コミット末尾・autosquash 完了後                    |
+| `--review=sub`       | sub-review（`/subagent-review`）                        | `/commit` 各コミット末尾・autosquash / 履歴書き換え完了後      |
 | `--review=skip`      | なし                                                    | `/commit` autosquash 中間 step・手動でレビュー抜きで見たいとき |
 
 **`review-cross` は `review-sub` の上位**として扱う。`review-cross` が HEAD タグ済みのときは、`--review=sub` でも cross の通過をもって sub も通過扱いとする（cross が sub の役割を含めて代替）。代替の方向は cross → sub の一方向に限る。
@@ -33,7 +33,7 @@ mark タグが未設置の品質チェックを検出し、対応するスキル
 - 引数なし（=cross）: `review-cross` が HEAD タグ済み
 - `--review=skip`: lint / build / test / doc-check / rule-check のみ判定する
 
-### 1a. autosquash 後のタグ引き継ぎ
+### 1a. 履歴書き換え後のタグ引き継ぎ
 
 タグが現在の HEAD にないが、タグが付いているコミットが存在する場合、そのコミットと現在の HEAD の間に差分があるか確認する。
 
@@ -41,7 +41,7 @@ mark タグが未設置の品質チェックを検出し、対応するスキル
 git diff <タグのコミット> HEAD
 ```
 
-差分がなければ、autosquash でコミットハッシュが変わっただけで内容は同一なので、スキル `/mark <type>` を実行してタグを現在の HEAD に付け替える。差分がある項目のみ再実行する。
+差分がなければ、autosquash・`git history reword` などでコミットハッシュが変わっただけで内容は同一なので、スキル `/mark <type>` を実行してタグを現在の HEAD に付け替える。差分がある項目のみ再実行する。
 
 ### 2. 未通過の項目を実行する
 
@@ -133,7 +133,7 @@ review 系 skill の `採用` / `対応不要` / `ループ懸念` は、ユー�
 
 実行した全チェック項目の結果を一覧で表示する。
 
-```
+```text
 チェック結果:
   lint:          OK
   build:         OK

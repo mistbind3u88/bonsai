@@ -22,4 +22,4 @@
 
 ## 責務の境界
 
-- このスキルは lint・build の実行と結果報告に限定する。mark タグの設置、autosquash 後のタグ引き継ぎ、doc-check、rule-check、review の実行判断や後続処理は担わない
+- このスキルは lint・build の実行と結果報告に限定する。mark タグの設置、履歴書き換え後のタグ引き継ぎ、doc-check、rule-check、review の実行判断や後続処理は担わない

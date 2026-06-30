@@ -72,8 +72,8 @@ git diff {sha}~1 {sha} -- {path}
 
 コミットか差分リンクのどちらか一方を使う。両方は不要。
 
-- **fixup コミットが push 済みの場合**: fixup コミットのハッシュを記載する
-- **autosquash / rebase でコミットを潰した場合**: force push 前後の HEAD の compare リンクを添付する。`..`（2ドット）を使うこと（`...` 3ドットではない）
+- **fixup commitがpush済みの場合**: fixup commitのハッシュを記載する
+- **autosquash / rebase / `git history` で履歴を書き換えた場合**: force push 前後の HEAD の compare リンクを添付する。`..`（2ドット）を使うこと（`...` 3ドットではない）
 
 ```markdown
 差分: https://github.com/{owner}/{repo}/compare/{old_sha}..{new_sha}
