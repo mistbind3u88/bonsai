@@ -76,4 +76,3 @@
 ## 品質チェック
 
 - lint: `prettier --check .`
-- shellcheck: `shellcheck **/*.sh`
