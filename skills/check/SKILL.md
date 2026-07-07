@@ -49,8 +49,8 @@ git diff <タグのコミット> HEAD
 
 | 項目         | 担当スキル                              | タグなし時の処理                                                                                   |
 | ------------ | --------------------------------------- | -------------------------------------------------------------------------------------------------- |
-| lint, build  | `/static-check`                         | 実行し、PASSの項目を `/mark lint`・`/mark build` で設置                                             |
-| test         | `/unit-test`                            | 実行し、PASSなら `/mark test` を設置                                                                |
+| lint, build  | `/static-check`                         | 実行し、PASSの項目を `/mark lint`・`/mark build` で設置                                            |
+| test         | `/unit-test`                            | 実行し、PASSなら `/mark test` を設置                                                               |
 | doc-check    | `/doc-check`                            | 指摘なし、採用指摘の修正後再チェック通過、または全指摘への判断記録後に `doc-check` 設置            |
 | rule-check   | `/rule-check`                           | 指摘なし、採用指摘の修正後再チェック通過、または全指摘への判断記録後に `rule-check` 設置           |
 | review-sub   | `/subagent-review`                      | 引数 `--review=sub` 指定時のみ実行。指摘なし、または全指摘へのユーザー判断後に `review-sub` 設置   |
