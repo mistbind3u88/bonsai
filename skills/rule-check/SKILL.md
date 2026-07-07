@@ -1,6 +1,6 @@
 ---
 name: rule-check
-description: 変更内容が適用範囲の AGENTS.md / CLAUDE.md に記載されたルールへ適合しているかを検査する。
+description: 変更内容が適用範囲のAGENTS.md / CLAUDE.mdに記載されたルールへ適合しているかを検査する。
 allowed-tools: Bash(git diff:*) Agent Read
 ---
 
@@ -8,7 +8,7 @@ allowed-tools: Bash(git diff:*) Agent Read
 
 変更内容が、適用範囲の `AGENTS.md` / `CLAUDE.md` に記載されたルールへ適合しているかをチェックし、結果を報告する。
 
-**このスキルはメインエージェントが実行し、読み取り検査だけを `general-purpose` サブエージェントへ依頼する。** メインエージェントは `/rule-check` の手順解釈、依頼文案の作成、起動、結果受領、最終判断、報告を担う。`/check` から呼ばれる場合は、`check` が包括的に `/subagent-check` と必要な承認状態の確認を済ませた結果を使う。単独起動時は、起動主体のメインエージェントが先に `/subagent-check` を実行し、その結果に基づいて新規起動 / 再利用 / 完了待ち / 追加確認を決めた状態でこのスキルを起動する。前提を満たせない場合は、その不足を報告して停止する。必要な `mark` 設置は呼び出し元のメインエージェントが担う。
+**このスキルはメインエージェントが実行し、読み取り検査だけを `general-purpose` サブエージェントへ依頼する。** メインエージェントは `/rule-check` の手順解釈、依頼文案の作成、起動、結果受領、最終判断、報告を担う。メインエージェントが新規起動または再利用を判断できない場合は、その不足を報告して停止する。必要な `mark` 設置はメインエージェントが担う。
 
 ## 手順
 
@@ -19,11 +19,11 @@ allowed-tools: Bash(git diff:*) Agent Read
 - リポジトリルートの `AGENTS.md`
 - 変更ファイルの親ディレクトリから上位へたどって見つかる `AGENTS.md`
 - `CLAUDE.md` が存在する場合は、同じ範囲のエージェント向けルールとして扱う
-- `CLAUDE.md -> AGENTS.md` の symlink は同一ルールとして扱う
+- `CLAUDE.md -> AGENTS.md` のsymlinkは同一ルールとして扱う
 
 ### 2. サブエージェントを起動する
 
-サブエージェントへの依頼文案を会話中に提示した上で、呼び出し元による `/subagent-check` と承認取得が済んでいる前提で起動する。依頼文案のメタ情報には `work_unit: rule-check:<base-ref-or-sha>..<head-ref-or-sha>`、`role: rule-check`、`reuse_policy: prefer-reuse` を含める。
+サブエージェントへの依頼文案を会話中に提示した上で、メインエージェントが新規起動または再利用の判断を済ませた状態で起動する。依頼文案のメタ情報には `work_unit: rule-check:<base-ref-or-sha>..<head-ref-or-sha>`、`role: rule-check`、`reuse_policy: prefer-reuse` を含める。
 
 新規起動が選ばれた場合は `general-purpose` サブエージェントを `run_in_background: true` で起動する。再利用が選ばれた場合は、既存サブエージェントに前回検査から変わった差分、前回指摘への対応、今回確認してほしい適用ルールを追加依頼する。同期実行にしない。コンソールを占有せず、完了通知を受け取ってから結果を読む。
 
@@ -34,11 +34,11 @@ allowed-tools: Bash(git diff:*) Agent Read
 テンプレートを埋める際は、以下を具体値に置き換える。
 
 - `<absolute-repo-path>`: 現在の作業ディレクトリの絶対パス
-- `<base-ref-or-sha>`: 比較元。原則 `main`。既定ブランチが異なる場合はそのブランチ、特定コミットを検査する場合はその親または明示された base
+- `<base-ref-or-sha>`: 比較元。原則 `main`。既定ブランチが異なる場合はそのブランチ、特定コミットを検査する場合はその親または明示されたbase
 - `<head-ref-or-sha>`: 比較先。通常は `HEAD`
 - `<changed-files>`: 変更ファイル一覧
 - `<applicable-rule-files>`: 手順1で特定した `AGENTS.md` / `CLAUDE.md`
-- `<reference-path-url-or-none>` / `<why-this-reference-matters>`: ルール適用や判断根拠として明示的に読むべき文書、URL、review-log の関連 ID と、その参照理由。該当がなければ `なし`
+- `<reference-path-url-or-none>` / `<why-this-reference-matters>`: ルール適用や判断根拠として明示的に読むべき文書、URL、review-logの関連IDと、その参照理由。該当がなければ `なし`
 - `<user-provided-scope-or-none>`: ユーザーが明示した確認範囲や変更概要。なければ `なし`
 
 サブエージェントには、テンプレートの観点カテゴリを使って適用ルールから実際の検査観点を抽出させる。呼び出し元リポジトリの `AGENTS.md` / `CLAUDE.md` に存在しないルールを、固定の必須条件として扱わない。ドキュメントの内容が変更に追従しているかは `/doc-check` が検査し、`rule-check` はルールに定義されたドキュメント品質・コード品質・手順・配置基準への適合を検査する。
@@ -52,8 +52,8 @@ allowed-tools: Bash(git diff:*) Agent Read
 
 ```text
 ルール適合チェック:
-  skills/example/SKILL.md: allowed-tools が最小権限ルールと合っていない
-  README.md: README に詳細手順を書きすぎており、情報配置ルールと合っていない
+  skills/example/SKILL.md: allowed-toolsが最小権限ルールと合っていない
+  README.md: READMEに詳細手順を書きすぎており、情報配置ルールと合っていない
 ```
 
 ## 検査観点
@@ -62,8 +62,8 @@ allowed-tools: Bash(git diff:*) Agent Read
 
 ## 注意
 
-- このスキルはチェックと報告のみを行う。検出した不適合は、変更内容に応じて対象作業の skill、`/doc-sync`、または `/wiki-sync` で修正する。
-- 呼び出し元が品質ゲートとしてこの結果を使う場合、ルール不適合は失敗として扱う。
-- 成功後の `/mark rule-check` は、このスキルではなく呼び出し元が実行する。
+- このスキルはチェックと報告のみを行う。検出した不適合は、変更内容に応じて対象作業のskill、`/doc-sync`、または `/wiki-sync` で修正する。
+- 品質ゲートとしてこの結果を使う場合、ルール不適合は失敗として扱う。
+- 成功後の `/mark rule-check` は、このスキルではなくメインエージェントが実行する。
 - サブエージェントは必ずバックグラウンドで起動する。同期実行にしない。
-- 要修正対応後の再検査は、呼び出し側が `/rule-check` を再度実行することで行う（このスキル内でループしない）。同じ `work_unit` の再検査では、前回の `rule-check` サブエージェントを再利用する。
+- 要修正対応後の再検査は、このスキルを再度実行することで行う（このスキル内でループしない）。同じ `work_unit` の再検査では、前回の `rule-check` サブエージェントを再利用する。

@@ -1,4 +1,4 @@
-# subagent-review サブエージェント依頼テンプレート
+# subagent-reviewサブエージェント依頼テンプレート
 
 以下を埋めて、差分レビュー依頼としてサブエージェントへ渡す。
 
@@ -24,7 +24,7 @@
   - `<change>`
 - 設計判断・トレードオフ:
   - `<decision-or-none>`
-- 関連 Issue / PR / ユーザー指示:
+- 関連Issue / PR / ユーザー指示:
   - `<context-or-none>`
 - 明示的に参照すべき文書・根拠:
   - `<reference-path-url-or-none> — <why-this-reference-matters>`
@@ -32,17 +32,17 @@
   - `<known-item-or-none>`
   - `<review-log-summary-or-none>`
 
-明示参照は、レビュー判断の根拠として優先して読む。review log の既知判断は、重複指摘を防ぐための文脈として扱う。各判断にファイルパス、URL、関連 `R0xx` が含まれる場合は、その参照先を確認したうえで、同じ根拠の指摘は繰り返さず、現在の差分で判断が破綻している場合は新しい根拠を示して指摘する。
+明示参照は、レビュー判断の根拠として優先して読む。review logの既知判断は、重複指摘を防ぐための文脈として扱う。各判断にファイルパス、URL、review-logの判断ID（例: `R012`）が含まれる場合は、その参照先を確認したうえで、同じ根拠の指摘は繰り返さず、現在の差分で判断が破綻している場合は新しい根拠を示して指摘する。
 
 ## 差分
 
 以下を貼る。
 
-- 差分 stat: `<git-diff-stat>`
+- 差分stat: `<git-diff-stat>`
 - コミット済み差分: `<committed-diff-or-none>`
-- staged 差分: `<staged-diff-or-none>`
-- unstaged 差分: `<unstaged-diff-or-none>`
-- untracked ファイル: `<untracked-files-or-none>`
+- staged差分: `<staged-diff-or-none>`
+- unstaged差分: `<unstaged-diff-or-none>`
+- untrackedファイル: `<untracked-files-or-none>`
 
 ## レビュー観点
 
