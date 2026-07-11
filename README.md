@@ -71,6 +71,7 @@ Claude CodeではSKILLをカスタムコマンドのように読み込ませる�
 | [q](./skills/q/SKILL.md)                               | 変更せず前提・経緯・現状への質問に回答                |
 | [r](./skills/r/SKILL.md)                               | 指定資料の読み直しと理解更新                          |
 | [reply-review](./skills/reply-review/SKILL.md)         | レビューコメントへの返信支援                          |
+| [resume](./skills/resume/SKILL.md)                     | 同じ作業の再開用プロンプト生成                        |
 | [revise](./skills/revise/SKILL.md)                     | エージェント提案の再検討点の整理                      |
 | [review-log](./skills/review-log/SKILL.md)             | review 指摘と判断の一時ログ管理                       |
 | [review-reminders](./skills/review-reminders/SKILL.md) | 自分のOpen PRのレビューリマインド候補整理             |
@@ -81,15 +82,13 @@ Claude CodeではSKILLをカスタムコマンドのように読み込ませる�
 | [static-check](./skills/static-check/SKILL.md)         | リポジトリの lint・build の検出と実行                 |
 | [subagent-check](./skills/subagent-check/SKILL.md)     | サブエージェント起動前の状態確認                      |
 | [subagent-review](./skills/subagent-review/SKILL.md)   | サブエージェントによる差分レビュー（commit 時）       |
-| [takeover](./skills/takeover/SKILL.md)                 | 前セッションのコンテキスト収集と作業引き継ぎ          |
+| [takeover](./skills/takeover/SKILL.md)                 | 前セッションの広い文脈収集と作業引き継ぎ              |
 | [tanaoroshi](./skills/tanaoroshi/SKILL.md)             | 複数リポジトリの Issue/PR 棚卸し                      |
 | [taskdoc-locate](./skills/taskdoc-locate/SKILL.md)     | タスクドキュメント配置先の場所解決                    |
 | [unit-test](./skills/unit-test/SKILL.md)               | リポジトリのユニットテストの検出と実行                |
 | [watch-ci](./skills/watch-ci/SKILL.md)                 | CI 状態の監視と失敗時の確認                           |
 | [wiki-sync](./skills/wiki-sync/SKILL.md)               | 開発内容から LLM Wikiへの知識同期                     |
 | [writing-check](./skills/writing-check/SKILL.md)       | エージェントが書いた文面の品質確認                    |
-
-`approve` は提案どおり進めてよい範囲を整理し、`revise` は条件追加や差し戻しとして再検討が必要な部分を整理します。条件付き承認は `revise` で扱います。1 つの応答に、承認済みの部分と再検討が必要な部分が明確に混在する場合は、1 つのスキルで完結させず、呼び出し側が承認部分と再検討部分を分けて個別に扱います。
 
 リポジトリ専用の保守スキルは `internal/` で管理しています。
 
