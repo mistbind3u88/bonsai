@@ -80,6 +80,8 @@ review 用のモデル設定は `$SKILL_DIR/config.toml` で管理する。通�
 
 primary model が busy / capacity / rate-limit 系で開始できない場合の代替設定は `$SKILL_DIR/fallback.config.toml` で管理する。fallback は実行不能時に別モデルへ逃がすための設定であり、レビュー品質不足を補強するための追加レビューとしては扱わない。
 
+既定は軽量レビュー用の `gpt-6-luna`（high）、混雑時の代替は `gpt-6.1-sol`（medium）。更新時は[公式モデル案内](https://learn.chatgpt.com/docs/models)と実行環境の利用可能モデル・推論設定を確認し、軽量なprimaryと能力を優先したfallbackの役割を維持する。サブエージェントで同じ設定を使う場合は、その起動ツールの許可モデルも別途確認する。
+
 実行時に config.toml の各キーを `-c` オプションとして渡す:
 
 ```bash

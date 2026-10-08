@@ -223,11 +223,9 @@ flowchart LR
 
 ## Setup
 
-エージェントによっては、AGENTS.mdやSKILL.mdをリポジトリに置いただけでは、デフォルトで読んでくれないことがあります。
+このリポジトリのエージェント向け指示は `AGENTS.md` に統一します。Claude Codeは直接読込に対応する版を使い、新しいセッションの `/context` で読込を確認してください。対応条件の詳細は[公式仕様](https://code.claude.com/docs/en/memory#agentsmd)を参照してください。
 
-たとえば Claude Code では `CLAUDE.md` と `~/.claude/skills`、Codex では `AGENTS.md` と `~/.codex/skills` を使います。こういうときはリンクでつなぐのが手軽です。
-
-公開スキルは `skills/` 配下にあり、リンク対象はこのディレクトリです。`archive/`（退役スキル）・`internal/`（リポジトリ専用スキル）はリンク対象外です。
+指示ファイルの読込とスキルの登録は別の設定です。公開スキルは `skills/` 配下にあり、Claude Codeでは `~/.claude/skills`、Codexでは `~/.codex/skills` から利用できるようにします。スキル登録用のリンク対象は公開スキルだけとし、`archive/`（退役スキル）・`internal/`（リポジトリ専用スキル）は対象外です。
 
 このリポジトリで管理する補助スクリプトは `tools/` に集約しています。スキルから `mark.sh` や `tanaoroshi` などを使うため、`tools/` を PATH に追加してください。
 

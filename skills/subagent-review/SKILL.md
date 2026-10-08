@@ -1,12 +1,12 @@
 ---
 name: subagent-review
-description: 同セッションの `general-purpose` サブエージェントへ差分レビューを依頼する。
+description: 同セッションで利用可能なサブエージェントへ、読み取り専用の差分レビューを依頼する。
 allowed-tools: Bash(git status:*) Bash(git log:*) Bash(git diff:*) Bash(git rev-parse:*) Agent Read
 ---
 
 # subagent-review
 
-変更差分を同セッションの `general-purpose` サブエージェントへ渡してレビューさせる。`/codex-review` / `/claude-review` の別エージェント呼び出しと違い、in-sessionで軽量に走る。
+変更差分を同セッションのサブエージェントへ渡してレビューさせる。実行環境が提供する起動・再利用・待機ツールを使い、`/codex-review` / `/claude-review` の外部CLIレビューとは区別する。
 
 ## 手順
 
@@ -57,14 +57,16 @@ git diff
 
 #### Codex上でのモデル解決
 
-Codex上で実行している場合は、サブエージェントの実行モデルを `codex-review` skillが管理するモデル設定ソースに合わせる。
+Codex上で実行している場合は、サブエージェントの実行モデルを `codex-review` skillが管理するモデル設定ソースに合わせる。CLIとサブエージェントのモデル一覧は別に確認し、CLIで使える名前から起動可否を推測しない。
 
-1. `codex-review` skillが現在のセッションで利用可能な場合は、そのskillディレクトリを起点に隣接する `config.toml` と `fallback.config.toml` を読む。
+1. 利用可能な `codex-review` skill、またはユーザーが明示したローカルのskill定義を特定し、そのskillディレクトリの `config.toml` と `fallback.config.toml` を読む。ローカル定義を参照する場合は、そのパスを報告する。
 2. 許可モデル一覧と指定可能な `reasoning_effort` は、実行時に利用している `spawn_agent` ツール定義を一次情報源として確認する。
 3. 写像は名前の一致を優先し、`config.toml` の `model` が `spawn_agent` の許可モデル名と完全一致する場合だけ、その `model` を指定して起動する。`model_reasoning_effort` も `spawn_agent` の許可値と一致する場合だけ指定する。
 4. `config.toml` の値が許可モデル外で一致しない場合は、同じskillディレクトリの `fallback.config.toml` を確認し、そちらが一致するならfallbackを使う。
 5. primary / fallbackのどちらも一致しない場合は、使えない設定値と `spawn_agent` の許可モデルを示して停止する。
-6. `codex-review` skillが利用できない、またはskillディレクトリにモデル設定ソースが見つからない場合は、その旨を示して停止する。
+6. モデル設定ソースを特定できない場合は、その不足を示して停止する。モデルを指定できない起動ツールしかない場合は、設定モデルを使ったと報告せず、継承モデルによる実行へのユーザー確認を取る。
+
+起動ツールがモデルや推論設定の上書き時に独立コンテキストを要求する場合は、その条件に合わせて起動する。Codexの `collaboration.spawn_agent` では、限定タスクだけを渡す `fork_turns: "none"` と、解決した `model` / `reasoning_effort` を指定する。全履歴を渡す `fork_turns: "all"` ではモデル指定を省くため、履歴継承が必要な場合は、その条件と目標モデルの両立を確認してから起動する。
 
 #### 再利用条件
 
@@ -72,7 +74,7 @@ Codex上で実行している場合は、サブエージェントの実行モデ
 
 #### 起動または再利用
 
-`OK` の場合はバックグラウンドで新規起動する（`run_in_background: true`）。Codex上でモデル指定を行う場合も、レビュー内容や依頼境界は変えず、起動パラメータだけを調整する。`REUSE` の場合は、既存サブエージェントに前回レビューから変わった差分、前回指摘への対応、今回確認してほしい範囲だけを追加依頼する。完了通知を受けてから結果を読む。
+`OK` の場合は非同期で新規起動する。Claude CodeのAgentツールでは `run_in_background: true`、Codexの `collaboration.spawn_agent` では起動結果の識別子を保持し、`collaboration.wait_agent` と完了通知で結果を受け取る。ツール定義にある引数だけを渡す。`REUSE` の場合は、既存サブエージェントへ前回から変わった差分、前回指摘への対応、今回確認してほしい範囲を追加依頼する。Codexでは `collaboration.followup_task` を使い、完了済みの担当にも新しい検査ターンを開始させる。通知・待機結果が完了を示したら、検査結果の本文を回収する。
 
 #### サブエージェントの出力形式
 
@@ -101,7 +103,7 @@ Codex上で実行している場合は、サブエージェントの実行モデ
 
 ## 注意
 
-- in-sessionのサブエージェントによる軽量レビュー。別エージェント（codex CLI／claude CLI）による独立視点レビューが必要なときは `/codex-review` / `/claude-review` を使う
+- 同セッションのサブエージェントによる読み取り専用レビュー。別エージェント（codex CLI／claude CLI）による独立視点レビューが必要なときは `/codex-review` / `/claude-review` を使う
 - Codex上でモデル指定を行う場合は `codex-review` skillが公開しているモデル設定ソースを一次情報源とし、`spawn_agent` ツール定義にある許可モデル・許可 `reasoning_effort` と完全一致する値だけを使う
 - 再利用候補のモデルが今回解決した目標値と一致しない場合は、その候補を今回のレビューに再利用しない
 - サブエージェントは必ずバックグラウンドで起動する。同期実行にしない
