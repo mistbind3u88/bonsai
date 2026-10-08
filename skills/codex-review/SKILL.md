@@ -1,7 +1,7 @@
 ---
 name: codex-review
 description: codex CLI を使って変更差分のコードレビューを実行する。Claude Code 上で作業した差分を別エージェント視点で確認するために使う。
-allowed-tools: Bash(git status:*) Bash(git log:*) Bash(git diff:*) Bash(git rev-parse:*) Bash(codex review:*) Read
+allowed-tools: Bash(git status:*) Bash(git log:*) Bash(git diff:*) Bash(git rev-parse:*) Bash(codex review:*) Bash(codex --help:*) Read
 ---
 
 # codex review スキル
@@ -30,19 +30,21 @@ allowed-tools: Bash(git status:*) Bash(git log:*) Bash(git diff:*) Bash(git rev-
 
 3. codex review を実行する
 
-デフォルトでは観点を絞らず 1 回のレビューを実行する。
+デフォルトでは観点を絞らず 1 回のレビューを実行する。読み取り専用のレビューとして、各呼び出しに `-c sandbox_mode='"read-only"' -c approval_policy='"never"'` を付ける。ユーザーが依頼したレビューの範囲と、実行環境の権限は別に確認し、調査できなかった範囲は未確認事項として報告する。編集権限への切り替えやsandboxの回避は行わない。制御設定の詳細は[公式権限仕様](https://learn.chatgpt.com/docs/agent-approvals-security)を参照する。
 
 ```bash
-codex review --title "<タイトル>" "<共通コンテキスト + レビュー指示>"
+codex review -c sandbox_mode='"read-only"' -c approval_policy='"never"' \
+  --title "<タイトル>" "<共通コンテキスト + レビュー指示>"
 ```
 
 ### オプション: デフォルトモデルで実行
 
-`$ARGUMENTS` に `--default-model` が含まれる場合、`$SKILL_DIR/config.toml` の `-c` オプションを付けずに実行する。`~/.codex/config.toml` のデフォルト設定が使われる。
+`$ARGUMENTS` に `--default-model` が含まれる場合、`$SKILL_DIR/config.toml` から渡すモデル・推論設定の `-c` オプションを省略する。`~/.codex/config.toml` のデフォルトモデル設定を使い、読み取り専用と承認拒否の制御は維持する。
 
 ```bash
-# --default-model 指定時: -c オプションなし
-codex review --title "<タイトル>" "<共通コンテキスト + レビュー指示>"
+# --default-model 指定時: モデル指定だけを省略
+codex review -c sandbox_mode='"read-only"' -c approval_policy='"never"' \
+  --title "<タイトル>" "<共通コンテキスト + レビュー指示>"
 ```
 
 ### オプション: 観点別レビュー
@@ -58,7 +60,8 @@ codex review --title "<タイトル>" "<共通コンテキスト + レビュー�
 観点別実行時はタイトルに観点名をサフィックスとして付ける。
 
 ```bash
-codex review --title "<タイトル> [設計・実装]" "<共通コンテキスト + 設計・実装の観点指示>"
+codex review -c sandbox_mode='"read-only"' -c approval_policy='"never"' \
+  --title "<タイトル> [設計・実装]" "<共通コンテキスト + 設計・実装の観点指示>"
 ```
 
 ### codex review の引数仕様
@@ -67,7 +70,7 @@ codex review --title "<タイトル> [設計・実装]" "<共通コンテキス�
 codex review [OPTIONS] [PROMPT]
 ```
 
-- `--title <TITLE>`: レビュータイトル (必須)
+- `--title <TITLE>`: レビュータイトル（CLIでは任意。このスキルではレビュー対象を識別するために付ける）
 - `-c <key>=<value>`: `~/.codex/config.toml` の設定を一時的に上書き（`model`, `model_reasoning_effort` 等）
 - `--uncommitted`: ステージ済み・未ステージ・未追跡の変更をレビュー (**`[PROMPT]` と併用不可**)
 - `--base <BRANCH>`: 指定ブランチとの差分をレビュー (**`[PROMPT]` と併用不可**)
@@ -87,6 +90,8 @@ primary model が busy / capacity / rate-limit 系で開始できない場合の
 ```bash
 # config.toml の内容を -c オプションに変換して渡す
 codex review \
+  -c sandbox_mode='"read-only"' \
+  -c approval_policy='"never"' \
   -c model='"..."' \
   -c model_reasoning_effort='"..."' \
   --title "..." "..."
@@ -96,6 +101,8 @@ primary model が busy / capacity / rate-limit 系で開始できない場合は
 
 ```bash
 codex review \
+  -c sandbox_mode='"read-only"' \
+  -c approval_policy='"never"' \
   -c model='"..."' \
   -c model_reasoning_effort='"..."' \
   --title "..." "..."
