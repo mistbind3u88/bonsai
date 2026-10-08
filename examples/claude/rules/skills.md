@@ -5,4 +5,4 @@
 - SKILL.mdを記述する時は、各種エージェント依存の記述ではなくSKILL.mdの公式仕様への準拠を心がける
   - https://agentskills.io/specification
 - skillを追加・修正する時は、allowed-toolsで許可するコマンドを必要最小限にする
-- skill配下に実装しているスクリプトやツールは PATH 上に配置した上で bare name で呼び出し、許可は settings.json の `permissions.allow` 側で管理する。Claude Code のパーミッションマッチングは argv[0] が変数展開で決まる形式（例: `Bash($SKILL_DIR/foo.sh:*)`）を runtime-determined として毎回承認を要求するため、PATH 経由のコマンド名で安定させる
+- skill配下に実装しているスクリプトやツールは、このスキル群の共通運用としてPATH上に配置し、bare nameで呼び出す。恒久的な許可はsettings.jsonの `permissions.allow` 側で管理し、スキルの `allowed-tools` と実際の適用範囲を確認する。現在のClaude Codeでは `${CLAUDE_SKILL_DIR}` を本文と `allowed-tools` で展開して内包スクリプトを許可する[方式](https://code.claude.com/docs/en/skills)もある。通常のshell変数 `$SKILL_DIR` とは区別し、PATH方式を技術上の唯一の選択肢とは扱わない
