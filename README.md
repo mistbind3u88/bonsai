@@ -225,7 +225,7 @@ flowchart LR
 
 このリポジトリのエージェント向け指示は `AGENTS.md` に統一します。Claude Codeは直接読込に対応する版を使い、新しいセッションの `/context` で読込を確認してください。対応条件の詳細は[公式仕様](https://code.claude.com/docs/en/memory#agentsmd)を参照してください。
 
-指示ファイルの読込とスキルの登録は別の設定です。公開スキルは `skills/` 配下にあり、Claude Codeでは `~/.claude/skills`、Codexでは `~/.codex/skills` から利用できるようにします。スキル登録用のリンク対象は公開スキルだけとし、`archive/`（退役スキル）・`internal/`（リポジトリ専用スキル）は対象外です。
+指示ファイルの読込とスキルの登録は別の設定です。公開スキルは `skills/` 配下にあり、Claude Codeでは `~/.claude/skills`、Codexのユーザー用登録では `~/.agents/skills` から利用できるようにします。Codexのリポジトリ用登録先は `.agents/skills` です。配置先と読込条件は[公式仕様](https://learn.chatgpt.com/docs/build-skills)を参照し、既存の `~/.codex/skills` などに同名スキルがある場合は、利用先を確認して重複登録を避けます。スキル登録用のリンク対象は公開スキルだけとし、`archive/`（退役スキル）・`internal/`（リポジトリ専用スキル）は対象外です。
 
 このリポジトリで管理する補助スクリプトは `tools/` に集約しています。スキルから `mark.sh` や `tanaoroshi` などを使うため、`tools/` を PATH に追加してください。
 
@@ -235,12 +235,12 @@ export PATH="/path/to/bonsai/tools:$PATH"
 
 ### Windows で Codex を使う場合
 
-`~/.codex/skills` 配下に、`skills/` 内の各スキルディレクトリへのジャンクションを作成します。
+`~/.agents/skills` 配下に、`skills/` 内の各スキルディレクトリへのジャンクションを作成します。既存配置の確認と作成後の読込確認は[link-skills](./skills/link-skills/SKILL.md)に従います。
 
 例:
 
-```bash
-mklink /J %USERPROFILE%\.codex\skills\commit C:\path\to\bonsai\skills\commit
+```bat
+mklink /J "%USERPROFILE%\.agents\skills\commit" "C:\path\to\bonsai\skills\commit"
 ```
 
 ### macOS / Linux で Claude Code を使う場合
